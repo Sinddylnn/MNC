@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mulheres na Computação — MNC · UEPB</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function(){
+      const s=localStorage.getItem('mnc-theme')||'dark';
+      document.documentElement.setAttribute('data-theme',s);
+    })();
+  </script>
+</head>
+<body>
+  <div id="circuitOverlay">
+    <canvas id="circuitCanvas"></canvas>
+  </div>
+
+  </div>
+  <div class="global-pattern"></div>
+
+  <header>
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><img src="logo_mnc2__1_.png" alt="Logo MNC"></div>
+      <span class="logo-text">Mulheres na Computação <span class="mnc-abbrev">MNC</span></span>
+    </a>
+    <nav><ul>
+      <li><a href="index.html"    id="nav-index">Página Inicial</a></li>
+      <li><a href="programa.html" id="nav-programa">Programa</a></li>
+      <li><a href="equipe.html"   id="nav-equipe">Equipe</a></li>
+      <li><a href="galeria.html"  id="nav-galeria">Galeria</a></li>
+      <li><a href="artigos.html"  id="nav-artigos">Artigos</a></li>
+    </ul></nav>
+    <div class="nav-end">
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <span class="icon-dark">☾</span><span class="icon-light">☀</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero-dark">
+      <div class="hero-grid-bg" aria-hidden="true">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <pattern id="grid" width="54" height="54" patternUnits="userSpaceOnUse">
+              <path d="M54 0L0 0 0 54" fill="none" stroke="rgba(171,214,205,0.04)" stroke-width="1"/>
+            </pattern>
+            <radialGradient id="gA" cx="75%" cy="40%" r="45%">
+              <stop offset="0%" stop-color="#ABD6CD" stop-opacity=".09"/>
+              <stop offset="100%" stop-color="#ABD6CD" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="gB" cx="15%" cy="70%" r="40%">
+              <stop offset="0%" stop-color="#C088B8" stop-opacity=".08"/>
+              <stop offset="100%" stop-color="#C088B8" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)"/>
+          <rect width="100%" height="100%" fill="url(#gA)"/>
+          <rect width="100%" height="100%" fill="url(#gB)"/>
+        </svg>
+      </div>
+
+      <div class="hero-dark-container">
+        <div class="hero-dark-left">
+          <div class="hero-live-badge">
+            <span class="badge-pulse"></span>
+            Projeto de extensão · UEPB · Campina Grande
+          </div>
+          <h1 class="hero-dark-title">
+            Onde mulheres<br><em>reescrevem</em><br>o código
+          </h1>
+          <p class="hero-dark-mono">// inclusão · tecnologia · protagonismo feminino</p>
+          <p class="hero-dark-desc">
+            Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+          <div class="hero-dark-actions">
+            <button class="btn-teal">Quero participar</button>
+            <a href="programa.html" class="btn-ghost">Conhecer o programa →</a>
+          </div>
+          <div class="hero-dark-stats">
+            <div class="hstat"><div class="hstat-n">2020</div><div class="hstat-l">Fundado em</div></div>
+            <div class="hstat-div"></div>
+            <div class="hstat"><div class="hstat-n">3</div><div class="hstat-l">Artigos no W.I.T 2026</div></div>
+            <div class="hstat-div"></div>
+            <div class="hstat"><div class="hstat-n">5+</div><div class="hstat-l">Anos de impacto</div></div>
+          </div>
+        </div>
+
+        <div class="hero-dark-right">
+          <svg class="butterfly-hero" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" aria-label="Borboleta MNC — homenagem a Grace Hopper">
+            <defs>
+              <radialGradient id="wL" cx="25%" cy="40%" r="70%">
+                <stop offset="0%" stop-color="#ABD6CD" stop-opacity=".65"/>
+                <stop offset="100%" stop-color="#0C1018" stop-opacity=".8"/>
+              </radialGradient>
+              <radialGradient id="wR" cx="75%" cy="40%" r="70%">
+                <stop offset="0%" stop-color="#C088B8" stop-opacity=".60"/>
+                <stop offset="100%" stop-color="#0C1018" stop-opacity=".8"/>
+              </radialGradient>
+              <radialGradient id="wL2" cx="35%" cy="60%" r="60%">
+                <stop offset="0%" stop-color="#8773A4" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="#0C1018" stop-opacity=".7"/>
+              </radialGradient>
+              <radialGradient id="wR2" cx="65%" cy="60%" r="60%">
+                <stop offset="0%" stop-color="#8773A4" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="#0C1018" stop-opacity=".7"/>
+              </radialGradient>
+            </defs>
+
+            <circle class="b-halo"  cx="160" cy="160" r="142" fill="none" stroke="#ABD6CD" stroke-width="1" opacity=".1"/>
+            <circle class="b-halo2" cx="160" cy="160" r="124" fill="none" stroke="#C088B8" stroke-width=".6" opacity=".07"/>
+
+            <g class="b-wing-left">
+              <path d="M160 160 C132 118, 60 82, 38 114 C18 144, 54 188, 108 180 C134 176, 157 165, 160 160Z" fill="url(#wL)" stroke="#ABD6CD" stroke-width=".9" opacity=".92"/>
+              <path d="M160 160 C138 138, 80 104, 57 118" fill="none" stroke="#ABD6CD" stroke-width=".6" opacity=".28"/>
+              <path d="M160 166 C140 178, 74 190, 60 218 C48 242, 78 272, 122 260 C148 252, 160 228, 160 166Z" fill="url(#wL2)" stroke="#ABD6CD" stroke-width=".7" opacity=".75"/>
+              <!-- circuitos -->
+              <line class="c-line-1" x1="86" y1="124" x2="136" y2="150" stroke="#ABD6CD" stroke-width="1.1" opacity=".75"/>
+              <line x1="136" y1="150" x2="149" y2="143" stroke="#ABD6CD" stroke-width="1.1" opacity=".75"/>
+              <circle cx="86"  cy="124" r="3.5" fill="#ABD6CD" class="c-node"/>
+              <circle cx="111" cy="137" r="2.2" fill="#ABD6CD" opacity=".5"/>
+              <circle cx="136" cy="150" r="3"   fill="#ABD6CD" class="c-node2"/>
+              <line class="c-line-2" x1="68" y1="148" x2="104" y2="165" stroke="#7FB8AD" stroke-width=".85" opacity=".55"/>
+              <circle cx="68"  cy="148" r="1.8" fill="#7FB8AD" opacity=".6"/>
+              <circle cx="104" cy="165" r="1.8" fill="#7FB8AD" opacity=".6"/>
+            </g>
+
+            <g class="b-wing-right">
+              <path d="M160 160 C188 118, 260 82, 282 114 C302 144, 266 188, 212 180 C186 176, 163 165, 160 160Z" fill="url(#wR)" stroke="#C088B8" stroke-width=".9" opacity=".92"/>
+              <path d="M160 160 C182 138, 240 104, 263 118" fill="none" stroke="#C088B8" stroke-width=".6" opacity=".28"/>
+              <path d="M160 166 C180 178, 246 190, 260 218 C272 242, 242 272, 198 260 C172 252, 160 228, 160 166Z" fill="url(#wR2)" stroke="#C088B8" stroke-width=".7" opacity=".75"/>
+              <!-- circuitos -->
+              <line class="c-line-3" x1="234" y1="124" x2="184" y2="150" stroke="#C088B8" stroke-width="1.1" opacity=".75"/>
+              <line x1="184" y1="150" x2="171" y2="143" stroke="#C088B8" stroke-width="1.1" opacity=".75"/>
+              <circle cx="234" cy="124" r="3.5" fill="#C088B8" class="c-node3"/>
+              <circle cx="209" cy="137" r="2.2" fill="#C088B8" opacity=".5"/>
+              <circle cx="184" cy="150" r="3"   fill="#C088B8" class="c-node4"/>
+            </g>
+
+            <ellipse cx="160" cy="158" rx="5.5" ry="30" fill="#0C1018" stroke="#ABD6CD" stroke-width="1" opacity=".9"/>
+            <ellipse cx="160" cy="158" rx="2.2" ry="26" fill="#ABD6CD" opacity=".2"/>
+
+            <path d="M157 130 C152 116, 144 109, 136 104" fill="none" stroke="#ABD6CD" stroke-width="1.2" opacity=".8"/>
+            <path d="M163 130 C168 116, 176 109, 184 104" fill="none" stroke="#C088B8" stroke-width="1.2" opacity=".8"/>
+            <circle cx="135" cy="103" r="3.2" fill="#ABD6CD" opacity=".9"/>
+            <circle cx="185" cy="103" r="3.2" fill="#C088B8" opacity=".9"/>
+          </svg>
+
+          <div class="hero-tag tag-1">Grace Hopper · 1906–1992 🦋</div>
+          <div class="hero-tag tag-2"><span class="tag-mono">$ ./mnc --run</span> inclusão</div>
+        </div>
+      </div>
+      <div class="hero-dark-fade"></div>
+    </section>
+
+    <!-- SOBRE -->
+    <section class="about-section">
+      <div class="about-container">
+        <div class="about-illustration reveal">
+          <div class="about-blob-wrap">
+            <div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div>
+            <img src="logo_mnc2__1_.png" alt="Logo MNC" class="girl-img">
+          </div>
+        </div>
+        <div class="about-text reveal reveal-delay-1">
+          <span class="overline">Quem somos</span>
+          <h2>Oxe, ainda não<br><em>conhece?</em></h2>
+          <p>O <strong>Mulheres na Computação (MNC)</strong> é um projeto de extensão da Universidade Estadual da Paraíba (UEPB), parceiro do Programa Meninas Digitais da Sociedade Brasileira de Computação (SBC). Nasceu em 2020, quando a professora Luciana Gomes percebeu que as alunas de Computação precisavam de mais do que aulas — precisavam de uma rede de apoio, de referências femininas na tecnologia e de espaço para crescer.</p>
+          <a href="programa.html" class="history-link">Conheça o programa <span class="arrow">›</span></a>
+        </div>
+      </div>
+      <div class="partners-banner reveal reveal-delay-2">
+        <div class="partner-logo">UEPB</div>
+        <div class="partner-logo">Meninas Digitais</div>
+                <div class="partner-logo">MNC</div>
+
+      </div>
+    </section>
+
+    <!-- IMPACTO -->
+    <section class="impact-section">
+      <div class="section-header reveal">
+        <span class="overline">Números reais</span>
+        <h2>Impacto que a gente<br><em>pode medir</em></h2>
+        <p>Desde 2020 construindo pontes entre meninas e a tecnologia em Campina Grande e região.</p>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-card reveal reveal-delay-1"><div class="impact-number">2020</div><div class="impact-label">Ano de fundação</div></div>
+        <div class="impact-card reveal reveal-delay-2"><div class="impact-number">X</div><div class="impact-label">Artigos aceitos</div></div>
+        <div class="impact-card reveal reveal-delay-3"><div class="impact-number">?%</div><div class="impact-label">XXXXXXXXXXX</div></div>
+        <div class="impact-card reveal reveal-delay-4"><div class="impact-number">5+</div><div class="impact-label">Anos transformando vidas</div></div>
+      </div>
+      <div class="impact-highlights">
+        <div class="highlight-card reveal reveal-delay-1">
+          <h3>BLA BLA BLA BLA</h3>
+          <p>Lorem ipsum dolor sit amet. At dolores quidem ut natus voluptas qui impedit temporibus aut perferendis possimus ut voluptates voluptas est voluptas optio sed voluptatem doloremque. </p>
+        </div>
+        <div class="highlight-card reveal reveal-delay-2">
+          <h3>Síndrome da impostora, não aqui</h3>
+          <p>"A gente sempre acha que não é suficiente", reconhece a professora Luciana. Por isso o MNC cria um ambiente de acolhimento onde as alunas se enxergam em mulheres que fizeram história na computação — Grace Hopper, Ada Lovelace e Mary Keller.</p>
+        </div>
+        <div class="highlight-card reveal reveal-delay-3">
+          <h3>Levando a tecnologia às escolas</h3>
+          <p>O MNC não fica só dentro da universidade. Como projeto de extensão, as atividades chegam às escolas públicas da Paraíba, onde as próprias bolsistas ensinam garotas do ensino médio sobre o que é tecnologia e como ela pode mudar suas vidas.</p>
+        </div>
+        <div class="highlight-card reveal reveal-delay-4">
+          <h3>Reconhecimento nacional</h3>
+          <p>Artigos e reportagem?</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPORTUNIDADES -->
+    <section class="opportunities-section">
+      <div class="opportunities-header reveal">
+        <span class="overline">Por que participar</span>
+        <h2>Olha essa mega oportunidade,<br><em>não vai perder, ein?</em></h2>
+      </div>
+      <div class="cards-grid">
+        <div class="opp-card reveal reveal-delay-1">
+          <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          <div class="card-content"><h3>???????</h3><p>bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</p></div>
+        </div>
+        <div class="opp-card reveal reveal-delay-2">
+          <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="card-content"><h3>?????</h3><p>bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</p></div>
+        </div>
+        <div class="opp-card reveal reveal-delay-3">
+          <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="card-content"><h3>Na UEPB</h3><p>Campus I da Universidade Estadual da Paraíba, em Campina Grande.</p></div>
+        </div>
+        <div class="opp-card reveal reveal-delay-4">
+          <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="card-content"><h3>Rede Feminina</h3><p>Turmas com mulheres que se apoiam. Uma rede de acolhimento que fica para além do curso.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REQUISITOS -->
+     <section class="requirements-section">
+      <div class="req-bg-wave"></div>
+      <div class="req-container">
+        <div class="req-illustration reveal">
+          <div class="req-blob">
+            <img src="logo_mnc2__1_.png" alt="Logo MNC" class="mega-girl-img">
+          </div>
+        </div>
+        <div class="req-content reveal reveal-delay-1">
+          <span class="req-overline">bla bla bla bla</span>
+          <h2>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h2>
+          <ul class="req-list">
+            <li><div class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>bla bla bla</li>
+            <li><div class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>bla bla bla bla bla bla</li>
+            <li><div class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>bla bla bla bla bla bla bla bla bla</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-col brand-col">
+          <div class="logo"><div class="logo-icon"><img src="logo_mnc2__1_.png" alt="Logo MNC"></div><div class="logo-text-footer">MULHERES NA<br>COMPUTAÇÃO</div></div>
+          <p>Projeto de extensão da Universidade Estadual da Paraíba (UEPB), Campus I — Campina Grande.</p>
+          <p>R. Baraúnas, 351 — Universitário, Campina Grande - PB</p>
+        </div>
+        <div class="footer-col links-col">
+          <h4>Acesso Rápido</h4>
+          <ul class="quick-links"><li><a href="index.html">Página Inicial</a></li><li><a href="programa.html">Programa</a></li><li><a href="equipe.html">Equipe</a></li><li><a href="galeria.html">Galeria</a></li><li><a href="artigos.html">Artigos</a></li></ul>
+        </div>
+        <div class="footer-col contact-col">
+          <h4>Contato</h4>
+          <div class="contact-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>contato@mnc.uepb.edu.br</span></div>
+          <h4 class="social-title">Social</h4>
+          <div class="social-icons"><a href="#" class="social-icon">YT</a><a href="#" class="social-icon">IG</a><a href="#" class="social-icon">IN</a></div>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-bottom"><div class="copyright">©2026 MULHERES NA COMPUTAÇÃO — Desenvolvido por MNC · UEPB</div></div>
+    </footer>
+
+  </main>
+  
+  <script>
+    (function(){const s=localStorage.getItem('mnc-theme')||'dark';document.documentElement.setAttribute('data-theme',s);})();
+  </script>
+  <script defer>
+    /* ── Tema ── */
+    const root=document.documentElement;
+    const themeBtn=document.getElementById('themeToggle');
+    themeBtn&&themeBtn.addEventListener('click',()=>{
+      const n=root.getAttribute('data-theme')==='dark'?'light':'dark';
+      root.setAttribute('data-theme',n);localStorage.setItem('mnc-theme',n);
+    });
+
+    /* ── Nav ativo ── */
+    const page=location.pathname.split('/').pop()||'index.html';
+    const navMap={'index.html':'nav-index','programa.html':'nav-programa','equipe.html':'nav-equipe','galeria.html':'nav-galeria','artigos.html':'nav-artigos'};
+    const navEl=document.getElementById(navMap[page]||'nav-index');
+    if(navEl)navEl.classList.add('active');
+
+    /* ── Transição PCB ── */
+    const _ov=document.getElementById('circuitOverlay');
+    const _cv=document.getElementById('circuitCanvas');
+    const _cx=_cv.getContext('2d');
+    const _T='#ABD6CD',_L='#C088B8',_P='#8773A4';
+    let _W,_H,_segs,_pads,_vias,_raf2;
+
+    function _rnd(a,b){return a+Math.random()*(b-a);}
+    function _pick(...a){return a[Math.floor(Math.random()*a.length)];}
+    function _eio(t){return t<.5?2*t*t:-1+(4-2*t)*t;}
+
+    function _build(){
+      _W=_cv.width=window.innerWidth; _H=_cv.height=window.innerHeight;
+      _segs=[]; _pads=[]; _vias=[];
+      
+      // Grade bem larga, visual minimalista, limpo e bem espaçado
+      const GRID = 40; 
+      const snap = v => Math.round(v / GRID) * GRID;
+      
+      // Apenas ângulos exatos de 90 graus (Direções Ortogonais)
+      const DIRS=[[1,0], [0,1], [-1,0], [0,-1]];
+      
+      // Poucas linhas fluindo pela tela
+      const nT = Math.floor((_W * _H) / 40000) + 15; 
+      
+      for(let t=0; t<nT; t++){
+        const color = _pick(_T,_L,_P);
+        const width = 2; // Espessura fixa e mais grossa para um visual de "trilha" forte
+        const delay = _rnd(0, .3);
+        
+        let x = snap(_rnd(GRID, _W - GRID));
+        let y = snap(_rnd(GRID, _H - GRID));
+        
+        let [dx,dy] = _pick(...DIRS);
+        const nS = Math.floor(_rnd(2, 4)); // Traços com poucas dobras
+        let pts = [{x,y}];
+        
+        for(let s=0; s<nS; s++){
+          if(s > 0) {
+            // Toda curva é perfeitamente de 90 graus
+            const turn = Math.random() < 0.5 ? 1 : -1;
+            [dx, dy] = [-dy * turn, dx * turn];
+          }
+          
+          // As trilhas viajam distâncias maiores
+          const len = snap(_rnd(100, 350)); 
+          x = snap(Math.max(GRID, Math.min(_W - GRID, x + dx * len)));
+          y = snap(Math.max(GRID, Math.min(_H - GRID, y + dy * len)));
+          pts.push({x,y});
+        }
+        
+        for(let i=0; i<pts.length-1; i++){
+          _segs.push({
+            x1:pts[i].x, y1:pts[i].y, x2:pts[i+1].x, y2:pts[i+1].y,
+            color, width, delay: delay + i*.06,
+            len: Math.hypot(pts[i+1].x-pts[i].x, pts[i+1].y-pts[i].y)
+          });
+        }
+        
+        // Colocando pequenos círculos brilhantes ("vias") no começo e no fim de cada linha
+        _vias.push({x: pts[0].x, y: pts[0].y, r: 4, color: color, delay: delay});
+        _vias.push({x: pts[pts.length-1].x, y: pts[pts.length-1].y, r: 4, color: color, delay: delay + nS*0.06});
+      }
+    }
+
+    function _drawFrame(p){
+      _cx.clearRect(0,0,_W,_H);
+      for(const s of _segs){
+        const sp=Math.max(0,Math.min(1,(p-s.delay)/.46));
+        if(sp<=0)continue;
+        const lx=s.x1+(s.x2-s.x1)*_eio(sp),ly=s.y1+(s.y2-s.y1)*_eio(sp);
+        _cx.beginPath();_cx.moveTo(s.x1,s.y1);_cx.lineTo(lx,ly);
+        _cx.strokeStyle=s.color;_cx.lineWidth=s.width;
+        _cx.globalAlpha=.55*_eio(Math.min(1,sp*2));_cx.stroke();
+        if(sp<.97){
+          _cx.beginPath();_cx.arc(lx,ly,s.width+1.2,0,Math.PI*2);
+          _cx.fillStyle=s.color;_cx.globalAlpha=.9;_cx.fill();
+        }
+      }
+      for(const pd of _pads){
+        const pp=Math.max(0,Math.min(1,(p-pd.delay)/.22));
+        if(pp<=0)continue;
+        _cx.save();_cx.translate(pd.x,pd.y);_cx.rotate(pd.angle);
+        _cx.globalAlpha=pp*.85;_cx.fillStyle=pd.color;
+        _cx.fillRect(-pd.w/2,-pd.h/2,pd.w*pp,pd.h);_cx.restore();
+      }
+      for(const vi of _vias){
+        const vp=Math.max(0,Math.min(1,(p-vi.delay)/.2));
+        if(vp<=0)continue;
+        _cx.beginPath();_cx.arc(vi.x,vi.y,vi.r+3,0,Math.PI*2);
+        _cx.strokeStyle=vi.color;_cx.lineWidth=1.5;_cx.globalAlpha=vp*.6;_cx.stroke();
+        _cx.beginPath();_cx.arc(vi.x,vi.y,vi.r,0,Math.PI*2);
+        _cx.strokeStyle=vi.color;_cx.lineWidth=.8;_cx.globalAlpha=vp*.9;_cx.stroke();
+        _cx.beginPath();_cx.arc(vi.x,vi.y,vi.r*.42,0,Math.PI*2);
+        _cx.fillStyle='#0C1018';_cx.globalAlpha=1;_cx.fill();
+      }
+      _cx.globalAlpha=1;
+    }
+
+    function _runPCB(cb){
+      _build();
+      _ov.classList.add('active');
+      const dur=700,t0=performance.now();
+      function tick(now){
+        const p=Math.min(1,(now-t0)/dur);
+        _drawFrame(_eio(p));
+        if(p<1){_raf2=requestAnimationFrame(tick);}else{cb&&cb();}
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function _exitPCB(){
+      const dur=360,t0=performance.now();
+      function tick(now){
+        const p=Math.min(1,(now-t0)/dur);
+        _ov.style.opacity=1-_eio(p);
+        if(p<1){requestAnimationFrame(tick);}
+        else{_ov.classList.remove('active');_ov.style.opacity='';}
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function goTo(url){
+      if(_raf2)cancelAnimationFrame(_raf2);
+      _runPCB(()=>{window.location.href=url;});
+    }
+
+    document.querySelectorAll('a[href]').forEach(a=>{
+      const href=a.getAttribute('href');
+      if(!href||href.startsWith('#')||href.startsWith('mailto')||href.startsWith('http'))return;
+      a.addEventListener('click',e=>{e.preventDefault();goTo(href);});
+    });
+    window.addEventListener('pageshow',()=>{setTimeout(_exitPCB,80);});
+
+    /* ── Reveal on scroll ── */
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+    },{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+</body>
+</html>
