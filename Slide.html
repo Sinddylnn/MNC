@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MNC UEPB — Tech Minimalist Edition</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* ── PALETA MODO ESCURO ── */
+      --teal: #ABD6CD;
+      --teal-glow: rgba(171,214,205,0.4);
+      --lilac: #C088B8;
+      --purple: #8773A4;
+      
+      --bg-page: #0B0F19; 
+      --bg-card: #131A26;
+      --text-primary: #FFFFFF;
+      --text-secondary: rgba(255,255,255,0.8);
+      --border-color: rgba(171,214,205,0.2);
+      --code-bg: #05070A;
+      
+      --cover-bg: #0B0F19;
+      --cover-title: var(--teal);
+      --cover-sub: var(--lilac);
+
+      --font-tech: 'Orbitron', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    /* ── MODO CLARO REFINADO (Limpo, alto contraste) ── */
+    [data-theme="light"] {
+      --bg-page: #F4F5F8; 
+      --bg-card: #FFFFFF; 
+      --text-primary: #1A1025; 
+      --text-secondary: #4A3968; 
+      --teal: #148073; 
+      --lilac: #7B5BA6; 
+      --purple: #4A3968;
+      --border-color: #D6CDE3;
+      --code-bg: #EAE6F0;
+      
+      /* Capa em Roxo no Modo Claro mantida */
+      --cover-bg: #4A3968;
+      --cover-title: #ABD6CD;
+      --cover-sub: #D4C5E2;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body); background: var(--bg-page);
+      color: var(--text-primary); overflow: hidden; transition: background 0.5s ease;
+    }
+
+    /* ── FUNDO TECNOLÓGICO SUTIL ── */
+    .grid-bg {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: 
+        linear-gradient(rgba(171,214,205,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(171,214,205,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    [data-theme="light"] .grid-bg { background-image: linear-gradient(rgba(106,80,154,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(106,80,154,0.05) 1px, transparent 1px); }
+
+    /* ── TRANSIÇÃO SHUTTER / SCANNER (NOVO) ── */
+    .cyber-transition {
+      position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+      display: flex; flex-direction: column;
+    }
+    .cyber-strip {
+      flex: 1; background: var(--bg-card); width: 100vw; 
+      transform: scaleX(0); transform-origin: left;
+      border-right: 4px solid var(--teal);
+    }
+    [data-theme="light"] .cyber-strip { background: var(--purple); border-color: var(--teal); }
+
+    .cyber-transition.active .cyber-strip { animation: stripIn 0.5s forwards cubic-bezier(0.7, 0, 0.3, 1); }
+    .cyber-transition.exit .cyber-strip { animation: stripOut 0.5s forwards cubic-bezier(0.7, 0, 0.3, 1); }
+    
+    .strip-1 { animation-delay: 0s; }
+    .strip-2 { animation-delay: 0.1s; }
+    .strip-3 { animation-delay: 0.05s; }
+    .strip-4 { animation-delay: 0.15s; }
+    .strip-5 { animation-delay: 0.08s; }
+
+    @keyframes stripIn {
+      0% { transform: scaleX(0); transform-origin: left; }
+      100% { transform: scaleX(1); transform-origin: left; }
+    }
+    @keyframes stripOut {
+      0% { transform: scaleX(1); transform-origin: right; }
+      100% { transform: scaleX(0); transform-origin: right; }
+    }
+
+    /* ── ESTRUTURA DOS SLIDES ── */
+    .deck-container {
+      display: flex; width: 100vw; height: 100vh;
+      overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none;
+    }
+    .deck-container::-webkit-scrollbar { display: none; }
+    
+    .slide { flex: 0 0 100vw; height: 100vh; scroll-snap-align: start; position: relative; overflow: hidden; }
+    .slide-content-full { display: flex; flex-direction: column; width: 100%; height: 100%; padding: 50px 8%; position: relative; z-index: 1; }
+
+    /* ── EFEITO BLOCK REVEAL ── */
+    .block-reveal { position: relative; display: inline-block; overflow: hidden; padding-right: 5px; }
+    .block-reveal span { opacity: 0; display: inline-block; }
+    .active-slide .block-reveal span { animation: revealText 0s 0.45s forwards; }
+    .active-slide .block-reveal::after {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--teal); transform-origin: left;
+      animation: blockSweep 0.9s cubic-bezier(0.7,0,0.3,1) forwards;
+    }
+    [data-theme="light"] .active-slide .block-reveal::after { background: var(--lilac); }
+
+    @keyframes blockSweep {
+      0% { transform: scaleX(0); transform-origin: left; }
+      49.9% { transform: scaleX(1); transform-origin: left; }
+      50% { transform: scaleX(1); transform-origin: right; }
+      100% { transform: scaleX(0); transform-origin: right; }
+    }
+    @keyframes revealText { to { opacity: 1; } }
+
+    /* ── ANIMAÇÕES DE ENTRADA SUAVES ── */
+    .fade-up { opacity: 0; transform: translateY(20px); transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1); }
+    .active-slide .fade-up { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.2s; } .delay-2 { transition-delay: 0.4s; }
+
+    /* ── TIPOGRAFIA GIGANTE E LEGÍVEL ── */
+    h2 { font-family: var(--font-tech); font-size: 3.8rem; line-height: 1.1; margin-bottom: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
+    h2 em { color: var(--teal); font-style: normal; }
+    h2::after { content: '|'; color: var(--teal); animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    
+    p { font-size: 1.2rem; line-height: 1.6; color: var(--text-secondary); }
+
+    .overline { 
+      color: var(--lilac); font-family: var(--font-mono); font-size: 1rem; font-weight: bold;
+      letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; 
+      display: inline-block; padding: 6px 16px; border: 1px solid var(--border-color); background: rgba(192,136,184,0.1); 
+    }
+
+    /* ── CAIXAS HUD TECH ── */
+    .hud-box { 
+      position: relative; background: var(--bg-card); border: 1px solid var(--border-color); 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: 0.3s; 
+    }
+    .hud-box::before, .hud-box::after { content: ''; position: absolute; width: 25px; height: 25px; border: 3px solid var(--teal); pointer-events: none; }
+    .hud-box::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+    .hud-box::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+    /* ── CAPA ── */
+    .slide.cover { display: flex; align-items: center; justify-content: center; text-align: center; transition: background 0.5s ease; background-color: var(--cover-bg); }
+    .cover-title { font-family: var(--font-tech); font-size: 7rem; color: var(--cover-title); letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.1; margin-bottom: 20px;}
+    .cover-title::after { display: none; }
+    .cover-subtitle { font-family: var(--font-tech); font-size: 2.2rem; color: var(--cover-sub); letter-spacing: 0.2em; opacity: 0.9; }
+    .cover-init { font-family: var(--font-mono); margin-top: 60px; color: var(--teal); letter-spacing: 4px; font-size: 1.2rem; background: rgba(171,214,205,0.1); padding: 10px 30px; border-radius: 50px; display: inline-block;}
+
+    /* ── SLIDE 2: APRESENTAÇÃO ── */
+    .clean-list { list-style: none; margin-top: 30px; width: 100%; }
+    .clean-list li { font-size: 1.5rem; padding: 20px 0; border-bottom: 1px solid var(--border-color); color: var(--text-primary); display: flex; align-items: center;}
+    .clean-list li strong { color: var(--teal); font-family: var(--font-mono); font-size: 1.2rem; margin-right: 20px; border: 2px solid var(--teal); padding: 4px 12px; border-radius: 4px; background: rgba(171,214,205,0.1); }
+
+    /* ── SLIDE 3: TIMELINE HORIZONTAL ── */
+    .horizontal-timeline { display: flex; width: 100%; justify-content: space-between; align-items: flex-start; margin-top: 80px; position: relative; }
+    .horizontal-timeline::before { content: ''; position: absolute; top: 30px; left: 5%; right: 5%; height: 4px; background: var(--border-color); z-index: 0; }
+    .horizontal-timeline::after { content: ''; position: absolute; top: 30px; left: 5%; width: 0; height: 4px; background: var(--teal); z-index: 0; transition: width 1.5s ease 0.5s; box-shadow: 0 0 15px var(--teal-glow); }
+    .active-slide .horizontal-timeline::after { width: 90%; }
+    
+    .timeline-node { flex: 1; text-align: center; position: relative; z-index: 1; padding: 0 15px; }
+    .node-year { font-family: var(--font-tech); font-size: 1.8rem; color: var(--text-secondary); font-weight: bold; margin-bottom: -15px; transition: 0.3s; }
+    .node-circle { width: 30px; height: 30px; background: var(--bg-page); border: 4px solid var(--border-color); border-radius: 50%; margin: 25px auto; transition: 0.5s; position: relative; z-index: 2; }
+    .active-slide .node-circle { border-color: var(--teal); background: var(--teal); box-shadow: 0 0 20px var(--teal-glow); transition-delay: calc(0.3s * var(--i)); }
+    .active-slide .node-year { color: var(--teal); transition-delay: calc(0.3s * var(--i)); }
+    .node-content { opacity: 0; transform: translateY(15px); transition: 0.5s; }
+    .active-slide .node-content { opacity: 1; transform: translateY(0); transition-delay: calc(0.3s * var(--i)); }
+    .node-content h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-primary); font-family: var(--font-tech);}
+    .node-content p { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.5; }
+
+    /* ── NOVO LAYOUT: AÇÕES DO PROJETO (MODULOS DE DADOS) ── */
+    .module-container { display: flex; gap: 30px; margin-top: 30px; flex-grow: 1; }
+    .tech-pillar { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+    .pillar-header { font-family: var(--font-mono); font-size: 1rem; font-weight: bold; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+    .pillar-box { flex-grow: 1; padding: 30px; display: flex; flex-direction: column; justify-content: center;}
+    .tech-tag { display: inline-block; background: rgba(171,214,205,0.1); border: 1px solid var(--teal); color: var(--teal); padding: 6px 12px; font-family: var(--font-mono); font-size: 0.9rem; border-radius: 4px; margin-right: 5px; margin-bottom: 5px; font-weight: bold;}
+    [data-theme="light"] .tech-tag { background: rgba(43,122,107,0.1); }
+
+    /* ── GALERIAS DE FOTOS (MAXIMIZADAS) ── */
+    .gallery-container { flex-grow: 1; display: grid; gap: 20px; margin-top: 30px; width: 100%; min-height: 0; }
+    .grid-4x2 { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); }
+    
+    .photo-item { position: relative; overflow: hidden; background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 8px; cursor: zoom-in; display: flex; align-items: center; justify-content: center;}
+    .photo-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
+    .photo-item:hover img { opacity: 1; transform: scale(1.05); }
+    
+    .photo-label { position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); color: #fff; font-family: var(--font-mono); font-size: 1.1rem; text-align: left; opacity: 0; transform: translateY(10px); transition: 0.4s; pointer-events: none;}
+    .photo-item:hover .photo-label { opacity: 1; transform: translateY(0); }
+    
+    .span-2-col { grid-column: span 2; } .span-2-row { grid-row: span 2; } .span-3-col { grid-column: span 3; } .span-4-col { grid-column: span 4; }
+
+    /* ── TERMINAL DE CÓDIGO ── */
+    .code-window { background: var(--code-bg); border-radius: 8px; border: 2px solid var(--border-color); width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+    .code-header { background: rgba(0,0,0,0.2); padding: 15px 25px; display: flex; gap: 10px; align-items: center; border-bottom: 2px solid var(--border-color); font-family: var(--font-mono); font-size: 1.1rem; color: var(--teal); font-weight: bold;}
+    .code-body { padding: 40px; font-family: var(--font-mono); font-size: 1.3rem; line-height: 1.8; color: var(--text-secondary); flex-grow: 1; overflow-y: auto;}
+
+    /* ── LIGHTBOX (MODAL) ── */
+    #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(10px); }
+    #lightbox.active { opacity: 1; pointer-events: all; }
+    #lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; border: 4px solid var(--teal); box-shadow: 0 0 40px rgba(0,0,0,0.8); transform: scale(0.95); transition: 0.3s; border-radius: 8px; }
+    #lightbox.active img { transform: scale(1); }
+    .lightbox-close { position: absolute; top: 30px; right: 40px; font-family: var(--font-mono); color: var(--teal); font-size: 3rem; cursor: pointer; background: transparent; border: none; }
+
+    /* ── UI NAV ── */
+    .nav-ui { position: fixed; bottom: 40px; right: 40px; display: flex; gap: 20px; z-index: 1100; }
+    .nav-btn { width: 55px; height: 55px; background: var(--bg-card); border: 2px solid var(--teal); color: var(--teal); cursor: pointer; transition: 0.3s; font-family: var(--font-mono); font-size: 1.5rem; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: bold;}
+    .nav-btn:hover { background: var(--teal); color: var(--bg-page); box-shadow: 0 0 20px var(--teal-glow); }
+    
+    .dots { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 1100; }
+    .dot { width: 8px; height: 8px; background: var(--border-color); transform: rotate(45deg); transition: 0.3s; }
+    .dot.active { background: var(--teal); box-shadow: 0 0 15px var(--teal-glow); transform: rotate(45deg) scale(1.8); }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <div class="grid-bg"></div>
+  
+  <div class="cyber-transition" id="wipe">
+    <div class="cyber-strip strip-1"></div>
+    <div class="cyber-strip strip-2"></div>
+    <div class="cyber-strip strip-3"></div>
+    <div class="cyber-strip strip-4"></div>
+    <div class="cyber-strip strip-5"></div>
+  </div>
+
+  <div class="dots" id="dotsContainer"></div>
+
+  <div id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close">&times;</button>
+    <img id="lightbox-img" src="" alt="Ampliada">
+  </div>
+
+  <div class="nav-ui">
+    <button class="nav-btn" id="themeToggle" title="Modo Claro/Escuro">☀️</button>
+    <button class="nav-btn" onclick="moveSlide(-1)">←</button>
+    <button class="nav-btn" onclick="moveSlide(1)">→</button>
+  </div>
+
+  <div class="deck-container" id="deck">
+
+    <section class="slide cover">
+      <div class="fade-up">
+        <h1 class="cover-title">Mulheres na Computação</h1>
+        <div class="cover-subtitle">UEPB · MNC</div>
+        <div class="cover-init">_ENCONTRO_OFICIAL</div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">HANDSHAKE_PROTOCOL</span>
+        <h2 class="block-reveal"><span>Vamos nos <em>conhecer?</em></span></h2>
+        
+        <div style="display: flex; gap: 80px; flex-grow: 1; align-items: center; margin-top: 30px;">
+          <div class="fade-up delay-1" style="flex: 1.2;">
+            <p style="font-size: 1.4rem;">Este é o momento de trocar experiências, alinhar expectativas e compartilhar nossos desafios.</p>
+            <ul class="clean-list">
+              <li><strong>NOME</strong> Qual o seu nome e identificação?</li>
+              <li><strong>MOTIVO</strong> Por quais motivos escolheu o curso?</li>
+              <li><strong style="color: var(--lilac); border-color: var(--lilac); background: rgba(192,136,184,0.1);">FERAS</strong> Quais as expectativas em relação ao curso?</li>
+              <li><strong style="color: var(--purple); border-color: var(--purple); background: rgba(135,115,164,0.1);">VETERANAS</strong> Teve algum desafio até o momento?</li>
+            </ul>
+          </div>
+          <div class="hud-box fade-up delay-2" style="flex: 1; height: 80%; display: flex; align-items: center; justify-content: center; background: rgba(171,214,205,0.05);">
+            <div style="text-align: center; color: var(--teal); font-family: var(--font-mono);">
+              <span style="font-size: 8rem;">💬</span><br>
+              <span style="font-size: 1.2rem;">[ AWAITING_INPUT ]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full" style="justify-content: center;">
+        <span class="overline fade-up">LOG_HISTÓRICO</span>
+        <h2 class="block-reveal"><span>A Jornada do <em>MNC</em></span></h2>
+        
+        <div class="horizontal-timeline">
+          <div class="timeline-node" style="--i: 1;">
+            <div class="node-year">2020</div><div class="node-circle"></div>
+            <div class="node-content"><h3>Fundação</h3><p>Luciana, Íris, Ana Carolina, Mariana e Rebeca. Foco virtual e apoio na pandemia.</p></div>
+          </div>
+          <div class="timeline-node" style="--i: 2;">
+            <div class="node-year">2021</div><div class="node-circle"></div>
+            <div class="node-content"><h3>Consolidação</h3><p>Mês de Java e debates intensos sobre Síndrome do Impostor.</p></div>
+          </div>
+          <div class="timeline-node" style="--i: 3;">
+            <div class="node-year">2022</div><div class="node-circle"></div>
+            <div class="node-content"><h3>Presencial</h3><p>1º Encontro Físico (14/09). Interação real e ocupação do laboratório.</p></div>
+          </div>
+          <div class="timeline-node" style="--i: 4;">
+            <div class="node-year">2023</div><div class="node-circle"></div>
+            <div class="node-content"><h3>Mulher Tech</h3><p>Caravana Mulher Tech Sim Senhor. Maior encontro de tecnologia do estado.</p></div>
+          </div>
+          <div class="timeline-node" style="--i: 5;">
+            <div class="node-year">2024</div><div class="node-circle"></div>
+            <div class="node-content"><h3>Educação</h3><p>Campina Transforma e Educa. Pensamento computacional em escolas públicas.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">SYSTEM_MODULES</span>
+        <h2 class="block-reveal"><span>Ações do <em>Projeto</em></span></h2>
+        
+        <div class="module-container">
+          <div class="tech-pillar fade-up delay-1">
+            <div class="pillar-header" style="color: var(--teal);">// MOD_01: MÍDIA DIGITAL</div>
+            <div class="hud-box pillar-box">
+              <div style="font-size: 3rem; margin-bottom: 20px;">📱</div>
+              <h3 style="font-family: var(--font-tech); font-size: 1.6rem; margin-bottom: 10px; color: var(--text-primary);">@MNC.UEPB</h3>
+              <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 25px;">Compartilhamos dicas, conteúdos de programação e a história das mulheres na tecnologia.</p>
+              <div>
+                <span class="tech-tag">Guias Introdutórios</span>
+                <span class="tech-tag">Bootcamps</span>
+                <span class="tech-tag">Game Jams</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tech-pillar fade-up delay-2">
+            <div class="pillar-header" style="color: var(--lilac);">// MOD_02: PROJETOS BASE</div>
+            <div class="hud-box pillar-box" style="gap: 30px;">
+              <div>
+                <div style="font-size: 2.5rem; margin-bottom: 10px;">💻</div>
+                <h3 style="font-family: var(--font-tech); font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary);">Educação Básica</h3>
+                <p style="font-size: 1.1rem;">Ensino de pensamento computacional e jogos educacionais nas escolas.</p>
+              </div>
+              <div style="border-top: 1px dashed var(--border-color); padding-top: 20px;">
+                <div style="font-size: 2.5rem; margin-bottom: 10px;">🏆</div>
+                <h3 style="font-family: var(--font-tech); font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary);">Competições</h3>
+                <p style="font-size: 1.1rem;">Incentivo ativo à participação feminina nas olimpíadas e maratonas de programação.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tech-pillar fade-up delay-2">
+            <div class="pillar-header" style="color: var(--purple);">// MOD_03: CONEXÕES</div>
+            <div class="hud-box pillar-box" style="gap: 30px;">
+              <div>
+                <div style="font-size: 2.5rem; margin-bottom: 10px;">🤝</div>
+                <h3 style="font-family: var(--font-tech); font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary);">Parcerias Fortes</h3>
+                <p style="font-size: 1.1rem;">Trabalho conjunto com projetos parceiros: Meninas Digitais, Pyladies e Elas Computação.</p>
+              </div>
+              <div style="border-top: 1px dashed var(--border-color); padding-top: 20px;">
+                <div style="font-size: 2.5rem; margin-bottom: 10px;">📄</div>
+                <h3 style="font-family: var(--font-tech); font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary);">Academia & Vagas</h3>
+                <p style="font-size: 1.1rem;">Escrita de artigos científicos. Repasse de oportunidades e eventos gratuitos.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">DB_VISUAL_01</span>
+        <h2 class="block-reveal"><span>Nossos <em>Encontros</em></span></h2>
+        <div class="gallery-container grid-4x2 fade-up delay-1">
+          <div class="photo-item span-2-col span-2-row" onclick="openLightbox(this)">
+            <img src="https://via.placeholder.com/1200x800/131A26/ABD6CD?text=Roda+Virtual+(Clique+para+Ampliar)" alt="Roda Virtual">
+            <div class="photo-label">Log: Roda de Conversa Virtual / Pandemia</div>
+          </div>
+          <div class="photo-item" onclick="openLightbox(this)">
+            <img src="https://via.placeholder.com/600x400/131A26/ABD6CD?text=Mês+de+Java" alt="Mês de Java">
+            <div class="photo-label">Log: Mês de Java</div>
+          </div>
+          <div class="photo-item" onclick="openLightbox(this)">
+            <img src="https://via.placeholder.com/600x400/131A26/ABD6CD?text=Equipe+2022" alt="Equipe Base">
+            <div class="photo-label">Log: Equipe 2022</div>
+          </div>
+          <div class="photo-item span-2-col" onclick="openLightbox(this)">
+            <img src="https://via.placeholder.com/1200x400/131A26/ABD6CD?text=1º+Encontro+Presencial" alt="Presencial">
+            <div class="photo-label">Log: 1º Encontro Presencial (14/09/2022)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">DB_VISUAL_02</span>
+        <h2 class="block-reveal"><span>Caravana <em>Mulher Tech</em></span></h2>
+        <div class="gallery-container grid-4x2 fade-up delay-1">
+          <div class="photo-item span-2-col span-2-row" onclick="openLightbox(this)">
+            <img src="https://via.placeholder.com/1200x800/131A26/C088B8?text=Banner+Mulher+Tech" alt="Banner Mulher Tech">
+            <div class="photo-label">Evento: Mulher Tech Sim Senhor (2023)</div>
+          </div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="https://via.placeholder.com/600x400/131A26/C088B8?text=Assinatura" alt="Assinatura"><div class="photo-label">Presença Registrada</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="https://via.placeholder.com/600x400/131A26/C088B8?text=Ônibus" alt="Onibus"><div class="photo-label">Caravana em Movimento</div></div>
+          <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="https://via.placeholder.com/1200x400/131A26/C088B8?text=Auditório" alt="Auditório"><div class="photo-label">Auditório Lotado</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">DB_VISUAL_03</span>
+        <h2 class="block-reveal"><span>Campina <em>Transforma e Educa</em></span></h2>
+        <div class="gallery-container grid-4x2 fade-up delay-1">
+          <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="https://via.placeholder.com/1200x400/131A26/8773A4?text=Professora+Jailma" alt="Apoio Prof"><div class="photo-label">Apoio Turmas da Profa. Jailma Almeida</div></div>
+          <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="https://via.placeholder.com/1200x400/131A26/8773A4?text=Lógica" alt="Logica"><div class="photo-label">Ensino de Lógica no Notebook</div></div>
+          <div class="photo-item span-2-row" onclick="openLightbox(this)"><img src="https://via.placeholder.com/600x800/131A26/8773A4?text=Jogos" alt="Jogos"><div class="photo-label">Pensamento Computacional Físico</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="https://via.placeholder.com/600x400/131A26/8773A4?text=Numerais" alt="Numerais"><div class="photo-label">Matemática Básica</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="https://via.placeholder.com/600x400/131A26/8773A4?text=Equipe" alt="Equipe"><div class="photo-label">Alegria em Sala de Aula</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <div style="display: flex; gap: 40px; align-items: center; margin-bottom: 30px;" class="fade-up">
+          <div style="flex: 1;">
+            <span class="overline">MESA_REDONDA</span>
+            <h2 class="block-reveal" style="font-size: 3.5rem; text-transform: none;"><span>"O futuro da computação é <em style="color: var(--lilac);">feminino</em>."</span></h2>
+          </div>
+        </div>
+        <div class="gallery-container grid-4x2 fade-up delay-1">
+          <div class="photo-item span-2-col span-2-row" onclick="openLightbox(this)"><img src="https://via.placeholder.com/1200x800/131A26/ABD6CD?text=Palestrantes" alt="Mesa Redonda"><div class="photo-label">Mesa Redonda: Profissionais</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="https://via.placeholder.com/600x400/131A26/ABD6CD?text=Lab+DATEN" alt="Lab DATEN"><div class="photo-label">Estrutura: Laboratório DATEN</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="https://via.placeholder.com/600x400/131A26/ABD6CD?text=Prática" alt="Prática"><div class="photo-label">Atividade Prática</div></div>
+          <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="https://via.placeholder.com/1200x400/131A26/ABD6CD?text=Pizza" alt="Confraternização"><div class="photo-label">Networking & Pizza</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">PUBLICATION_STATUS</span>
+        <h2 class="block-reveal"><span>CSBC & WIT <em>2025</em></span></h2>
+        
+        <div style="display: flex; gap: 40px; flex-grow: 1; margin-top: 30px;">
+          <div class="code-window fade-up delay-1" style="flex: 1;">
+            <div class="code-header">
+              <span style="display:flex; gap:8px;">
+                <div style="width:12px; height:12px; background:#FF5F56; border-radius:50%;"></div>
+                <div style="width:12px; height:12px; background:#FFBD2E; border-radius:50%;"></div>
+                <div style="width:12px; height:12px; background:#27C93F; border-radius:50%;"></div>
+              </span>
+              <span style="margin-left:auto;">sys/congresso/maceio.log</span>
+            </div>
+            <div class="code-body">
+              <span style="color: var(--lilac); font-weight: bold;">// CONGRESSO DA SOCIEDADE BRASILEIRA DE COMPUTAÇÃO</span><br><br>
+              <span style="color: var(--teal); font-weight: bold;">const</span> artigo = {<br>
+              &nbsp;&nbsp;titulo: <span style="color: #C3E88D;">"Incluir para empoderar: Relato de uma iniciativa para a inclusão de meninas e mulheres na tecnologia"</span>,<br><br>
+              &nbsp;&nbsp;foco: <span style="color: #C3E88D;">"Impacto do Projeto MNC ao longo da graduação"</span><br>
+              };<br><br>
+              <span style="color: #F07178;">[SAVE_THE_DATE]</span> Encontro com Ana Caroline em Maceió-AL!<br>
+              <span style="color: var(--teal); animation: blink 1s step-end infinite;">_</span>
+            </div>
+          </div>
+          <div class="gallery-container grid-4x2 fade-up delay-2" style="flex: 1.5; margin-top: 0;">
+            <div class="photo-item span-4-col" onclick="openLightbox(this)"><img src="https://via.placeholder.com/1600x400/131A26/C088B8?text=Painel+CSBC+Maceió" alt="Painel Maceio"><div class="photo-label">Painel Oficial CSBC 2025 - Maceió</div></div>
+            <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="https://via.placeholder.com/800x400/131A26/C088B8?text=Apresentação+WIT" alt="Apresentação WIT"><div class="photo-label">Apresentação no WIT 2025</div></div>
+            <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="https://via.placeholder.com/800x400/131A26/C088B8?text=Equipe+MNC" alt="Equipe MNC"><div class="photo-label">Equipe MNC em Alagoas</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">EXEC_DINAMICA</span>
+        <h2 class="block-reveal"><span>Sorteio & <em>Kahoot!</em></span></h2>
+        
+        <div style="display: flex; gap: 60px; flex-grow: 1; margin-top: 30px;">
+          <div class="hud-box fade-up delay-1" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 50px;">
+            <h3 style="font-family: var(--font-tech); color: var(--lilac); font-size: 2rem; margin-bottom: 30px;">Teste seus Conhecimentos</h3>
+            <div style="width: 300px; height: 300px; background: #fff; padding: 15px; border: 4px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+              <img src="https://via.placeholder.com/270x270/FFFFFF/000000?text=SEU+QR+CODE" style="width:100%; height:100%; object-fit: contain;">
+            </div>
+            <p style="font-family: var(--font-mono); color: var(--teal); font-size: 1.2rem; margin-top: 30px; font-weight: bold;">> APONTE A CÂMERA DO CELULAR</p>
+          </div>
+          
+          <div class="hud-box fade-up delay-2" style="flex: 1.2; padding: 50px; display: flex; flex-direction: column; justify-content: center;">
+            <h3 style="font-family: var(--font-tech); color: var(--teal); font-size: 2.5rem; margin-bottom: 40px;">Prêmios do Sorteio</h3>
+            <ul class="clean-list" style="margin-top: 0; margin-bottom: 40px;">
+              <li style="font-size: 1.5rem;"><strong style="color: var(--teal); border-color: var(--teal); font-size: 1.2rem;">01</strong> 2 Camisas do Meninas Digitais</li>
+              <li style="font-size: 1.5rem;"><strong style="color: var(--lilac); border-color: var(--lilac); font-size: 1.2rem;">02</strong> 1 Camisa do Projeto MNC</li>
+              <li style="font-size: 1.5rem;"><strong style="color: var(--purple); border-color: var(--purple); font-size: 1.2rem;">03</strong> 1 Caneca Exclusiva</li>
+            </ul>
+            <div style="background: rgba(171,214,205,0.05); border-left: 6px solid var(--lilac); padding: 30px;">
+              <h4 style="font-family: var(--font-mono); color: var(--text-primary); font-size: 1.2rem; margin-bottom: 15px;">> REGRA PARA PARTICIPAR</h4>
+              <p style="color: var(--text-secondary); font-size: 1.3rem; line-height: 1.6;">Seguir <strong>@MNC.UEPB</strong> e <strong>@compuepb</strong> no Instagram, e a página <strong>Mulheres na Computação - UEPB</strong> no LinkedIn.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide cover">
+      <div class="fade-up">
+        <h2 class="block-reveal"><span style="font-size: 8rem; color: var(--lilac); text-transform: none;">Obrigada!</span></h2>
+        <p style="font-family: var(--font-mono); color: var(--teal); letter-spacing: 5px; font-size: 1.5rem; margin-top: 40px; font-weight: bold;">[ SYSTEM_READY : DÚVIDAS OU SUGESTÕES? ]</p>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // LIGHTBOX
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(element) {
+      const img = element.querySelector('img');
+      if(img) {
+        lightboxImg.src = img.src;
+        lightbox.classList.add('active');
+      }
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+    }
+
+    // TEMA DARK/LIGHT
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', () => {
+      const body = document.body;
+      const isDark = body.getAttribute('data-theme') === 'dark';
+      body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeBtn.innerText = isDark ? '🌙' : '☀️';
+    });
+
+    // NAVEGAÇÃO
+    const deck = document.getElementById('deck');
+    const slides = document.querySelectorAll('.slide');
+    const wipe = document.getElementById('wipe');
+    const dotsContainer = document.getElementById('dotsContainer');
+    let currentSlide = 0;
+    let isAnimating = false;
+
+    slides.forEach(() => {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dotsContainer.appendChild(dot);
+    });
+    const dots = document.querySelectorAll('.dot');
+
+    function updateSlideState() {
+      slides.forEach((s, i) => {
+        if(i === currentSlide) s.classList.add('active-slide');
+        else s.classList.remove('active-slide');
+      });
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    }
+
+    function moveSlide(dir) {
+      if (isAnimating) return;
+      const next = currentSlide + dir;
+      if (next >= 0 && next < slides.length) {
+        isAnimating = true;
+        
+        wipe.classList.remove('exit');
+        wipe.classList.add('active');
+        
+        setTimeout(() => {
+          currentSlide = next;
+          deck.scrollTo({ left: currentSlide * window.innerWidth, behavior: 'auto' });
+          updateSlideState();
+          
+          wipe.classList.remove('active');
+          wipe.classList.add('exit');
+          
+          setTimeout(() => { isAnimating = false; }, 600);
+        }, 500);
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (lightbox.classList.contains('active')) {
+        if(e.key === 'Escape') closeLightbox();
+        return;
+      }
+      if (e.key === 'ArrowRight') moveSlide(1);
+      if (e.key === 'ArrowLeft') moveSlide(-1);
+    });
+
+    updateSlideState();
+  </script>
+</body>
+</html>
