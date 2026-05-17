@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscrição — MNC · UEPB</title>
+  
+  <!-- Ajuste o caminho do CSS dependendo de onde o arquivo HTML for salvo -->
+  <link rel="stylesheet" href="../css/style.css">
+  
+  <script>
+    (function(){
+      const s = localStorage.getItem('mnc-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', s);
+    })();
+  </script>
+  <script defer src="../js/script.js"></script>
+</head>
+<body>
+
+  <!-- COLOQUE SEU <header> AQUI (igual ao das outras páginas) -->
+
+  <main class="page-inscricao">
+    <section class="form-section">
+      <div class="form-container">
+        <h2>Junte-se ao código</h2>
+        <p class="form-desc">Preencha seus dados e nossa equipe entrará em contato com os próximos passos.</p>
+        
+        <!-- Formulário usando Formspree -->
+        <form action="https://formspree.io/f/SEU_CODIGO_AQUI" method="POST" class="participate-form">
+          
+          <div class="input-group">
+            <label for="nome">Nome completo:</label>
+            <input type="text" id="nome" name="nome" placeholder="Ex: Ada Lovelace" required>
+          </div>
+
+          <div class="input-group">
+            <label for="email">E-mail institucional ou pessoal:</label>
+            <input type="email" id="email" name="email" placeholder="ada@aluno.uepb.edu.br" required>
+          </div>
+
+          <div class="input-group">
+            <label for="telefone">Telefone / WhatsApp:</label>
+            <input type="tel" id="telefone" name="telefone" placeholder="(83) 90000-0000" required>
+          </div>
+
+          <button type="submit" class="btn-teal btn-submit">Enviar inscrição</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- COLOQUE SEU <footer> AQUI (igual ao das outras páginas) -->
+
+</body>
+</html>

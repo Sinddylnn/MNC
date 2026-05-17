@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <!-- Metadados e configurações básicas -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mulheres na Computação — MNC · UEPB</title>
+  
+  <!-- Importação da folha de estilo principal -->
+  <link rel="stylesheet" href="./css/style.css">
+  
+  <!-- Script inline para carregamento do tema (claro/escuro) evitando "flash" de cor -->
+  <script>
+    (function(){
+      const s = localStorage.getItem('mnc-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', s);
+    })();
+  </script>
+  
+  <!-- Script principal deferido (carrega após o HTML) -->
+  <script defer src="./js/script.js"></script>
+</head>
+<body>
+  <!-- Efeito visual de circuito ao fundo (Overlay) -->
+  <div id="circuitOverlay">
+    <canvas id="circuitCanvas"></canvas>
+  </div>
+
+  <!-- Padrão global de fundo (ex: texturas ou grids) -->
+  <div class="global-pattern"></div>
+
+  <!-- ==========================================
+       CABEÇALHO / NAVEGAÇÃO
+       ========================================== -->
+  <header>
+    <!-- Logo do Projeto -->
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><img src="./imagens/logo_mnc2__1_.png" alt="Logo MNC"></div>
+      <span class="logo-text">Mulheres na Computação <span class="mnc-abbrev">MNC</span></span>
+    </a>
+    
+    <!-- Menu de Navegação -->
+    <nav>
+      <ul>
+        <li><a href="./index.html"    id="nav-index">Página Inicial</a></li>
+        <li><a href="./paginas/programa.html" id="nav-programa">Programa</a></li>
+        <li><a href="./paginas/equipe.html"   id="nav-equipe">Equipe</a></li>
+        <li><a href="./paginas/galeria.html"  id="nav-galeria">Galeria</a></li>
+        <li><a href="./paginas/artigos.html"  id="nav-artigos">Artigos</a></li>
+        <li><a href="./paginas/inscricao.html" id="nav-inscricao">Inscrever-se</a></li>
+      </ul>
+    </nav>
+    
+    <!-- Botão de alternância de tema (Dark/Light Mode) -->
+    <div class="nav-end">
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <span class="icon-dark">☾</span><span class="icon-light">☀</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       CONTEÚDO PRINCIPAL
+       ========================================== -->
+  <main>
+    
+    <!-- ==========================================
+         SEÇÃO HERO (Destaque Inicial)
+         ========================================== -->
+    <section class="hero-dark">
+      
+      <!-- Fundo animado/SVG da seção Hero -->
+      <div class="hero-grid-bg" aria-hidden="true">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <pattern id="grid" width="54" height="54" patternUnits="userSpaceOnUse">
+              <path d="M54 0L0 0 0 54" fill="none" stroke="rgba(171,214,205,0.04)" stroke-width="1"/>
+            </pattern>
+            <radialGradient id="gA" cx="75%" cy="40%" r="45%">
+              <stop offset="0%" stop-color="#ABD6CD" stop-opacity=".09"/>
+              <stop offset="100%" stop-color="#ABD6CD" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="gB" cx="15%" cy="70%" r="40%">
+              <stop offset="0%" stop-color="#C088B8" stop-opacity=".08"/>
+              <stop offset="100%" stop-color="#C088B8" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)"/>
+          <rect width="100%" height="100%" fill="url(#gA)"/>
+          <rect width="100%" height="100%" fill="url(#gB)"/>
+        </svg>
+      </div>
+
+      <!-- Container do conteúdo da Hero -->
+      <div class="hero-dark-container">
+        
+        <!-- Lado esquerdo: Textos e Chamadas para Ação (CTAs) -->
+        <div class="hero-dark-left">
+          <div class="hero-live-badge">
+            <span class="badge-pulse"></span>
+            Projeto de extensão · UEPB · Campina Grande
+          </div>
+          
+          <h1 class="hero-dark-title">
+            Onde mulheres<br><em>reescrevem</em><br>o código
+          </h1>
+          <p class="hero-dark-mono">// inclusão · tecnologia · protagonismo feminino</p>
+          <p class="hero-dark-desc">
+            Em um cenário onde a presença feminina ainda é exceção, nós decidimos criar a nossa própria regra. Não estamos aqui para replicar padrões ou seguir manuais antigos, mas para inovar e elevar a tecnologia aos seus melhores aspectos. O <strong>Mulheres na Computação</strong> é o espaço onde transformamos a escassez em protagonismo, unindo mentes criativas para desenvolver soluções autênticas e provar que o futuro da computação tem a nossa assinatura.  Não seguimos roteiros prontos; nós aprimoramos o sistema. Juntas, formamos uma rede de acolhimento e aprendizado que transforma alunas em líderes preparadas para moldar o amanhã com suas próprias ideias.          </p>
+          
+          <!-- Botões de Ação -->
+          <div class="hero-dark-actions">
+            <a href="./paginas/inscricao.html" class="btn-teal">Quero participar</a>
+            <a href="./paginas/programa.html" class="btn-ghost">Conhecer o programa →</a>
+          </div>
+          
+          <!-- Estatísticas rápidas -->
+          <div class="hero-dark-stats">
+            <div class="hstat"><div class="hstat-n">2020</div><div class="hstat-l">Fundado em</div></div>
+            <div class="hstat-div"></div>
+            <div class="hstat"><div class="hstat-n">2</div><div class="hstat-l">Artigos Publicados</div></div>
+            <div class="hstat-div"></div>
+            <div class="hstat"><div class="hstat-n">5+</div><div class="hstat-l">Anos de impacto</div></div>
+          </div>
+        </div>
+
+        <!-- Lado direito: Ilustração (Borboleta/Ada Lovelace) -->
+        <div class="hero-dark-right">
+          <svg class="butterfly-hero" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" aria-label="Borboleta MNC — homenagem a Ada Lovelace">
+            <defs>
+              <radialGradient id="wL" cx="25%" cy="40%" r="70%">
+                <stop offset="0%" stop-color="#ABD6CD" stop-opacity=".65"/>
+                <stop offset="100%" stop-color="#0C1018" stop-opacity=".8"/>
+              </radialGradient>
+              <radialGradient id="wR" cx="75%" cy="40%" r="70%">
+                <stop offset="0%" stop-color="#C088B8" stop-opacity=".60"/>
+                <stop offset="100%" stop-color="#0C1018" stop-opacity=".8"/>
+              </radialGradient>
+              <radialGradient id="wL2" cx="35%" cy="60%" r="60%">
+                <stop offset="0%" stop-color="#8773A4" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="#0C1018" stop-opacity=".7"/>
+              </radialGradient>
+              <radialGradient id="wR2" cx="65%" cy="60%" r="60%">
+                <stop offset="0%" stop-color="#8773A4" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="#0C1018" stop-opacity=".7"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Círculos de fundo (Halo) -->
+            <circle class="b-halo"  cx="160" cy="160" r="142" fill="none" stroke="#ABD6CD" stroke-width="1" opacity=".1"/>
+            <circle class="b-halo2" cx="160" cy="160" r="124" fill="none" stroke="#C088B8" stroke-width=".6" opacity=".07"/>
+
+            <!-- Asa Esquerda -->
+            <g class="b-wing-left">
+              <path d="M160 160 C132 118, 60 82, 38 114 C18 144, 54 188, 108 180 C134 176, 157 165, 160 160Z" fill="url(#wL)" stroke="#ABD6CD" stroke-width=".9" opacity=".92"/>
+              <path d="M160 160 C138 138, 80 104, 57 118" fill="none" stroke="#ABD6CD" stroke-width=".6" opacity=".28"/>
+              <path d="M160 166 C140 178, 74 190, 60 218 C48 242, 78 272, 122 260 C148 252, 160 228, 160 166Z" fill="url(#wL2)" stroke="#ABD6CD" stroke-width=".7" opacity=".75"/>
+              <line class="c-line-1" x1="86" y1="124" x2="136" y2="150" stroke="#ABD6CD" stroke-width="1.1" opacity=".75"/>
+              <line x1="136" y1="150" x2="149" y2="143" stroke="#ABD6CD" stroke-width="1.1" opacity=".75"/>
+              <circle cx="86"  cy="124" r="3.5" fill="#ABD6CD" class="c-node"/>
+              <circle cx="111" cy="137" r="2.2" fill="#ABD6CD" opacity=".5"/>
+              <circle cx="136" cy="150" r="3"   fill="#ABD6CD" class="c-node2"/>
+              <line class="c-line-2" x1="68" y1="148" x2="104" y2="165" stroke="#7FB8AD" stroke-width=".85" opacity=".55"/>
+              <circle cx="68"  cy="148" r="1.8" fill="#7FB8AD" opacity=".6"/>
+              <circle cx="104" cy="165" r="1.8" fill="#7FB8AD" opacity=".6"/>
+            </g>
+
+            <!-- Asa Direita -->
+            <g class="b-wing-right">
+              <path d="M160 160 C188 118, 260 82, 282 114 C302 144, 266 188, 212 180 C186 176, 163 165, 160 160Z" fill="url(#wR)" stroke="#C088B8" stroke-width=".9" opacity=".92"/>
+              <path d="M160 160 C182 138, 240 104, 263 118" fill="none" stroke="#C088B8" stroke-width=".6" opacity=".28"/>
+              <path d="M160 166 C180 178, 246 190, 260 218 C272 242, 242 272, 198 260 C172 252, 160 228, 160 166Z" fill="url(#wR2)" stroke="#C088B8" stroke-width=".7" opacity=".75"/>
+              <line class="c-line-3" x1="234" y1="124" x2="184" y2="150" stroke="#C088B8" stroke-width="1.1" opacity=".75"/>
+              <line x1="184" y1="150" x2="171" y2="143" stroke="#C088B8" stroke-width="1.1" opacity=".75"/>
+              <circle cx="234" cy="124" r="3.5" fill="#C088B8" class="c-node3"/>
+              <circle cx="209" cy="137" r="2.2" fill="#C088B8" opacity=".5"/>
+              <circle cx="184" cy="150" r="3"   fill="#C088B8" class="c-node4"/>
+            </g>
+
+            <!-- Corpo e Antenas da Borboleta -->
+            <ellipse cx="160" cy="158" rx="5.5" ry="30" fill="#0C1018" stroke="#ABD6CD" stroke-width="1" opacity=".9"/>
+            <ellipse cx="160" cy="158" rx="2.2" ry="26" fill="#ABD6CD" opacity=".2"/>
+            <path d="M157 130 C152 116, 144 109, 136 104" fill="none" stroke="#ABD6CD" stroke-width="1.2" opacity=".8"/>
+            <path d="M163 130 C168 116, 176 109, 184 104" fill="none" stroke="#C088B8" stroke-width="1.2" opacity=".8"/>
+            <circle cx="135" cy="103" r="3.2" fill="#ABD6CD" opacity=".9"/>
+            <circle cx="185" cy="103" r="3.2" fill="#C088B8" opacity=".9"/>
+          </svg>
+
+          <!-- Tags flutuantes da Hero -->
+          <div class="hero-tag tag-1">Ada Lovelace · 1815–1852 🦋</div>
+          <div class="hero-tag tag-2"><span class="tag-mono">$ ./mnc --run</span> inclusão</div>
+        </div>
+      </div>
+      
+      <!-- Gradiente de transição para a próxima seção -->
+      <div class="hero-dark-fade"></div>
+    </section>
+
+    <!-- ==========================================
+         SEÇÃO SOBRE (Quem Somos)
+         ========================================== -->
+    <section class="about-section">
+      <div class="about-container">
+        
+        <!-- Ilustração / Imagem principal sobre o projeto -->
+        <div class="about-illustration reveal">
+          <div class="about-blob-wrap">
+            <div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div>
+            <img src="./imagens/logo_mnc2__1_.png" alt="Logo MNC" class="girl-img">
+          </div>
+        </div>
+        
+        <!-- Textos explicativos sobre o projeto MNC -->
+        <div class="about-text reveal reveal-delay-1">
+          <span class="overline">Quem somos</span>
+          <h2>Oxe, ainda não<br><em>conhece?</em></h2>
+          <p>O <strong>Mulheres na Computação (MNC)</strong> é um projeto de extensão da Universidade Estadual da Paraíba (UEPB), parceiro do Programa Meninas Digitais da Sociedade Brasileira de Computação (SBC). Nasceu em 2020, quando a professora Luciana Gomes percebeu que as alunas de Computação precisavam de mais do que aulas — precisavam de uma rede de apoio, de referências femininas na tecnologia e de espaço para crescer.</p>
+          <a href="./paginas/programa.html" class="history-link">Conheça o programa <span class="arrow">›</span></a>
+        </div>
+      </div>
+      
+      <!-- Banner de Parceiros/Logotipos -->
+      <div class="partners-banner reveal reveal-delay-2">
+        <div class="partner-logo">UEPB</div>
+        <div class="partner-logo">Meninas Digitais</div>
+        <div class="partner-logo">MNC</div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SEÇÃO IMPACTO (Números e Destaques)
+         ========================================== -->
+    <section class="impact-section">
+      <!-- Cabeçalho da seção -->
+      <div class="section-header reveal">
+        <span class="overline">Números reais</span>
+        <h2>Impacto que a gente<br><em>pode medir</em></h2>
+        <p>Desde 2020 construindo pontes entre meninas e a tecnologia em Campina Grande e região.</p>
+      </div>
+      
+      <!-- Grid de estatísticas / números do projeto -->
+      <div class="impact-grid">
+        <div class="impact-card reveal reveal-delay-1"><div class="impact-number">2020</div><div class="impact-label">Ano de fundação</div></div>
+        <div class="impact-card reveal reveal-delay-2"><div class="impact-number">2</div><div class="impact-label">Artigos aceitos</div></div>
+        <div class="impact-card reveal reveal-delay-3"><div class="impact-number">100%</div><div class="impact-label">De acolhimento</div></div>
+        <div class="impact-card reveal reveal-delay-4"><div class="impact-number">5+</div><div class="impact-label">Anos transformando vidas</div></div>
+      </div>
+      
+      <!-- Cards de destaques informativos -->
+      <div class="impact-highlights">
+        <div class="highlight-card reveal reveal-delay-1">
+          <h3>Reconhecimento e Destaque</h3>
+          
+          <p style="text-align: justify; margin-bottom: 20px;">
+            O impacto do nosso projeto é validado tanto na academia quanto na sociedade. Contamos com artigos científicos publicados em fóruns de relevância nacional, como o <strong>WIT (Women in Information Technology)</strong>. Além disso, nossa iniciativa ganhou destaque na mídia regional com uma cobertura especial da <strong>TV Paraíba (JPB1)</strong> e uma matéria exclusiva publicada no portal <strong>G1</strong>.
+          </p>
+          
+          <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
+            <a href="https://g1.globo.com/pb/paraiba/videos-jpb1/video/projeto-incentiva-meninas-a-seguirem-carreira-na-computacao-14481892.ghtml" target="_blank" class="tech-tag" style="text-decoration: none; border-color: var(--teal); color: var(--teal); font-size: 0.9rem;">
+              📺 Assistir Reportagem (TV) ›
+            </a>
+            
+            <a href="https://g1.globo.com/pb/paraiba/noticia/2026/03/08/professora-cria-projeto-na-uepb-para-acolher-e-dar-protagonismo-a-mulheres-na-area-da-computacao.ghtml?UTM_SOURCE=copiar-url&UTM_MEDIUM=share-bar-app&UTM_CAMPAIGN=materias&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGndnWUP8xhiK14JcXOVkYfgZDn7W86CVv2RrFAH4pRn8bVH4LqPENkXXYG6V0_aem_4G6pZwYskHiQnzpFd7qUOQ&utm_id=97760_v0_s00_e0_tv6_a1dennh14h48ed" target="_blank" class="tech-tag" style="text-decoration: none; border-color: var(--teal); color: var(--teal); font-size: 0.9rem;">
+              📰 Ler Matéria Completa (G1) ›
+            </a>
+            
+            <a href="./paginas/artigos.html" target="_blank" class="tech-tag" style="text-decoration: none; border-color: var(--lilac); color: var(--lilac); font-size: 0.9rem;">
+              📄 Ver Artigos Científico ›
+            </a>
+          </div>
+
+        </div>
+        <div class="highlight-card reveal reveal-delay-2">
+          <h3>Rede e Conexões</h3>
+          <p>Mudar a estatística da TI exige acolher quem está começando. O MNC atua diretamente no ecossistema interno do curso na UEPB, unindo feras, veteranas e egressas. Através de workshops, monitorias e encontros oficiais, nós criamos o espaço seguro que as alunas precisam para superar os desafios acadêmicos e persistirem na carreira tecnológica. </p>
+        </div>
+        <div class="highlight-card reveal reveal-delay-3">
+          <h3>Síndrome da impostora, não aqui</h3>
+          <p>"A gente sempre acha que não é suficiente", reconhece a professora Luciana. Por isso o MNC cria um ambiente de acolhimento onde as alunas se enxergam em mulheres que fizeram história na computação — Ada Lovelace, Grace Hopper e Mary Keller.</p>
+        </div>
+        <div class="highlight-card reveal reveal-delay-4">
+          <h3>Levando a tecnologia às escolas</h3>
+          <p>O MNC não fica só dentro da universidade. Como projeto de extensão, as atividades chegam às escolas públicas da Paraíba, onde as próprias integrantes ensinam estudantes do ensino médio sobre o que é tecnologia e como ela pode mudar suas vidas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SEÇÃO OPORTUNIDADES (Motivos para participar)
+         ========================================== -->
+    <section class="opportunities-section">
+      <!-- Cabeçalho de oportunidades -->
+      <div class="opportunities-header reveal">
+        <span class="overline">Por que participar</span>
+        <h2>Olha essa mega oportunidade,<br><em>não vai perder, ein?</em></h2>
+      </div>
+      
+      <!-- Grid de cards de benefícios/oportunidades -->
+     <div class="cards-grid">
+        
+        <div class="opp-card reveal reveal-delay-1">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <div class="card-content">
+            <h3>Crescimento Acadêmico</h3>
+            <p>Aprenda muito além da sala de aula através de mentorias de programação, oficinas práticas e iniciação científica focada em tecnologia real.</p>
+          </div>
+        </div>
+        
+        <div class="opp-card reveal reveal-delay-2">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="card-content">
+            <h3>Currículo de Destaque</h3>
+            <p>Participe da publicação de artigos em grandes eventos nacionais (como o WIT) e conquiste as horas de extensão necessárias para sua formação.</p>
+          </div>
+        </div>
+        
+        <div class="opp-card reveal reveal-delay-3">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="card-content">
+            <h3>Na UEPB</h3>
+            <p>Campus I da Universidade Estadual da Paraíba, em Campina Grande. Encontros presenciais e integrados à comunidade acadêmica local.</p>
+          </div>
+        </div>
+        
+        <div class="opp-card reveal reveal-delay-4">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="card-content">
+            <h3>Rede Feminina</h3>
+            <p>Turmas com mulheres que se apoiam. Uma rede de acolhimento genuíno e conexões profissionais que ficam para além do curso.</p>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+    <!-- ==========================================
+         SEÇÃO REQUISITOS (Checklists)
+         ========================================== -->
+<section class="requirements-section">
+      <div class="req-bg-wave"></div>
+      
+      <div class="req-container">
+        
+        <div class="req-illustration reveal">
+          <div class="req-blob">
+            <img src="./imagens/logo_mnc2__1_.png" alt="Logo MNC" class="mega-girl-img">
+          </div>
+        </div>
+        
+        <div class="req-content reveal reveal-delay-1">
+          <span class="req-overline">Pré-requisitos</span>
+          <h2>O que você precisa para<br><span><em>fazer história</em></span> com a gente</h2>          
+          <ul class="req-list">
+            <li>
+              <div class="check-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              Ser aluna regularmente matriculada no curso de Computação.
+            </li>
+            <li>
+              <div class="check-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              Vontade de aprender, colaborar em equipe e fazer a diferença na comunidade técnica local.
+            </li>
+            <li>
+              <div class="check-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              Interesse em compartilhar conhecimento e ajudar a inspirar futuras cientistas nas escolas da nossa região.            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         RODAPÉ (Footer)
+         ========================================== -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        
+        <!-- Coluna 1: Marca e Endereço -->
+        <div class="footer-col brand-col">
+          <div class="logo">
+            <div class="logo-icon"><img src="./imagens/logo_mnc2__1_.png" alt="Logo MNC"></div>
+            <div class="logo-text-footer">MULHERES NA<br>COMPUTAÇÃO</div>
+          </div>
+          <p>Projeto de extensão da Universidade Estadual da Paraíba (UEPB), Campus I — Campina Grande.</p>
+          <p>R. Baraúnas, 351 — Universitário, Campina Grande - PB</p>
+        </div>
+        
+        <!-- Coluna 2: Links de Navegação Rápidos -->
+        <div class="footer-col links-col">
+          <h4>Acesso Rápido</h4>
+          <ul class="quick-links">
+            <li><a href="index.html">Página Inicial</a></li>
+            <li><a href="./paginas/programa.html">Programa</a></li>
+            <li><a href="./paginas/equipe.html">Equipe</a></li>
+            <li><a href="./paginas/galeria.html">Galeria</a></li>
+            <li><a href="./paginas/artigos.html">Artigos</a></li>
+            <li><a href="./paginas/inscricao.html">Inscrever-se</a></li>
+          </ul>
+        </div>
+        
+        <!-- Coluna 3: Contatos e Redes Sociais -->
+        <div class="footer-col contact-col">
+          <h4>Contato</h4>
+          <div class="contact-info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>mnc.uepb@gmail.com</span>
+          </div>
+          <h4 class="social-title">Social</h4>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/mnc.uepb/" class="social-icon">IG</a>
+            <a href="https://br.linkedin.com/company/mulheres-na-computa%C3%A7%C3%A3o-uepb" class="social-icon">IN</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Divisor horizontal do rodapé -->
+      <div class="footer-divider"></div>
+      
+      <!-- Base do rodapé (Copyright) -->
+      <div class="footer-bottom">
+        <div class="copyright">©2026 MULHERES NA COMPUTAÇÃO — Desenvolvido por MNC · UEPB</div>
+      </div>
+    </footer>
+
+  </main>
+</body>
+</html>
