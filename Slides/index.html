@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MNC UEPB — Tech Minimalist Edition</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Referência ao arquivo CSS externo -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+
+  <!-- Div responsável por criar o fundo com textura de grade (grid) em toda a página -->
+  <div class="grid-bg"></div>
+  
+  <!-- Container principal da animação de transição entre os slides (efeito de "persiana" cibernética) -->
+  <div class="cyber-transition" id="wipe">
+    <!-- Faixas individuais que compõem a animação de transição -->
+    <div class="cyber-strip strip-1"></div>
+    <div class="cyber-strip strip-2"></div>
+    <div class="cyber-strip strip-3"></div>
+    <div class="cyber-strip strip-4"></div>
+    <div class="cyber-strip strip-5"></div>
+  </div>
+
+  <!-- Container que agrupará os pontinhos indicadores de navegação na lateral esquerda -->
+  <div class="dots" id="dotsContainer"></div>
+
+  <!-- Modal/Lightbox que exibe as imagens em tela cheia quando clicadas -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close">&times;</button>
+    <img id="lightbox-img" src="" alt="Ampliada">
+  </div>
+
+  <!-- Container flutuante no canto inferior direito que guarda os botões de controle (Tema, Voltar, Avançar) -->
+  <div class="nav-ui">
+    <button class="nav-btn" id="themeToggle" title="Modo Claro/Escuro">☀️</button>
+    <button class="nav-btn" onclick="moveSlide(-1)">←</button>
+    <button class="nav-btn" onclick="moveSlide(1)">→</button>
+  </div>
+
+  <!-- Container principal ("baralho") que engloba todos os slides da apresentação. Usa scroll-snap para travar nos slides. -->
+  <div class="deck-container" id="deck">
+    <!-- Seção: Slide de capa da apresentação -->
+    <section class="slide cover">
+      <!-- Container que aplica o efeito de surgimento (fade-up) aos elementos internos -->
+      <div class="fade-up">
+        <h1 class="cover-title">Mulheres na Computação</h1>
+        <!-- Div usada como subtítulo do evento -->
+        <div class="cover-subtitle">UEPB · MNC</div>
+        <!-- Div estilizada como uma linha de código indicando o início -->
+        <div class="cover-init">_ENCONTRO_OFICIAL</div>
+      </div>
+    </section>
+
+    <!-- Seção: Slide 2 - Apresentação pessoal e interação -->
+    <section class="slide">
+      <!-- Container que ocupa o slide inteiro, responsável pelo espaçamento interno (padding) -->
+      <div class="slide-content-full">
+        <span class="overline fade-up">HANDSHAKE_PROTOCOL</span>
+        <h2 class="block-reveal"><span>Vamos nos <em>conhecer?</em></span></h2>
+        
+        <!-- Container Flexbox que divide o conteúdo do slide em duas grandes colunas (texto à esquerda, ícone à direita) -->
+        <div style="display: flex; gap: 80px; flex-grow: 1; align-items: center; margin-top: 30px;">
+          
+          <!-- Coluna 1: Textos e a lista de perguntas -->
+          <div class="fade-up delay-1" style="flex: 1.2;">
+            <p style="font-size: 1.4rem;">Este é o momento de trocar experiências, alinhar expectativas e compartilhar nossos desafios.</p>
+            <ul class="clean-list">
+              <li><strong>NOME</strong> Qual o seu nome e identificação?</li>
+              <li><strong>MOTIVO</strong> Por quais motivos escolheu o curso?</li>
+              <li><strong style="color: var(--lilac); border-color: var(--lilac); background: rgba(192,136,184,0.1);">FERAS</strong> Quais as expectativas em relação ao curso?</li>
+              <li><strong style="color: var(--purple); border-color: var(--purple); background: rgba(135,115,164,0.1);">VETERANAS</strong> Teve algum desafio até o momento?</li>
+            </ul>
+          </div>
+
+          <!-- Coluna 2: Caixa visual estilo "HUD" contendo um ícone de chat -->
+          <div class="hud-box fade-up delay-2" style="flex: 1; height: 80%; display: flex; align-items: center; justify-content: center; background: rgba(171,214,205,0.05);">
+            <!-- Div para centralizar os textos internos do HUD -->
+            <div style="text-align: center; color: var(--teal); font-family: var(--font-mono);">
+              <span style="font-size: 8rem;">💬</span><br>
+              <span style="font-size: 1.2rem;">[ AWAITING_INPUT ]</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: Slide 3 - Linha do Tempo Histórica -->
+    <section class="slide">
+      <!-- Container estrutural de preenchimento do slide. O justify-content: center centraliza verticalmente. -->
+      <div class="slide-content-full" style="justify-content: center;">
+        <span class="overline fade-up">LOG_HISTÓRICO</span>
+        <h2 class="block-reveal"><span>A Jornada do <em>MNC</em></span></h2>
+        
+        <!-- Container flexível que posiciona os eventos lado a lado formando a linha do tempo horizontal -->
+        <div class="horizontal-timeline">
+          
+          <!-- Nódulo/Ponto 1 da linha do tempo -->
+          <div class="timeline-node" style="--i: 1;">
+            <!-- Exibição do ano -->
+            <div class="node-year">2020</div>
+            <!-- Círculo visual no centro da linha -->
+            <div class="node-circle"></div>
+            <!-- Caixa contendo o título e a descrição do evento -->
+            <div class="node-content"><h3>Fundação</h3><p>Luciana, Íris, Ana Carolina, Mariana e Rebeca. Foco virtual e apoio na pandemia.</p></div>
+          </div>
+          
+          <!-- Nódulo/Ponto 2 da linha do tempo -->
+          <div class="timeline-node" style="--i: 2;">
+            <div class="node-year">2021</div><div class="node-circle"></div>
+            <div class="node-content"><h3>Consolidação</h3><p>Apoio ainda de forma remota com workshops e encontros online.</p></div>
+          </div>
+          
+          <!-- Nódulo/Ponto 3 da linha do tempo -->
+          <div class="timeline-node" style="--i: 3;">
+            <div class="node-year">2022</div><div class="node-circle"></div>
+            <div class="node-content"><h3>Presencial</h3><p>1º Encontro Físico (14/09). Interação real e ocupação do laboratório.</p></div>
+          </div>
+          
+          <!-- Nódulo/Ponto 4 da linha do tempo -->
+          <div class="timeline-node" style="--i: 4;">
+            <div class="node-year">2023</div><div class="node-circle"></div>
+            <div class="node-content"><h3>Mulher Tech</h3><p>Caravana Mulher Tech Sim Senhor. Maior encontro de tecnologia do estado.</p></div>
+          </div>
+          
+          <!-- Nódulo/Ponto 5 da linha do tempo -->
+          <div class="timeline-node" style="--i: 5;">
+            <div class="node-year">2024</div><div class="node-circle"></div>
+            <div class="node-content"><h3>Educação</h3><p>Pensamento Computacional nas escolas públicas ganhou força.</p></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: Slide 4 - Ações do Projeto (Módulos/Pilares) -->
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">SYSTEM_MODULES</span>
+        <h2 class="block-reveal"><span>Ações do <em>Projeto</em></span></h2>
+        
+        <!-- Container Flex que divide os pilares do projeto em 3 colunas principais -->
+        <div class="module-container">
+          
+          <!-- Coluna/Pilar 1: Mídia Digital -->
+          <div class="tech-pillar fade-up delay-1">
+            <!-- Cabeçalho descritivo do pilar -->
+            <div class="pillar-header" style="color: var(--teal);">// MOD_01: MÍDIA DIGITAL</div>
+            <!-- Caixa visual do conteúdo do pilar -->
+            <div class="hud-box pillar-box">
+              <div style="font-size: 3rem; margin-bottom: 20px;">📱</div>
+              <h3 style="font-family: var(--font-tech); font-size: 1.6rem; margin-bottom: 10px; color: var(--text-primary);">@MNC.UEPB</h3>
+              <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 25px;">Compartilhamos dicas, conteúdos de programação e a história das mulheres na tecnologia.</p>
+              <!-- Container para as tags/etiquetas de tecnologias -->
+              <div>
+                <span class="tech-tag">Guias Introdutórios</span>
+                <span class="tech-tag">Material Didático</span>
+                <span class="tech-tag">Palestras</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna/Pilar 2: Projetos Base -->
+          <div class="tech-pillar fade-up delay-2">
+            <div class="pillar-header" style="color: var(--lilac);">// MOD_02: PROJETOS BASE</div>
+            <div class="hud-box pillar-box" style="gap: 30px;">
+              <!-- Subseção de Educação Básica -->
+              <div>
+                <div style="font-size: 2.5rem; margin-bottom: 10px;">💻</div>
+                <h3 style="font-family: var(--font-tech); font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary);">Educação Básica</h3>
+                <p style="font-size: 1.1rem;">Ensino de pensamento computacional e jogos educacionais nas escolas.</p>
+              </div>
+              <!-- Subseção de Competições, separada por uma borda tracejada -->
+              <div style="border-top: 1px dashed var(--border-color); padding-top: 20px;">
+                <div style="font-size: 2.5rem; margin-bottom: 10px;">🏆</div>
+                <h3 style="font-family: var(--font-tech); font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary);">Competições</h3>
+                <p style="font-size: 1.1rem;">Incentivo ativo à participação feminina nas olimpíadas e maratonas de programação.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna/Pilar 3: Conexões -->
+          <div class="tech-pillar fade-up delay-2">
+            <div class="pillar-header" style="color: var(--purple);">// MOD_03: CONEXÕES</div>
+            <div class="hud-box pillar-box" style="gap: 30px;">
+              <!-- Subseção de Parcerias -->
+              <div>
+                <div style="font-size: 2.5rem; margin-bottom: 10px;">🤝</div>
+                <h3 style="font-family: var(--font-tech); font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary);">Parcerias Fortes</h3>
+                <p style="font-size: 1.1rem;">Trabalho conjunto com projetos parceiros: Meninas Digitais</p>
+              </div>
+              <!-- Subseção de Academia & Vagas -->
+              <div style="border-top: 1px dashed var(--border-color); padding-top: 20px;">
+                <div style="font-size: 2.5rem; margin-bottom: 10px;">📄</div>
+                <h3 style="font-family: var(--font-tech); font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary);">Chamada para Oportunidades</h3>
+                <p style="font-size: 1.1rem;">Divulgação de vagas de emprego, cursos e congresso com oportunidades de networking.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: Slide 5 - Galeria de Fotos 01 -->
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">DB_VISUAL_01</span>
+        <h2 class="block-reveal"><span>Nossos <em>Encontros</em></span></h2>
+        
+        <!-- Container da galeria de imagens usando CSS Grid -->
+        <div class="gallery-container grid-4x2 fade-up delay-1">
+          <!-- Item individual da galeria. As classes 'span-2-col' e 'span-2-row' definem o tamanho ocupado no grid. -->
+          <div class="photo-item span-2-col span-2-row" onclick="openLightbox(this)">
+            <img src="./fotos/primeiro-encontro-presencial.png" alt="Primeiro Encontro Presencial">
+            <!-- Div usada como legenda flutuante sobre a imagem -->
+            <div class="photo-label">Log: 1º Encontro Presencial (14/09/2022)</div>
+          </div>
+          <!-- Item simples da galeria -->
+          <div class="photo-item" onclick="openLightbox(this)">
+            <img src="./fotos/encontro-2023.jpg" alt="Encontro 2023">
+            <div class="photo-label">Log: Encontro 2023</div>
+          </div>
+          <div class="photo-item" onclick="openLightbox(this)">
+            <img src="./fotos/encontro-2024.jpg" alt="Encontro 2024">
+            <div class="photo-label">Log: Mais Encontros</div>
+          </div>
+          <!-- Item esticado ocupando 2 colunas no grid -->
+          <div class="photo-item span-2-col" onclick="openLightbox(this)">
+            <img src="./fotos/encontro-off.jpg" alt="encontro off">
+            <div class="photo-label">Log: Encontro Off</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: Slide 6 - Galeria de Fotos 02 -->
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">DB_VISUAL_02</span>
+        <h2 class="block-reveal"><span>Caravanas <em></em></span></h2>
+        
+        <!-- Galeria em grid idêntica à anterior, adaptada para fotos de outro evento -->
+        <div class="gallery-container grid-4x2 fade-up delay-1">
+          <div class="photo-item span-2-col span-2-row" onclick="openLightbox(this)">
+            <img src="./fotos/caravana-mulhertech.jpg" alt="Banner Mulher Tech">
+            <div class="photo-label">Evento: Mulher Tech Sim Senhor (2023)</div>
+          </div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="./fotos/csbc.jpg" alt="Assinatura"><div class="photo-label">Presença no CSBC</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="./fotos/meninas-sercomp.jpg" alt="Onibus"><div class="photo-label">Meninas no SerComp</div></div>
+          <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="./fotos/sercomp.jpg" alt="Auditório"><div class="photo-label">Caravana SerComp</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: Slide 7 - Galeria de Fotos 03 -->
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">DB_VISUAL_03</span>
+        <h2 class="block-reveal"><span>Pensamento <em>Computacional</em></span></h2>
+        <!-- Mais um container de galeria grid com organização geométrica diferente -->
+        <div class="gallery-container grid-4x2 fade-up delay-1">
+          <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="./fotos/lab-informatica-pc.jpg" alt="Apoio Prof"><div class="photo-label">Ensino de PC com jogos educacionais</div></div>
+          <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="./fotos/lab-informatica.jpg" alt="Logica"><div class="photo-label">Pensamento Computacional</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="./fotos/caroline-pc.jpg" alt="Equipe"><div class="photo-label">Pensamento Computacional nas Escolas</div></div>
+          <div class="photo-item span-2-row" onclick="openLightbox(this)"><img src="./fotos/pc-desplugado.png" alt="Jogos"><div class="photo-label">Pensamento Computacional Desplugado</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="./fotos/jogos-educacionais.jpg" alt="Numerais"><div class="photo-label">Jogos Educacionais</div></div>
+          <div class="photo-item span-2-row" onclick="openLightbox(this)"><img src="./fotos/material-dourado.jpg" alt="Jogos"><div class="photo-label">Material Dourado</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: Slide 8 - Frase de Efeito e Galeria -->
+    <section class="slide">
+      <div class="slide-content-full">
+        <!-- Div flex usada para alinhar o título central da frase de impacto -->
+        <div style="display: flex; gap: 40px; align-items: center; margin-bottom: 30px;" class="fade-up">
+          <div style="flex: 1;">
+            <span class="overline">OLIMPÍADAS</span>
+            <h2 class="block-reveal" style="font-size: 3.5rem; text-transform: none;"><span>"O futuro da computação é <em style="color: var(--lilac);">feminino</em>."</span></h2>
+          </div>
+        </div>
+        <!-- Galeria padrão acoplada à frase de impacto -->
+        <div class="gallery-container grid-4x2 fade-up delay-1">
+          <div class="photo-item span-2-col span-2-row" onclick="openLightbox(this)"><img src="./fotos/premiação-mnc.jpg" alt="Mesa Redonda"><div class="photo-label">Mesa Redonda: Profissionais</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="./fotos/olimpiada-meninas.png" alt="Lab DATEN"><div class="photo-label">Estrutura: Laboratório DATEN</div></div>
+          <div class="photo-item" onclick="openLightbox(this)"><img src="./fotos/olimpiada-de-programação.png" alt="Prática"><div class="photo-label">Atividade Prática</div></div>
+          <div class="photo-item span-2-col" onclick="openLightbox(this)"><img src="./fotos/wcc.png" alt="Confraternização"><div class="photo-label">Networking & Pizza</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: Slide 9 - Janela de Código e Eventos Futuros -->
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">PUBLICATION_STATUS</span>
+        <h2 class="block-reveal"><span>CSBC & WIT <em>2025</em></span></h2>
+        
+        <!-- Container geral dividindo espaço em duas colunas (código + fotos) -->
+        <div style="display: flex; gap: 40px; flex-grow: 1; margin-top: 30px;">
+          
+          <!-- Coluna Esquerda: Interface que simula um terminal/janela de código -->
+          <div class="code-window fade-up delay-1" style="flex: 1;">
+            <!-- Barra de título da janela de código, simulando macOS (bolinhas coloridas) -->
+            <div class="code-header">
+              <span style="display:flex; gap:8px;">
+                <div style="width:12px; height:12px; background:#FF5F56; border-radius:50%;"></div>
+                <div style="width:12px; height:12px; background:#FFBD2E; border-radius:50%;"></div>
+                <div style="width:12px; height:12px; background:#27C93F; border-radius:50%;"></div>
+              </span>
+              <!-- Nome do arquivo aberto no terminal -->
+              <span style="margin-left:auto;">sys/congresso/maceio.log</span>
+            </div>
+            <!-- Corpo principal onde o conteúdo de texto formatado como código é inserido -->
+            <div class="code-body">
+              <span style="color: var(--lilac); font-weight: bold;">// CONGRESSO DA SOCIEDADE BRASILEIRA DE COMPUTAÇÃO</span><br><br>
+              <span style="color: var(--teal); font-weight: bold;">const</span> artigo = {<br>
+              &nbsp;&nbsp;titulo: <span style="color: #C3E88D;">"Incluir para empoderar: Relato de uma iniciativa para a inclusão de meninas e mulheres na tecnologia"</span>,<br><br>
+              &nbsp;&nbsp;foco: <span style="color: #C3E88D;">"Impacto do Projeto MNC ao longo da graduação"</span><br>
+              };
+            </div>
+          </div>
+          
+          <!-- Coluna Direita: Container Grid para fotos relacionado à publicação/evento -->
+          <div class="gallery-container" style="flex: 1.5; margin-top: 0;">
+            <div class="photo-item span-4-col" onclick="openLightbox(this)"><img src="./fotos/wit-anna.png" alt="Painel Maceio"><div class="photo-label">Painel Oficial CSBC 2025 - Maceió</div></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">RESEARCH_BASE</span>
+        <h2 class="block-reveal"><span>Contexto & <em>Método</em></span></h2>
+
+        <div style="display: flex; gap: 40px; flex-grow: 1; margin-top: 30px;">
+
+          <div class="tech-pillar fade-up delay-1" style="flex: 1;">
+            <div class="pillar-header" style="color: var(--teal);">// SEC_01: INTRODUÇÃO</div>
+            <div class="hud-box pillar-box" style="height: 100%;">
+              <h3 style="font-family: var(--font-tech); font-size: 1.6rem; margin-bottom: 20px; color: var(--text-primary);">O Cenário Atual</h3>
+
+              <div style="background: rgba(171,214,205,0.05); padding: 15px; border-left: 4px solid var(--teal); margin-bottom: 25px;">
+                <span style="font-size: 1.1rem; color: var(--text-secondary); display: block; margin-bottom: 8px;">Participação de mulheres em STEM:</span>
+                <strong style="font-size: 2.2rem; color: var(--teal);">29,2%</strong> <span style="font-size: 1.1rem;">no total</span> <br>
+                <strong style="font-size: 2.2rem; color: var(--teal);">12,4%</strong> <span style="font-size: 1.1rem;">em liderança</span>
+              </div>
+
+              <ul class="clean-list" style="margin-top: 10px;">
+                <li style="font-size: 1.2rem; margin-bottom: 15px;">
+                  <strong style="color: var(--lilac); border-color: var(--lilac); font-size: 0.9rem;">DESAFIO</strong>
+                  Barreiras históricas e sociais ainda muito presentes.
+                </li>
+                <li style="font-size: 1.2rem;">
+                  <strong style="color: var(--purple); border-color: var(--purple); font-size: 0.9rem;">SOLUÇÃO</strong>
+                  Iniciativas inclusivas como ferramenta principal de mudança.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tech-pillar fade-up delay-2" style="flex: 1;">
+            <div class="pillar-header" style="color: var(--lilac);">// SEC_02: PROCEDIMENTOS METODOLÓGICOS</div>
+            <div class="hud-box pillar-box" style="height: 100%;">
+              <h3 style="font-family: var(--font-tech); font-size: 1.6rem; margin-bottom: 20px; color: var(--text-primary);">Estrutura da Pesquisa</h3>
+
+              <ul class="clean-list">
+                <li style="margin-bottom: 15px; font-size: 1.15rem;">
+                  <strong>ABORDAGEM</strong> Relato de experiência com base em Wazlawick (2009).
+                </li>
+                <li style="margin-bottom: 15px; font-size: 1.15rem;">
+                  <strong>COLETA</strong> Formulário online (Google Forms) contendo 11 questões fechadas e 3 abertas.
+                </li>
+                <li style="margin-bottom: 15px; font-size: 1.15rem;">
+                  <strong>ANÁLISE</strong> Quantitativa e qualitativa das respostas obtidas.
+                </li>
+              </ul>
+
+              <div style="margin-top: 30px; padding-top: 20px; border-top: 1px dashed var(--border-color);">
+                <span style="font-family: var(--font-mono); color: var(--lilac); font-size: 1rem; display: block; margin-bottom: 10px;">> FOCO DE AVALIAÇÃO:</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                  <span class="tech-tag" style="font-size: 1rem; border-color: var(--teal); color: var(--teal);">Impacto do projeto</span>
+                  <span class="tech-tag" style="font-size: 1rem; border-color: var(--teal); color: var(--teal);">Rede de apoio</span>
+                  <span class="tech-tag" style="font-size: 1rem; border-color: var(--teal); color: var(--teal);">Estrutura oferecida</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full" style="justify-content: center;">
+        <span class="overline fade-up">INTERNAL_EXECUTION</span>
+        <h2 class="block-reveal"><span>Ações <em>Internas</em></span></h2>
+        
+        <div class="horizontal-timeline fade-up delay-1" style="margin-top: 40px;">
+          <div class="timeline-node" style="--i: 1;">
+            <div class="node-year">20/21</div><div class="node-circle"></div>
+            <div class="node-content">
+              <h3>Início Virtual</h3><p>Encontros online, palestras e grupo de apoio.</p>
+            </div>
+          </div>
+          <div class="timeline-node" style="--i: 2;">
+            <div class="node-year">2022</div><div class="node-circle"></div>
+            <div class="node-content">
+              <h3>Transição</h3><p>Retomada presencial combinada com lives.</p>
+            </div>
+          </div>
+          <div class="timeline-node" style="--i: 3;">
+            <div class="node-year">2023</div><div class="node-circle"></div>
+            <div class="node-content">
+              <h3>Aprofundamento</h3><p>7 encontros e TCC sobre programação para mulheres.</p>
+            </div>
+          </div>
+          <div class="timeline-node" style="--i: 4;">
+            <div class="node-year">2024</div><div class="node-circle"></div>
+            <div class="node-content">
+              <h3>Expansão</h3><p>Mesa redonda, competição e oficinas técnicas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">EXTERNAL_OUTREACH</span>
+        <h2 class="block-reveal"><span>Ações <em>Externas</em></span></h2>
+        
+        <div class="fade-up delay-1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex-grow: 1; margin-top: 20px;">
+          
+          <div class="hud-box" style="display: flex; align-items: center; gap: 20px;">
+            <div style="font-size: 3rem;">🐱</div>
+            <div>
+              <h3 style="font-family: var(--font-tech); color: #FFBD2E;">Escola I: Scratch</h3>
+              <p style="font-size: 1rem; color: var(--text-secondary);">Curso de jogos (11 enc. / 28 alunos)</p>
+            </div>
+          </div>
+
+          <div class="hud-box" style="display: flex; align-items: center; gap: 20px;">
+            <div style="font-size: 3rem;">⚙️</div>
+            <div>
+              <h3 style="font-family: var(--font-tech); color: var(--teal);">Escola II: Lógica</h3>
+              <p style="font-size: 1rem; color: var(--text-secondary);">Pensamento Comput. (8 enc. / 25 alunos)</p>
+            </div>
+          </div>
+
+          <div class="hud-box" style="display: flex; align-items: center; gap: 20px;">
+            <div style="font-size: 3rem;">🐍</div>
+            <div>
+              <h3 style="font-family: var(--font-tech); color: #27C93F;">Escola III: Python</h3>
+              <p style="font-size: 1rem; color: var(--text-secondary);">Matemática Financeira (12 enc. / 38 alunas)</p>
+            </div>
+          </div>
+
+          <div class="hud-box" style="display: flex; align-items: center; gap: 20px;">
+            <div style="font-size: 3rem;">🧩</div>
+            <div>
+              <h3 style="font-family: var(--font-tech); color: #4A90E2;">Escola IV: GCompris</h3>
+              <p style="font-size: 1rem; color: var(--text-secondary);">Mat. no 1º ano fund. (14 enc. / 18 alunos)</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">SYSTEM_DIAGNOSTICS</span>
+        <h2 class="block-reveal"><span>Limitações & <em>Lições</em></span></h2>
+        
+        <div style="display: flex; gap: 30px; flex-grow: 1; margin-top: 20px;">
+          
+          <div class="hud-box fade-up delay-1" style="flex: 1; border-color: rgba(255, 95, 86, 0.3);">
+            <h3 style="font-family: var(--font-tech); color: #FF5F56; margin-bottom: 20px;">[ ! ] Limitações</h3>
+            <ul class="clean-list">
+              <li style="margin-bottom: 10px;"><strong>ENGAJAMENTO</strong> Dificuldade contínua (trabalho, cansaço).</li>
+              <li style="margin-bottom: 10px;"><strong>COMPETIÇÕES</strong> Baixa adesão (apenas 2 de 19 compareceram).</li>
+              <li><strong>RESISTÊNCIA</strong> Maior no ensino médio; aceitação alta no fundamental.</li>
+            </ul>
+          </div>
+
+          <div class="hud-box fade-up delay-2" style="flex: 1; border-color: rgba(39, 201, 63, 0.3);">
+            <h3 style="font-family: var(--font-tech); color: #27C93F; margin-bottom: 20px;">[ > ] Soluções</h3>
+            <ul class="clean-list">
+              <li style="margin-bottom: 10px;"><strong>FLEXIBILIDADE</strong> Ajuste de horários para a rotina.</li>
+              <li style="margin-bottom: 10px;"><strong>SUPORTE</strong> Apoio psicológico para as alunas.</li>
+              <li><strong>FOCO</strong> Ações e didáticas diferenciadas por faixa etária.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">DATA_COLLECTION_LOG</span>
+        <h2 class="block-reveal"><span>Pesquisa de <em>Opinião</em></span></h2>
+        
+        <div style="display: flex; gap: 40px; flex-grow: 1; margin-top: 30px;">
+          
+          <div class="hud-box fade-up delay-1" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+            <h3 style="font-family: var(--font-tech); font-size: 1.6rem; color: var(--text-primary); margin-bottom: 25px;">[ > ] Métricas da Perguntas</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <div style="background: rgba(171,214,205,0.05); padding: 20px; border-left: 4px solid var(--teal);">
+                <strong style="font-size: 2rem; color: var(--teal); display: block;">85</strong>
+                <span style="font-size: 1rem; color: var(--text-secondary);">Alunas no grupo</span>
+              </div>
+              <div style="background: rgba(171,214,205,0.05); padding: 20px; border-left: 4px solid var(--teal);">
+                <strong style="font-size: 2rem; color: var(--teal); display: block;">19</strong>
+                <span style="font-size: 1rem; color: var(--text-secondary);">Respostas totais</span>
+              </div>
+              <div style="background: rgba(192,136,184,0.05); padding: 20px; border-left: 4px solid var(--lilac);">
+                <strong style="font-size: 2rem; color: var(--lilac); display: block;">22,3%</strong>
+                <span style="font-size: 1rem; color: var(--text-secondary);">Taxa de resposta</span>
+              </div>
+              <div style="background: rgba(192,136,184,0.05); padding: 20px; border-left: 4px solid var(--lilac);">
+                <strong style="font-size: 2rem; color: var(--lilac); display: block;">2 Meses</strong>
+                <span style="font-size: 1rem; color: var(--text-secondary);">Duração da recolha</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hud-box fade-up delay-2" style="flex: 1; display: flex; flex-direction: column; justify-content: center; border-color: rgba(135,115,164,0.3);">
+            <h3 style="font-family: var(--font-tech); font-size: 1.6rem; color: var(--purple); margin-bottom: 25px;">[ ! ] Análise de Dados</h3>
+            
+            <ul class="clean-list">
+              <li style="margin-bottom: 25px; font-size: 1.2rem;">
+                <strong style="color: var(--purple); border-color: var(--purple); font-size: 0.9rem;">VIÉS POSSÍVEL</strong>
+                Auto-seleção: responderam principalmente as alunas que já se encontram mais engajadas com o projeto.
+              </li>
+              <li style="font-size: 1.2rem;">
+                <strong style="color: var(--purple); border-color: var(--purple); font-size: 0.9rem;">SUGESTÃO FUTURA</strong>
+                Ampliar a base de recolha e combinar o questionário com métodos qualitativos complementares para maior precisão.
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">USER_FEEDBACK_RESULTS</span>
+        <h2 class="block-reveal"><span>Percepção das <em>Alunas</em></span></h2>
+        
+        <div style="display: flex; gap: 20px; flex-grow: 1; margin-top: 30px;">
+          
+          <div class="tech-pillar fade-up delay-1" style="flex: 1;">
+            <div class="pillar-header" style="color: #4A90E2;">// 01: IMPACTO ACADÊMICO</div>
+            <div class="hud-box pillar-box" style="height: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="font-size: 3.5rem; margin-bottom: 15px;">🎓</div>
+              
+              <div style="margin-bottom: 25px;">
+                <strong style="font-size: 3rem; color: #4A90E2; display: block; line-height: 1;">94,7%</strong>
+                <span style="font-size: 1.1rem; color: var(--text-secondary);">satisfeitas com o projeto</span>
+              </div>
+              
+              <div>
+                <strong style="font-size: 3rem; color: #4A90E2; display: block; line-height: 1;">94,7%</strong>
+                <span style="font-size: 1.1rem; color: var(--text-secondary);">relataram impacto positivo na confiança</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tech-pillar fade-up delay-2" style="flex: 1;">
+            <div class="pillar-header" style="color: var(--teal);">// 02: REDE DE APOIO</div>
+            <div class="hud-box pillar-box" style="height: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="font-size: 3.5rem; margin-bottom: 15px;">🤝</div>
+              
+              <div style="margin-bottom: 25px;">
+                <strong style="font-size: 3rem; color: var(--teal); display: block; line-height: 1;">100%</strong>
+                <span style="font-size: 1.1rem; color: var(--text-secondary);">se sentem acolhidas</span>
+              </div>
+              
+              <div>
+                <strong style="font-size: 3rem; color: var(--teal); display: block; line-height: 1;">78,9%</strong>
+                <span style="font-size: 1.1rem; color: var(--text-secondary);">consideram o ambiente acolhedor</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tech-pillar fade-up delay-3" style="flex: 1;">
+            <div class="pillar-header" style="color: var(--lilac);">// 03: ESTRUTURA E SUPORTE</div>
+            <div class="hud-box pillar-box" style="height: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="font-size: 3.5rem; margin-bottom: 15px;">⚙️</div>
+              
+              <div style="margin-bottom: 25px;">
+                <strong style="font-size: 3rem; color: var(--lilac); display: block; line-height: 1;">78,9%</strong>
+                <span style="font-size: 1.1rem; color: var(--text-secondary);">avaliaram suporte como excelente</span>
+              </div>
+              
+              <div>
+                <strong style="font-size: 3rem; color: var(--lilac); display: block; line-height: 1;">84,4%</strong>
+                <span style="font-size: 1.1rem; color: var(--text-secondary);">satisfeitas com a infraestrutura</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">PROJECT_ROADMAP</span>
+        <h2 class="block-reveal"><span>Conclusões & <em>Futuro</em></span></h2>
+
+        <div style="display: flex; gap: 20px; flex-grow: 1; margin-top: 30px;">
+
+          <div class="tech-pillar fade-up delay-1" style="flex: 1;">
+            <div class="pillar-header" style="color: var(--teal);">// 01: ESTUDOS REFORÇAM</div>
+            <div class="hud-box pillar-box" style="height: 100%;">
+              <ul class="clean-list" style="margin-top: 0;">
+                <li style="margin-bottom: 20px; font-size: 1.1rem;">
+                  <strong style="color: var(--teal); border-color: var(--teal); font-size: 0.9rem;">BASE</strong>
+                  Ambientes acolhedores e redes de apoio são cruciais.
+                </li>
+                <li style="font-size: 1.1rem;">
+                  <strong style="color: var(--teal); border-color: var(--teal); font-size: 0.9rem;">STEAM</strong>
+                  Intervenções diretas na educação básica.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tech-pillar fade-up delay-2" style="flex: 1;">
+            <div class="pillar-header" style="color: var(--lilac);">// 02: CONCLUSÕES</div>
+            <div class="hud-box pillar-box" style="height: 100%;">
+              <ul class="clean-list" style="margin-top: 0;">
+                <li style="margin-bottom: 20px; font-size: 1.1rem;">
+                  <strong style="color: var(--lilac); border-color: var(--lilac); font-size: 0.9rem;">IMPACTO</strong>
+                  O projeto fortalece a confiança, engajamento e pertencimento.
+                </li>
+                <li style="font-size: 1.1rem;">
+                  <strong style="color: var(--lilac); border-color: var(--lilac); font-size: 0.9rem;">PERMANÊNCIA</strong>
+                  Estímulo à permanência universitária e ao interesse contínuo por tecnologia.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tech-pillar fade-up delay-3" style="flex: 1;">
+            <div class="pillar-header" style="color: var(--purple);">// 03: TRABALHOS FUTUROS</div>
+            <div class="hud-box pillar-box" style="height: 100%; border-color: rgba(135,115,164,0.5); background: rgba(135,115,164,0.05);">
+              <ul class="clean-list" style="margin-top: 0;">
+                <li style="margin-bottom: 20px; font-size: 1.1rem;">
+                  <strong style="color: var(--purple); border-color: var(--purple); font-size: 0.9rem;">EGRESSAS</strong>
+                  Realizar pesquisa com egressas do projeto.
+                </li>
+                <li style="margin-bottom: 20px; font-size: 1.1rem;">
+                  <strong style="color: var(--purple); border-color: var(--purple); font-size: 0.9rem;">COMPETIÇÕES</strong>
+                  Criar ações focadas para uma maior adesão a competições.
+                </li>
+                <li style="font-size: 1.1rem;">
+                  <strong style="color: var(--purple); border-color: var(--purple); font-size: 0.9rem;">LONGITUDINAL</strong>
+                  Desenvolver estudo longitudinal com a turma do ensino fundamental.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">GAME_PROTOCOL</span>
+        <h2 class="block-reveal"><span>Quiz & <em>Kahoot!</em></span></h2>
+        
+        <div style="display: flex; gap: 60px; flex-grow: 1; margin-top: 30px; align-items: center;">
+          
+          <div class="fade-up delay-1" style="flex: 1.2;">
+            <h3 style="font-family: var(--font-tech); color: var(--teal); font-size: 2rem; margin-bottom: 20px;">Teste seus Conhecimentos</h3>
+            <p style="font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 30px;">Prepare o seu celular para participar da dinâmica interativa.</p>
+            
+            <div style="background: rgba(171,214,205,0.05); border-left: 6px solid var(--teal); padding: 25px;">
+              <h4 style="font-family: var(--font-mono); color: var(--text-primary); font-size: 1.1rem; margin-bottom: 10px;">> COMO ACESSAR</h4>
+              <p style="color: var(--text-secondary); font-size: 1.2rem; line-height: 1.6;">Escaneie o QR Code ao lado ou acesse o site <strong>kahoot.it</strong> e aguarde o PIN que será gerado na tela principal.</p>
+            </div>
+          </div>
+          
+          <div class="hud-box fade-up delay-2" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; background: rgba(255,255,255,0.01);">
+            <div style="width: 280px; height: 280px; background: #fff; padding: 15px; border: 4px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+              <img src="https://via.placeholder.com/250x250/FFFFFF/000000?text=SEU+QR+CODE" style="width:100%; height:100%; object-fit: contain;" alt="QR Code Kahoot">
+            </div>
+            <p style="font-family: var(--font-mono); color: var(--teal); font-size: 1.2rem; margin-top: 25px; font-weight: bold;">> APONTE A CÂMERA DO CELULAR</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+<section class="slide">
+      <div class="slide-content-full">
+        <span class="overline fade-up">RAFFLE_PROTOCOL</span>
+        <h2 class="block-reveal"><span>Sorteio & <em>Dinâmica</em></span></h2>
+        
+        <div style="display: flex; gap: 40px; flex-grow: 1; margin-top: 30px; align-items: stretch;">
+          
+          <div class="hud-box fade-up delay-1" style="flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center;">
+            <h3 style="font-family: var(--font-tech); color: var(--teal); font-size: 2.2rem; margin-bottom: 30px;">Como vai funcionar?</h3>
+            <ul class="clean-list" style="margin-top: 0;">
+              <li style="font-size: 1.3rem; margin-bottom: 20px;">
+                <strong style="color: var(--teal); border-color: var(--teal); font-size: 1.1rem; margin-right: 15px;">01</strong>
+                <strong>Lista de Presença:</strong> Cada participante recebe um número de acordo com a ordem de assinatura na ata oficial.
+              </li>
+              <li style="font-size: 1.3rem; margin-bottom: 20px;">
+                <strong style="color: var(--teal); border-color: var(--teal); font-size: 1.1rem; margin-right: 15px;">02</strong>
+                <strong>Definição do Intervalo:</strong> O intervalo numérico do sorteio será fechado com base no total de presentes (ex: 1 a N).
+              </li>
+              <li style="font-size: 1.3rem;">
+                <strong style="color: var(--teal); border-color: var(--teal); font-size: 1.1rem; margin-right: 15px;">03</strong>
+                <strong>Geração Aleatória:</strong> Sorteamos um número randômico dentro desse intervalo para definir a vencedora.
+              </li>
+            </ul>
+          </div>
+          
+          <div class="hud-box fade-up delay-2" style="flex: 1.2; padding: 40px; display: flex; flex-direction: column; justify-content: center; border-color: rgba(192,136,184,0.3);">
+            <h3 style="font-family: var(--font-tech); color: var(--lilac); font-size: 2.2rem; margin-bottom: 30px;">Diretrizes de Validação</h3>
+            
+            <div style="background: rgba(192,136,184,0.03); border-left: 6px solid var(--lilac); padding: 25px;">
+              <h4 style="font-family: var(--font-mono); color: var(--text-primary); font-size: 1.1rem; margin-bottom: 15px;">> REGRAS PARA PARTICIPAR</h4>
+              <p style="color: var(--text-secondary); font-size: 1.2rem; line-height: 1.6; margin-bottom: 15px;">
+                É obrigatório seguir as contas oficiais para validar a premiação caso seja sorteada:
+              </p>
+              <ul class="clean-list" style="font-size: 1.15rem;">
+                <li style="margin-bottom: 8px;">🔹 Instagram: <strong>@MNC.UEPB</strong></li>
+                <li style="margin-bottom: 8px;">🔹 Instagram: <strong>@compuepb</strong></li>
+                <li style="margin-bottom: 4px;">🔹 LinkedIn: <strong>Mulheres na Computação - UEPB</strong></li>
+                <li style="font-size: 1rem; color: var(--lilac); margin-left: 25px;">
+                  <em>(Opcional, mas seria muito bom ter você na nossa rede!)</em>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção: Encerramento -->
+    <section class="slide cover">
+      <!-- Container centralizador para a mensagem final -->
+      <div class="fade-up">
+        <h2 class="block-reveal"><span style="font-size: 8rem; color: var(--lilac); text-transform: none;">Obrigada!</span></h2>
+        <p style="font-family: var(--font-mono); color: var(--teal); letter-spacing: 5px; font-size: 1.5rem; margin-top: 40px; font-weight: bold;">[ SYSTEM_READY : DÚVIDAS OU SUGESTÕES? ]</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Referência ao arquivo JavaScript externo -->
+  <script src="script.js"></script>
+</body>
+</html>
