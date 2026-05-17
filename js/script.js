@@ -16,7 +16,8 @@ const navMap = {
   'programa.html': 'nav-programa',
   'equipe.html': 'nav-equipe',
   'galeria.html': 'nav-galeria',
-  'artigos.html': 'nav-artigos'
+  'artigos.html': 'nav-artigos',
+  'inscricao.html': 'nav-inscricao'
 };
 const navEl = document.getElementById(navMap[page] || 'nav-index');
 if (navEl) navEl.classList.add('active');

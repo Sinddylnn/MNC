@@ -316,6 +316,7 @@ nav a.active::after { transform:scaleX(1); }
   position:relative; overflow:hidden;
   display:flex; flex-direction:column;
   background:var(--bg-page);
+  text-align: justify;
 }
 
 .hero-grid-bg { position:absolute; inset:0; pointer-events:none; z-index:0; }
@@ -437,13 +438,31 @@ nav a.active::after { transform:scaleX(1); }
   border:1px solid var(--border-teal);
   display:flex; align-items:center; justify-content:center; position:relative;
   animation:morphBlob 10s ease-in-out infinite;
+  isolation: isolate; /* Impede que misturas de renderização vazem para os filhos */
+
 }
 @keyframes morphBlob {
   0%,100%{border-radius:50% 40% 45% 55% / 45% 55% 40% 60%}
   33%    {border-radius:55% 45% 40% 60% / 40% 60% 50% 55%}
   66%    {border-radius:40% 55% 58% 42% / 55% 42% 58% 45%}
 }
-.girl-img { width:220px; height:auto; border-radius:18px; box-shadow:var(--shadow-md); position:relative; z-index:2; }
+.girl-img { 
+  width: 220px; 
+  height: auto; 
+  position: relative; 
+  z-index: 2; 
+  
+  /* Força transparência real e limpa bugs de renderização */
+  background: transparent url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7') !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+
+  /* --- ADICIONE ESTAS LINHAS ABAIXO --- */
+  mix-blend-mode: normal; /* Garante que os canais de cor se misturem normalmente */
+  backface-visibility: hidden; /* Corrige artefatos de hardware causados por animações no pai */
+  transform: translateZ(0); /* Força uma nova camada limpa na GPU */
+}
 .dot { position:absolute; border-radius:50%; }
 .dot-1 { width:14px; height:14px; top:12%; left:-5px; background:var(--lilac); opacity:.6; }
 .dot-2 { width:22px; height:22px; top:-9px; left:42%; background:var(--teal); opacity:.7; }
@@ -453,7 +472,7 @@ nav a.active::after { transform:scaleX(1); }
 .about-text h2 { font-size:clamp(1.9rem,3.5vw,2.8rem); color:var(--text-primary); margin-bottom:18px; }
 .about-text h2 em { color:var(--teal); font-style:italic; }
 [data-theme="light"] .about-text h2 em { color:var(--purple-dark); }
-.about-text p { font-size:.96rem; color:var(--text-secondary); line-height:1.82; max-width:520px; margin-bottom:18px; }
+.about-text p { font-size:.96rem; color:var(--text-secondary); line-height:1.82; max-width:520px; margin-bottom:18px; text-align: justify;}
 
 .history-link {
   display:inline-flex; align-items:center; gap:7px;
@@ -997,4 +1016,93 @@ nav a.active::after { transform:scaleX(1); }
 @media (max-width:420px) {
   .gallery-grid  { column-count:1; }
   .butterfly-hero{ width:200px; height:200px; }
+}
+
+/* Fundo escuro do Modal */
+.modal-overlay {
+  display: none; /* Escondido por padrão */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(12, 16, 24, 0.85); /* Tom escuro transparente */
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+}
+
+/* Caixa principal do Modal */
+.modal-content {
+  background-color: #1A2230; /* Fundo que combina com o tema dark */
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid #ABD6CD;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Botão de Fechar (X) */
+.close-modal {
+  color: #ABD6CD;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close-modal:hover {
+  color: #C088B8;
+}
+
+/* Textos do Modal */
+.modal-title {
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.modal-desc {
+  color: #a0aabf;
+  font-size: 0.9rem;
+  margin-bottom: 25px;
+}
+
+/* Inputs do Formulário */
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  color: #ABD6CD;
+  margin-bottom: 5px;
+  font-size: 0.85rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #324059;
+  background-color: #0C1018;
+  color: #fff;
+  font-family: inherit;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #ABD6CD;
+}
+
+.btn-submit {
+  width: 100%;
+  margin-top: 10px;
 }
