@@ -1,32 +1,98 @@
-/* ── Tema ── */
-const root = document.documentElement;
-const themeBtn = document.getElementById('themeToggle');
-if (themeBtn) {
-  themeBtn.addEventListener('click', () => {
-    const n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', n);
-    localStorage.setItem('mnc-theme', n);
+/* ==========================================================================
+   CARREGAMENTO DINÂMICO (HEADER E FOOTER)
+   ========================================================================== */
+
+// Verifica se a página atual está dentro da subpasta '/paginas/'
+const isInSubfolder = window.location.pathname.includes('/paginas/');
+
+// Função genérica para buscar o HTML e injetar na página
+function carregarComponente(elementId, fileName, callback = null) {
+  const elemento = document.getElementById(elementId);
+  if (!elemento) return;
+
+  // Ajusta o caminho do arquivo caso o usuário esteja em uma subpasta
+  const fetchPath = isInSubfolder ? `../${fileName}` : fileName;
+
+  fetch(fetchPath)
+    .then(response => {
+      if (!response.ok) throw new Error(`Erro ao carregar ${fileName}`);
+      return response.text();
+    })
+    .then(htmlContent => {
+      elemento.innerHTML = htmlContent; // Injeta o código na página
+      
+      // Se estiver numa subpasta, corrige os links relativos do componente injetado
+      if (isInSubfolder) corrigirCaminhos(elemento);
+
+      // Executa scripts dependentes (como Tema e Menu Ativo) após a injeção
+      if (callback) callback();
+    })
+    .catch(error => console.error(error));
+}
+
+// Função para ajustar caminhos de imagens e links em páginas filhas
+function corrigirCaminhos(container) {
+  container.querySelectorAll("img").forEach(img => {
+    const src = img.getAttribute("src");
+    if (src && src.startsWith("./")) img.src = "../" + src.substring(2);
+  });
+
+  container.querySelectorAll("a").forEach(link => {
+    const href = link.getAttribute("href");
+    if (href) {
+      if (href === "index.html") link.href = "../index.html";
+      else if (href.startsWith("./paginas/")) link.href = "./" + href.replace("./paginas/", "");
+    }
   });
 }
 
-/* ── Nav ativo ── */
-const page = location.pathname.split('/').pop() || 'index.html';
-const navMap = {
-  'index.html': 'nav-index',
-  'programa.html': 'nav-programa',
-  'equipe.html': 'nav-equipe',
-  'galeria.html': 'nav-galeria',
-  'artigos.html': 'nav-artigos',
-  'inscricao.html': 'nav-inscricao'
-};
-const navEl = document.getElementById(navMap[page] || 'nav-index');
-if (navEl) navEl.classList.add('active');
+/* ==========================================================================
+   FUNÇÕES DEPENDENTES DO CABEÇALHO (RODAM APÓS O FETCH)
+   ========================================================================== */
 
-/* ── Transição PCB ── */
+function inicializarDependenciasDoCabecalho() {
+  
+  /* ── Tema ── */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', n);
+      localStorage.setItem('mnc-theme', n);
+    });
+  }
+
+  /* ── Nav ativo ── */
+  const page = location.pathname.split('/').pop() || 'index.html';
+  
+  const navMap = {
+    'index.html': 'nav-index',
+    'programa.html': 'nav-programa',
+    'equipe.html': 'nav-equipe',
+    'galeria.html': 'nav-galeria',
+    'artigos.html': 'nav-artigos',
+    'inscricao.html': 'nav-inscricao'
+  };
+  
+  const navEl = document.getElementById(navMap[page] || 'nav-index');
+  if (navEl) navEl.classList.add('active');
+}
+
+// Inicia o carregamento assim que o DOM básico estiver pronto
+document.addEventListener("DOMContentLoaded", () => {
+  carregarComponente("main-header", "header.html", inicializarDependenciasDoCabecalho);
+  carregarComponente("main-footer", "footer.html");
+});
+
+/* ==========================================================================
+   TRANSIÇÃO PCB (ANIMAÇÃO EM CANVAS)
+   ========================================================================== */
+
 const _ov = document.getElementById('circuitOverlay');
 const _cv = document.getElementById('circuitCanvas');
 
-// Verificamos se os elementos do canvas existem na página atual
 if (_ov && _cv) {
   const _cx = _cv.getContext('2d');
   const _T = '#ABD6CD', _L = '#C088B8', _P = '#8773A4';
@@ -144,15 +210,41 @@ if (_ov && _cv) {
     _runPCB(() => { window.location.href=url; });
   }
 
-  document.querySelectorAll('a[href]').forEach(a=>{
-    const href=a.getAttribute('href');
-    if(!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('http')) return;
-    a.addEventListener('click', e => { e.preventDefault(); goTo(href); });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href]');
+    if (!a) return; 
+
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('http')) return;
+
+    e.preventDefault(); 
+    goTo(href); 
   });
+
   window.addEventListener('pageshow', () => { setTimeout(_exitPCB,80); });
 }
 
-/* ── Reveal on scroll ── */
+/* ==========================================================================
+   FUNÇÕES AUXILIARES (LER MAIS)
+   ========================================================================== */
+
+function toggleSummary(button) {
+  const card = button.closest('.article-card');
+  const summary = card.querySelector('.article-summary');
+  
+  if (summary.style.display === 'none' || summary.style.display === '') {
+    summary.style.display = 'block';
+    button.textContent = 'Ler menos';
+  } else {
+    summary.style.display = 'none';
+    button.textContent = 'Ler mais';
+  }
+}
+
+/* ==========================================================================
+   REVEAL ON SCROLL
+   ========================================================================== */
+
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if(e.isIntersecting){
