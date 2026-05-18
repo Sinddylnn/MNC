@@ -910,8 +910,28 @@ nav a.active::after { transform:scaleX(1); }
 .article-title  { font-family:var(--font-display); font-size:1.22rem; color:var(--text-primary); line-height:1.35; margin-bottom:11px; }
 .article-authors{ font-size:.82rem; color:var(--text-muted); font-weight:500; margin-bottom:24px; }
 .article-actions { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:17px; border-top:1px solid var(--border); }
-.read-more { color:var(--teal); font-weight:700; font-size:.82rem; display:inline-flex; align-items:center; gap:5px; transition:gap .2s; }
-[data-theme="light"] .read-more { color:var(--purple-dark); }
+.read-more {
+  /* O seu estilo */
+  color: var(--teal); 
+  font-weight: 700; 
+  font-size: .82rem; 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 5px; 
+  transition: gap .2s;
+  
+  /* Reset obrigatório para a tag <button> não ficar feia */
+  background-color: transparent; 
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Efeito extra: ao passar o mouse, o gap aumenta (se tiver um ícone, ele dá um saltinho pro lado) */
+.read-more:hover {
+  gap: 8px; 
+}[data-theme="light"] .read-more { color:var(--purple-dark); }
 .read-more::after { content:'→'; transition:transform .2s; }
 .read-more:hover { gap:10px; }
 .pdf-btn {

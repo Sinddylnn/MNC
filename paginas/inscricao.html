@@ -3,39 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inscrição — MNC · UEPB</title>
+  <title>Inscrição | Mulheres na Computação MNC</title>
   
-  <!-- Ajuste o caminho do CSS dependendo de onde o arquivo HTML for salvo -->
   <link rel="stylesheet" href="../css/style.css">
   
+  <!-- Inicialização do tema -->
   <script>
     (function(){
       const s = localStorage.getItem('mnc-theme') || 'dark';
       document.documentElement.setAttribute('data-theme', s);
     })();
   </script>
-  <script defer src="../js/script.js"></script>
 </head>
 <body>
+  
+  <!-- Overlay da animação de transição (PCB) -->
+  <div id="circuitOverlay">
+    <canvas id="circuitCanvas"></canvas>
+  </div>
+  
+  <!-- Padrão de fundo global -->
+  <div class="global-pattern"></div>
 
-  <!-- COLOQUE SEU <header> AQUI (igual ao das outras páginas) -->
+  <!-- O Header será injetado dinamicamente pelo script.js -->
+  <header id="main-header"></header>
 
   <main class="page-inscricao">
     <section class="form-section">
-      <div class="form-container">
-        <h2>Junte-se ao código</h2>
-        <p class="form-desc">Preencha seus dados e nossa equipe entrará em contato com os próximos passos.</p>
+      <!-- Elementos decorativos de fundo (opcional, igual à equipe) -->
+      <div class="team-bg-shape-1"></div>
+      <div class="team-bg-shape-2"></div>
+
+      <div class="form-container reveal">
+        <span class="overline">Faça parte</span>
+        <h2>Junte-se ao <br><span>Código</span></h2>
+        <p class="form-desc">Preencha seus dados abaixo. Nossa equipe entrará em contato com os próximos passos da seletiva ou integração!</p>
         
         <!-- Formulário usando Formspree -->
         <form action="https://formspree.io/f/SEU_CODIGO_AQUI" method="POST" class="participate-form">
           
+          <!-- Configuração de Assunto do Formspree -->
+          <input type="hidden" name="_subject" value="Nova inscrição - Site MNC!">
+
           <div class="input-group">
             <label for="nome">Nome completo:</label>
             <input type="text" id="nome" name="nome" placeholder="Ex: Ada Lovelace" required>
           </div>
 
           <div class="input-group">
-            <label for="email">E-mail institucional ou pessoal:</label>
+            <label for="email">E-mail (institucional ou pessoal):</label>
             <input type="email" id="email" name="email" placeholder="ada@aluno.uepb.edu.br" required>
           </div>
 
@@ -44,13 +60,37 @@
             <input type="tel" id="telefone" name="telefone" placeholder="(83) 90000-0000" required>
           </div>
 
+          <!-- Novos campos voltados para o ambiente universitário -->
+          <div class="input-group">
+            <label for="vinculo">Qual o seu vínculo atual?</label>
+            <select id="vinculo" name="vinculo" required>
+              <option value="" disabled selected>Selecione uma opção...</option>
+              <option value="Aluna UEPB">Aluna UEPB</option>
+              <option value="Aluna Outra Instituição">Aluna de outra instituição</option>
+              <option value="Comunidade Externa">Comunidade Externa</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="curso">Curso (se aplicável):</label>
+            <input type="text" id="curso" name="curso" placeholder="Ex: Ciência da Computação">
+          </div>
+
+          <div class="input-group">
+            <label for="motivacao">Por que você quer participar do MNC?</label>
+            <textarea id="motivacao" name="motivacao" rows="4" placeholder="Conte um pouco sobre seu interesse no projeto..." required></textarea>
+          </div>
+
           <button type="submit" class="btn-teal btn-submit">Enviar inscrição</button>
         </form>
       </div>
     </section>
   </main>
 
-  <!-- COLOQUE SEU <footer> AQUI (igual ao das outras páginas) -->
+  <!-- O Footer será injetado dinamicamente pelo script.js -->
+  <footer id="main-footer" class="site-footer"></footer>
 
+  <!-- Script centralizado -->
+  <script src="../js/script.js" defer></script>
 </body>
 </html>

@@ -32,32 +32,8 @@
   <!-- ==========================================
        CABEÇALHO / NAVEGAÇÃO
        ========================================== -->
-  <header>
-    <!-- Logo do Projeto -->
-    <a href="index.html" class="logo">
-      <div class="logo-icon"><img src="./imagens/logo_mnc2__1_.png" alt="Logo MNC"></div>
-      <span class="logo-text">Mulheres na Computação <span class="mnc-abbrev">MNC</span></span>
-    </a>
-    
-    <!-- Menu de Navegação -->
-    <nav>
-      <ul>
-        <li><a href="./index.html"    id="nav-index">Página Inicial</a></li>
-        <li><a href="./paginas/programa.html" id="nav-programa">Programa</a></li>
-        <li><a href="./paginas/equipe.html"   id="nav-equipe">Equipe</a></li>
-        <li><a href="./paginas/galeria.html"  id="nav-galeria">Galeria</a></li>
-        <li><a href="./paginas/artigos.html"  id="nav-artigos">Artigos</a></li>
-        <li><a href="./paginas/inscricao.html" id="nav-inscricao">Inscrever-se</a></li>
-      </ul>
-    </nav>
-    
-    <!-- Botão de alternância de tema (Dark/Light Mode) -->
-    <div class="nav-end">
-      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
-        <span class="icon-dark">☾</span><span class="icon-light">☀</span>
-      </button>
-    </div>
-  </header>
+  <header id="main-header">
+    </header>
 
   <!-- ==========================================
        CONTEÚDO PRINCIPAL
@@ -125,72 +101,75 @@
         </div>
 
         <!-- Lado direito: Ilustração (Borboleta/Ada Lovelace) -->
-        <div class="hero-dark-right">
-          <svg class="butterfly-hero" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" aria-label="Borboleta MNC — homenagem a Ada Lovelace">
-            <defs>
-              <radialGradient id="wL" cx="25%" cy="40%" r="70%">
-                <stop offset="0%" stop-color="#ABD6CD" stop-opacity=".65"/>
-                <stop offset="100%" stop-color="#0C1018" stop-opacity=".8"/>
-              </radialGradient>
-              <radialGradient id="wR" cx="75%" cy="40%" r="70%">
-                <stop offset="0%" stop-color="#C088B8" stop-opacity=".60"/>
-                <stop offset="100%" stop-color="#0C1018" stop-opacity=".8"/>
-              </radialGradient>
-              <radialGradient id="wL2" cx="35%" cy="60%" r="60%">
-                <stop offset="0%" stop-color="#8773A4" stop-opacity=".55"/>
-                <stop offset="100%" stop-color="#0C1018" stop-opacity=".7"/>
-              </radialGradient>
-              <radialGradient id="wR2" cx="65%" cy="60%" r="60%">
-                <stop offset="0%" stop-color="#8773A4" stop-opacity=".55"/>
-                <stop offset="100%" stop-color="#0C1018" stop-opacity=".7"/>
-              </radialGradient>
-            </defs>
+<!-- Lado direito: Ilustração (Borboleta/Ada Lovelace) -->
+<div class="hero-dark-right">
+  
+  <div class="render-borboleta" style="width: 320px; height: 320px; margin: 0 auto;">
+    
+    <!-- AQUI COMEÇA A SUA BORBOLETA -->
+    <svg class="butterfly-hero" width="100%" height="100%" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" aria-label="Borboleta MNC — homenagem a Ada Lovelace">
+      <defs>
+        <radialGradient id="wL" cx="25%" cy="40%" r="70%">
+          <stop offset="0%" stop-color="#ABD6CD" stop-opacity=".65"/>
+          <stop offset="100%" stop-color="#0C1018" stop-opacity=".8"/>
+        </radialGradient>
+        <radialGradient id="wR" cx="75%" cy="40%" r="70%">
+          <stop offset="0%" stop-color="#C088B8" stop-opacity=".60"/>
+          <stop offset="100%" stop-color="#0C1018" stop-opacity=".8"/>
+        </radialGradient>
+        <radialGradient id="wL2" cx="35%" cy="60%" r="60%">
+          <stop offset="0%" stop-color="#8773A4" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#0C1018" stop-opacity=".7"/>
+        </radialGradient>
+        <radialGradient id="wR2" cx="65%" cy="60%" r="60%">
+          <stop offset="0%" stop-color="#8773A4" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#0C1018" stop-opacity=".7"/>
+        </radialGradient>
+      </defs>
 
-            <!-- Círculos de fundo (Halo) -->
-            <circle class="b-halo"  cx="160" cy="160" r="142" fill="none" stroke="#ABD6CD" stroke-width="1" opacity=".1"/>
-            <circle class="b-halo2" cx="160" cy="160" r="124" fill="none" stroke="#C088B8" stroke-width=".6" opacity=".07"/>
+      <circle class="b-halo"  cx="160" cy="160" r="142" fill="none" stroke="#ABD6CD" stroke-width="1" opacity=".1"/>
+      <circle class="b-halo2" cx="160" cy="160" r="124" fill="none" stroke="#C088B8" stroke-width=".6" opacity=".07"/>
 
-            <!-- Asa Esquerda -->
-            <g class="b-wing-left">
-              <path d="M160 160 C132 118, 60 82, 38 114 C18 144, 54 188, 108 180 C134 176, 157 165, 160 160Z" fill="url(#wL)" stroke="#ABD6CD" stroke-width=".9" opacity=".92"/>
-              <path d="M160 160 C138 138, 80 104, 57 118" fill="none" stroke="#ABD6CD" stroke-width=".6" opacity=".28"/>
-              <path d="M160 166 C140 178, 74 190, 60 218 C48 242, 78 272, 122 260 C148 252, 160 228, 160 166Z" fill="url(#wL2)" stroke="#ABD6CD" stroke-width=".7" opacity=".75"/>
-              <line class="c-line-1" x1="86" y1="124" x2="136" y2="150" stroke="#ABD6CD" stroke-width="1.1" opacity=".75"/>
-              <line x1="136" y1="150" x2="149" y2="143" stroke="#ABD6CD" stroke-width="1.1" opacity=".75"/>
-              <circle cx="86"  cy="124" r="3.5" fill="#ABD6CD" class="c-node"/>
-              <circle cx="111" cy="137" r="2.2" fill="#ABD6CD" opacity=".5"/>
-              <circle cx="136" cy="150" r="3"   fill="#ABD6CD" class="c-node2"/>
-              <line class="c-line-2" x1="68" y1="148" x2="104" y2="165" stroke="#7FB8AD" stroke-width=".85" opacity=".55"/>
-              <circle cx="68"  cy="148" r="1.8" fill="#7FB8AD" opacity=".6"/>
-              <circle cx="104" cy="165" r="1.8" fill="#7FB8AD" opacity=".6"/>
-            </g>
+      <g class="b-wing-left">
+        <path d="M160 160 C132 118, 60 82, 38 114 C18 144, 54 188, 108 180 C134 176, 157 165, 160 160Z" fill="url(#wL)" stroke="#ABD6CD" stroke-width=".9" opacity=".92"/>
+        <path d="M160 160 C138 138, 80 104, 57 118" fill="none" stroke="#ABD6CD" stroke-width=".6" opacity=".28"/>
+        <path d="M160 166 C140 178, 74 190, 60 218 C48 242, 78 272, 122 260 C148 252, 160 228, 160 166Z" fill="url(#wL2)" stroke="#ABD6CD" stroke-width=".7" opacity=".75"/>
+        <line class="c-line-1" x1="86" y1="124" x2="136" y2="150" stroke="#ABD6CD" stroke-width="1.1" opacity=".75"/>
+        <line x1="136" y1="150" x2="149" y2="143" stroke="#ABD6CD" stroke-width="1.1" opacity=".75"/>
+        <circle cx="86"  cy="124" r="3.5" fill="#ABD6CD" class="c-node"/>
+        <circle cx="111" cy="137" r="2.2" fill="#ABD6CD" opacity=".5"/>
+        <circle cx="136" cy="150" r="3"   fill="#ABD6CD" class="c-node2"/>
+        <line class="c-line-2" x1="68" y1="148" x2="104" y2="165" stroke="#7FB8AD" stroke-width=".85" opacity=".55"/>
+        <circle cx="68"  cy="148" r="1.8" fill="#7FB8AD" opacity=".6"/>
+        <circle cx="104" cy="165" r="1.8" fill="#7FB8AD" opacity=".6"/>
+      </g>
 
-            <!-- Asa Direita -->
-            <g class="b-wing-right">
-              <path d="M160 160 C188 118, 260 82, 282 114 C302 144, 266 188, 212 180 C186 176, 163 165, 160 160Z" fill="url(#wR)" stroke="#C088B8" stroke-width=".9" opacity=".92"/>
-              <path d="M160 160 C182 138, 240 104, 263 118" fill="none" stroke="#C088B8" stroke-width=".6" opacity=".28"/>
-              <path d="M160 166 C180 178, 246 190, 260 218 C272 242, 242 272, 198 260 C172 252, 160 228, 160 166Z" fill="url(#wR2)" stroke="#C088B8" stroke-width=".7" opacity=".75"/>
-              <line class="c-line-3" x1="234" y1="124" x2="184" y2="150" stroke="#C088B8" stroke-width="1.1" opacity=".75"/>
-              <line x1="184" y1="150" x2="171" y2="143" stroke="#C088B8" stroke-width="1.1" opacity=".75"/>
-              <circle cx="234" cy="124" r="3.5" fill="#C088B8" class="c-node3"/>
-              <circle cx="209" cy="137" r="2.2" fill="#C088B8" opacity=".5"/>
-              <circle cx="184" cy="150" r="3"   fill="#C088B8" class="c-node4"/>
-            </g>
+      <g class="b-wing-right">
+        <path d="M160 160 C188 118, 260 82, 282 114 C302 144, 266 188, 212 180 C186 176, 163 165, 160 160Z" fill="url(#wR)" stroke="#C088B8" stroke-width=".9" opacity=".92"/>
+        <path d="M160 160 C182 138, 240 104, 263 118" fill="none" stroke="#C088B8" stroke-width=".6" opacity=".28"/>
+        <path d="M160 166 C180 178, 246 190, 260 218 C272 242, 242 272, 198 260 C172 252, 160 228, 160 166Z" fill="url(#wR2)" stroke="#C088B8" stroke-width=".7" opacity=".75"/>
+        <line class="c-line-3" x1="234" y1="124" x2="184" y2="150" stroke="#C088B8" stroke-width="1.1" opacity=".75"/>
+        <line x1="184" y1="150" x2="171" y2="143" stroke="#C088B8" stroke-width="1.1" opacity=".75"/>
+        <circle cx="234" cy="124" r="3.5" fill="#C088B8" class="c-node3"/>
+        <circle cx="209" cy="137" r="2.2" fill="#C088B8" opacity=".5"/>
+        <circle cx="184" cy="150" r="3"   fill="#C088B8" class="c-node4"/>
+      </g>
 
-            <!-- Corpo e Antenas da Borboleta -->
-            <ellipse cx="160" cy="158" rx="5.5" ry="30" fill="#0C1018" stroke="#ABD6CD" stroke-width="1" opacity=".9"/>
-            <ellipse cx="160" cy="158" rx="2.2" ry="26" fill="#ABD6CD" opacity=".2"/>
-            <path d="M157 130 C152 116, 144 109, 136 104" fill="none" stroke="#ABD6CD" stroke-width="1.2" opacity=".8"/>
-            <path d="M163 130 C168 116, 176 109, 184 104" fill="none" stroke="#C088B8" stroke-width="1.2" opacity=".8"/>
-            <circle cx="135" cy="103" r="3.2" fill="#ABD6CD" opacity=".9"/>
-            <circle cx="185" cy="103" r="3.2" fill="#C088B8" opacity=".9"/>
-          </svg>
+      <ellipse cx="160" cy="158" rx="5.5" ry="30" fill="#0C1018" stroke="#ABD6CD" stroke-width="1" opacity=".9"/>
+      <ellipse cx="160" cy="158" rx="2.2" ry="26" fill="#ABD6CD" opacity=".2"/>
+      <path d="M157 130 C152 116, 144 109, 136 104" fill="none" stroke="#ABD6CD" stroke-width="1.2" opacity=".8"/>
+      <path d="M163 130 C168 116, 176 109, 184 104" fill="none" stroke="#C088B8" stroke-width="1.2" opacity=".8"/>
+      <circle cx="135" cy="103" r="3.2" fill="#ABD6CD" opacity=".9"/>
+      <circle cx="185" cy="103" r="3.2" fill="#C088B8" opacity=".9"/>
+    </svg>
+    <!-- AQUI TERMINA A SUA BORBOLETA -->
 
-          <!-- Tags flutuantes da Hero -->
-          <div class="hero-tag tag-1">Ada Lovelace · 1815–1852 🦋</div>
-          <div class="hero-tag tag-2"><span class="tag-mono">$ ./mnc --run</span> inclusão</div>
-        </div>
-      </div>
+  </div>  
+  
+  <div class="hero-tag tag-1">Ada Lovelace · 1815–1852 🦋</div>
+  <div class="hero-tag tag-2"><span class="tag-mono">$ ./mnc --run</span> inclusão</div>
+  
+</div>
       
       <!-- Gradiente de transição para a próxima seção -->
       <div class="hero-dark-fade"></div>
@@ -383,56 +362,8 @@
     <!-- ==========================================
          RODAPÉ (Footer)
          ========================================== -->
-    <footer class="site-footer">
-      <div class="footer-top">
-        
-        <!-- Coluna 1: Marca e Endereço -->
-        <div class="footer-col brand-col">
-          <div class="logo">
-            <div class="logo-icon"><img src="./imagens/logo_mnc2__1_.png" alt="Logo MNC"></div>
-            <div class="logo-text-footer">MULHERES NA<br>COMPUTAÇÃO</div>
-          </div>
-          <p>Projeto de extensão da Universidade Estadual da Paraíba (UEPB), Campus I — Campina Grande.</p>
-          <p>R. Baraúnas, 351 — Universitário, Campina Grande - PB</p>
-        </div>
-        
-        <!-- Coluna 2: Links de Navegação Rápidos -->
-        <div class="footer-col links-col">
-          <h4>Acesso Rápido</h4>
-          <ul class="quick-links">
-            <li><a href="index.html">Página Inicial</a></li>
-            <li><a href="./paginas/programa.html">Programa</a></li>
-            <li><a href="./paginas/equipe.html">Equipe</a></li>
-            <li><a href="./paginas/galeria.html">Galeria</a></li>
-            <li><a href="./paginas/artigos.html">Artigos</a></li>
-            <li><a href="./paginas/inscricao.html">Inscrever-se</a></li>
-          </ul>
-        </div>
-        
-        <!-- Coluna 3: Contatos e Redes Sociais -->
-        <div class="footer-col contact-col">
-          <h4>Contato</h4>
-          <div class="contact-info">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            <span>mnc.uepb@gmail.com</span>
-          </div>
-          <h4 class="social-title">Social</h4>
-          <div class="social-icons">
-            <a href="https://www.instagram.com/mnc.uepb/" class="social-icon">IG</a>
-            <a href="https://br.linkedin.com/company/mulheres-na-computa%C3%A7%C3%A3o-uepb" class="social-icon">IN</a>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Divisor horizontal do rodapé -->
-      <div class="footer-divider"></div>
-      
-      <!-- Base do rodapé (Copyright) -->
-      <div class="footer-bottom">
-        <div class="copyright">©2026 MULHERES NA COMPUTAÇÃO — Desenvolvido por MNC · UEPB</div>
-      </div>
-    </footer>
-
+    <footer class="site-footer" id="main-footer">
+              </footer>
   </main>
 </body>
 </html>
