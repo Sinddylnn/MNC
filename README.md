@@ -1,4 +1,4 @@
-# Mulheres na Computação (MNC) — Guia de Onboarding 🚀
+# Mulheres na Computação (MNC) — Guia de Onboarding
 
 Bem-vindo(a)! Este documento é um guia de integração para desenvolvedores que vão manter o site do projeto **Mulheres na Computação (MNC)**. Aqui você encontrará contexto do projeto, arquitetura, instruções para rodar as automações locais e práticas recomendadas para manutenção.
 
