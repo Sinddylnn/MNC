@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inscrição | Mulheres na Computação MNC</title>
-  
+
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/paginas/inscricao.css">
-  
+
   <!-- Inicialização do tema -->
   <script>
-    (function(){
+    (function () {
       const s = localStorage.getItem('mnc-theme') || 'dark';
       document.documentElement.setAttribute('data-theme', s);
     })();
   </script>
 </head>
+
 <body>
-  
+
   <!-- Overlay da animação de transição (PCB) -->
   <div id="circuitOverlay">
     <canvas id="circuitCanvas"></canvas>
   </div>
-  
+
   <!-- Padrão de fundo global -->
   <div class="global-pattern"></div>
 
@@ -38,9 +40,11 @@
       <div class="page-hero-inner">
         <span class="overline">Faça parte</span>
         <h2>Inscreva-se no <em>Mulheres na Computação</em></h2>
-        <p>Venha para nosso projeto de extensão e faça parte de uma comunidade que valoriza protagonismo, tecnologia e apoio entre mulheres.</p>
+        <p>Venha para nosso projeto de extensão e faça parte de uma comunidade que valoriza protagonismo, tecnologia e
+          apoio entre mulheres.</p>
         <div class="arrow-down">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
             <polyline points="6 14 12 20 18 14" opacity="0.45"></polyline>
           </svg>
@@ -52,7 +56,8 @@
       <div class="form-section-inner">
         <div class="info-card form-card reveal">
           <h2>Junte-se ao nosso <em>time</em></h2>
-          <p class="form-desc">Preencha suas informações abaixo e aguarde nosso contato com os próximos passos para participação.</p>
+          <p class="form-desc">Preencha suas informações abaixo e aguarde nosso contato com os próximos passos para
+            participação.</p>
 
           <form action="https://formspree.io/f/SEU_CODIGO_AQUI" method="POST" class="participate-form">
             <input type="hidden" name="_subject" value="Nova inscrição - Site MNC!">
@@ -83,7 +88,8 @@
             </div>
             <div class="input-group">
               <label for="motivacao">Gostariamos de te conhecer! Por que você quer participar?</label>
-              <textarea id="motivacao" name="motivacao" rows="5" placeholder="Conte um pouco sobre seu interesse no projeto..." required></textarea>
+              <textarea id="motivacao" name="motivacao" rows="5"
+                placeholder="Conte um pouco sobre seu interesse no projeto..." required></textarea>
             </div>
 
             <button type="submit" class="btn-teal btn-submit">Enviar inscrição</button>
@@ -91,6 +97,7 @@
         </div>
       </div>
     </section>
+
   </main>
 
   <!-- O Footer será injetado dinamicamente pelo script.js -->
@@ -99,4 +106,5 @@
   <!-- Script centralizado -->
   <script src="../js/script.js" defer></script>
 </body>
+
 </html>

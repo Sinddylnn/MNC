@@ -27,7 +27,7 @@ def processar_timeline():
 
     # Garante diretórios necessários
     if not os.path.exists(PASTA_DESTINO):
-        print(f"❌ Pasta de galeria não encontrada: {PASTA_DESTINO}")
+        print(f"Pasta de galeria não encontrada: {PASTA_DESTINO}")
         return
     os.makedirs(os.path.join(RAIZ_PROJETO, "data"), exist_ok=True)
 
@@ -41,7 +41,7 @@ def processar_timeline():
         if not os.path.isdir(caminho_categoria):
             continue
 
-        print(f"\n📂 Categoria detectada: {categoria}")
+        print(f"\nCategoria detectada: {categoria}")
 
         # Percorre pastas de data dentro da categoria
         entradas_data = sorted(os.listdir(caminho_categoria), reverse=True)

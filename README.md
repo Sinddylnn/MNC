@@ -111,11 +111,6 @@ Boas práticas de manutenção
 - Evite commitar imagens pesadas não otimizadas; prefira as versões `.webp` geradas pela automação.
 - Antes de abrir um PR que altera imagens, rode `python tools/converter_fotos.py` localmente e confirme que `data/timeline.json` e `imagens/galeria/` foram atualizados corretamente.
 
-Contribuições e suporte
------------------------
-
-Pull requests e issues são bem-vindos. Para alterações que impliquem mudanças na automação (por exemplo, adicionar opções CLI ao conversor), abra uma issue descrevendo o caso de uso antes de submeter código.
-
 Licença
 -------
 
