@@ -58,7 +58,6 @@ Como configurar e rodar localmente
 
 - Python 3.x instalado (recomenda-se 3.8+).
 - `pip` disponível.
-- Recomendado: usar um servidor local para evitar problemas de CORS ao usar `fetch` para ler `data/timeline.json` (por exemplo, a extensão Live Server do VS Code ou `python -m http.server`).
 
 2. Instalar dependências Python
 
@@ -66,20 +65,11 @@ Como configurar e rodar localmente
 pip install Pillow
 ```
 
-3. Executar o site localmente (recomendado)
-
-Usando a extensão Live Server do VS Code: abra a pasta do projeto e inicie o Live Server.
-
-Ou usando Python HTTP server (porta 8000):
-
+3. Execute o script de automação em Python:
 ```bash
-python -m http.server 8000
-# Acesse http://localhost:8000 no navegador
+python tools/converter_fotos.py
 ```
 
-4. Observação sobre CORS
-
-O frontend realiza um `fetch` para `data/timeline.json`. Se você abrir os arquivos via `file:///`, o `fetch` será bloqueado pelo navegador. Use um servidor local conforme indicado acima para evitar esse erro.
 
 Executar o script de conversão de imagens
 ----------------------------------------
@@ -141,11 +131,4 @@ O código-chave está em:
 - `js/script.js` — lógica de carregamento dinâmico, filtros e renderização da galeria.
 - `tools/converter_fotos.py` — conversão de imagens e geração de `data/timeline.json`.
 - `.github/workflows/otimizar-imagens.yml` — workflow de CI para conversão automática.
-
-Se desejar, posso também:
-
-- Ajustar o workflow para chamar exatamente `tools/converter_fotos.py` caso ainda aponte para um wrapper diferente.
-- Adicionar comandos CLI ao conversor (`--quality`, `--dry-run`, `--keep-originals`).
-
----
 
