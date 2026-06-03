@@ -45,7 +45,7 @@ Estrutura de arquivos (resumo)
 | `paginas/` | Páginas HTML do site (`index.html`, `galeria.html`, `programa.html`, etc.) |
 | `css/` | Folhas de estilo modulares e específicas por página |
 | `js/` | Código JavaScript do frontend (`script.js`) |
-| `imagens/fotos_originais/` | Fotos brutas organizadas por categoria e data (origem) |
+| `imagens/fotos_originais/` | Fotos brutas organizadas por categoria e data (devem ser baixadas do Google Drive e colocadas localmente nesta pasta) |
 | `imagens/galeria/` | Imagens otimizadas geradas pelo script Python |
 | `data/timeline.json` | Linha do tempo consumida pelo frontend para montar a galeria |
 | `tools/converter_fotos.py` | Script Python responsável pela otimização e geração do JSON |
