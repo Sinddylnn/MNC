@@ -54,7 +54,6 @@
   transition: gap .2s;
 }
 
-/* O resto do seu código se mantém igual */
 [data-theme="light"] .read-more { 
   color: var(--purple-dark); 
 }
