@@ -1,0 +1,111 @@
+/* ==========================================================================
+   MULHERES NA COMPUTAÇÃO — MNC · UEPB
+   Arquivo base de estilos: resets, variáveis e tipografia global
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --teal:          #ABD6CD;
+  --teal-dark:     #7FB8AD;
+  --teal-pale:     rgba(171,214,205,.13);
+  --lilac:         #C088B8;
+  --lilac-pale:    rgba(192,136,184,.13);
+  --purple:        #8773A4;
+  --purple-dark:   #4A3968;
+  --purple-deep:   #2E2248;
+
+  --bg-page:       #0C1018;
+  --bg-surface:    #111825;
+  --bg-card:       #172030;
+  --bg-card-hover: #1D293C;
+  --border:        rgba(255,255,255,.07);
+  --border-teal:   rgba(171,214,205,.22);
+  --border-lilac:  rgba(192,136,184,.22);
+
+  --text-primary:  #FFFFFF;
+  --text-secondary:rgba(255,255,255,.60);
+  --text-muted:    rgba(255,255,255,.30);
+
+  --shadow-sm:  0 4px 16px rgba(0,0,0,.40);
+  --shadow-md:  0 8px 32px rgba(0,0,0,.50);
+  --shadow-lg:  0 20px 60px rgba(0,0,0,.60);
+
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  22px;
+  --radius-xl:  34px;
+  --radius-pill:999px;
+
+  --font-display:'DM Serif Display', Georgia, serif;
+  --font-body:   'Poppins', sans-serif;
+  --font-mono:   'JetBrains Mono', 'Courier New', monospace;
+
+  --section-gap: 110px;
+  --content-max: 1200px;
+  --header-h:    70px;
+
+  /* Duração transição de página */
+  --page-dur: .45s;
+}
+
+[data-theme="light"] {
+  --bg-page:       #F8F5FF;
+  --bg-surface:    #EDE8F7;
+  --bg-card:       #FFFFFF;
+  --bg-card-hover: #F3EFFE;
+  --border:        rgba(74,57,104,.10);
+  --border-teal:   rgba(127,184,173,.30);
+  --border-lilac:  rgba(135,115,164,.25);
+
+  --text-primary:  #2E2248;
+  --text-secondary:#5A4E78;
+  --text-muted:    #9B8EB0;
+
+  --teal:          #7FB8AD;
+  --teal-dark:     #5A9E93;
+  --teal-pale:     rgba(127,184,173,.12);
+  --lilac:         #8773A4;
+  --lilac-pale:    rgba(135,115,164,.10);
+  --purple:        #6A509A;
+  --purple-dark:   #4A3968;
+  --purple-deep:   #2E2248;
+
+  --shadow-sm:  0 2px 12px rgba(74,57,104,.08);
+  --shadow-md:  0 6px 28px rgba(74,57,104,.11);
+  --shadow-lg:  0 16px 56px rgba(74,57,104,.14);
+}
+
+/* RESET GLOBAL */
+*, *::before, *::after {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html {
+  scroll-behavior:smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.65;
+  overflow-x: hidden;
+  transition: background .35s, color .35s;
+}
+
+img {
+  display:block;
+  max-width:100%;
+}
+
+a {
+  text-decoration:none;
+}
+
+h1,h2,h3 {
+  font-family:var(--font-display);
+  line-height:1.12;
+}

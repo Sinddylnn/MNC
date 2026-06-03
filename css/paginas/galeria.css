@@ -1,0 +1,45 @@
+/* ══════════════════════════════════════════════════════════════════════
+   GALERIA
+══════════════════════════════════════════════════════════════════════ */
+.gallery-section {
+  padding:140px 5% 80px; min-height:calc(100vh - var(--header-h));
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; background:var(--bg-page);
+}
+.gallery-bg-shape-1 { position:absolute; top:5%; left:-15%; width:700px; height:700px; background:radial-gradient(circle, var(--teal-pale), transparent 70%); pointer-events:none; }
+.gallery-bg-shape-2 { position:absolute; bottom:-5%; right:-15%; width:700px; height:700px; background:radial-gradient(circle, var(--lilac-pale), transparent 70%); pointer-events:none; }
+
+.gallery-banner {
+  border-radius:var(--radius-xl); padding:50px 30px; text-align:center;
+  margin-bottom:48px; width:100%; max-width:var(--content-max); position:relative; z-index:1;
+  background:linear-gradient(135deg, #0d1020 0%, var(--purple-deep) 100%);
+  overflow:hidden; border:1px solid rgba(171,214,205,.12);
+}
+[data-theme="light"] .gallery-banner { background:linear-gradient(135deg, var(--purple-dark), #6A509A); }
+.gallery-banner::before {
+  content:''; position:absolute; bottom:-60px; right:-60px; width:280px; height:280px;
+  background:radial-gradient(circle, rgba(171,214,205,.18), transparent 70%); border-radius:50%;
+}
+.gallery-banner h2 { font-size:clamp(1.9rem,4vw,2.8rem); color:#fff; margin-bottom:10px; position:relative; z-index:1; }
+.gallery-banner h2 span { color:var(--teal); font-style:italic; }
+.gallery-banner p  { color:rgba(255,255,255,.68); font-size:.95rem; line-height:1.6; position:relative; z-index:1; }
+
+.gallery-grid { column-count:4; column-gap:16px; width:100%; max-width:var(--content-max); position:relative; z-index:1; }
+.gallery-item {
+  background:var(--bg-card); border-radius:var(--radius-md); margin-bottom:16px;
+  display:flex; justify-content:center; align-items:center;
+  break-inside:avoid; border:1px solid var(--border);
+  transition:transform .35s, border-color .3s, box-shadow .35s; cursor:pointer; overflow:hidden;
+}
+.gallery-item:hover { transform:scale(1.03); border-color:var(--border-teal); box-shadow:var(--shadow-md); }
+.gallery-item span { color:var(--text-muted); font-size:.76rem; padding:20px; text-align:center; }
+.gallery-item.short  { height:200px; }
+.gallery-item.medium { height:300px; }
+.gallery-item.long   { height:400px; }
+
+@media (max-width:600px) {
+  .gallery-grid { column-count:2; }
+}
+@media (max-width:420px) {
+  .gallery-grid  { column-count:1; }
+}

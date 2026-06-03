@@ -1,0 +1,151 @@
+/* ==========================================================================
+   MULHERES NA COMPUTAÇÃO — MNC · UEPB
+   Arquivo de layout: estrutura global, cabeçalho, navegação e rodapé
+   ========================================================================== */
+
+/* ══════════════════════════════════════════════════════════════════════
+   GLOBAL PATTERN
+══════════════════════════════════════════════════════════════════════ */
+.global-pattern {
+  position:fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(171,214,205,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(171,214,205,.022) 1px, transparent 1px);
+  background-size:54px 54px;
+  pointer-events:none; z-index:0;
+}
+[data-theme="light"] .global-pattern {
+  background-image:
+    linear-gradient(rgba(74,57,104,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,57,104,.03) 1px, transparent 1px);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════════════════════════════ */
+header {
+  position:fixed; top:0; width:100%; z-index:1000;
+  height:var(--header-h);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 5%;
+  background:rgba(12,16,24,.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(171,214,205,.10);
+  transition:background .3s, border-color .3s;
+}
+[data-theme="light"] header {
+  background:rgba(248,245,255,.93);
+  border-bottom-color:rgba(135,115,164,.15);
+}
+
+/* Logo */
+.logo { display:flex; align-items:center; gap:11px; text-decoration:none; }
+
+.logo-icon {
+  width:36px; height:36px; border-radius:50%;
+  overflow:hidden; flex-shrink:0;
+  border:1.5px solid var(--border-teal);
+}
+.logo-icon img { width:100%; height:100%; object-fit:cover; }
+
+.logo-text {
+  font-family:var(--font-body); font-size:.93rem; font-weight:700;
+  color:var(--text-primary); letter-spacing:-.2px;
+}
+.mnc-abbrev {
+  display:inline-block;
+  background:var(--teal-pale); color:var(--teal);
+  font-size:.62rem; font-weight:700;
+  padding:2px 7px; border-radius:4px; margin-left:5px;
+  vertical-align:middle; letter-spacing:.5px;
+  border:1px solid var(--border-teal);
+}
+
+/* Nav links com underline animado */
+nav ul { list-style:none; display:flex; gap:4px; align-items:center; }
+
+nav a {
+  color:var(--text-secondary); font-size:.83rem; font-weight:500;
+  padding:7px 14px; border-radius:var(--radius-pill);
+  position:relative; transition:color .25s;
+}
+
+nav a::after {
+  content:'';
+  position:absolute; bottom:4px; left:14px; right:14px;
+  height:2px;
+  background:linear-gradient(90deg, var(--teal), var(--lilac));
+  border-radius:2px;
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+}
+
+nav a:hover       { color:var(--teal); }
+nav a:hover::after { transform:scaleX(1); }
+
+nav a.active      { color:var(--teal); }
+nav a.active::after { transform:scaleX(1); }
+
+/* Nav-end: toggle */
+.nav-end { display:flex; align-items:center; gap:6px; }
+
+.theme-toggle {
+  width:34px; height:34px; border-radius:50%;
+  background:var(--bg-card); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--text-secondary); font-size:.82rem;
+  transition:background .2s, color .2s, border-color .2s, transform .3s;
+}
+.theme-toggle:hover { background:var(--teal-pale); color:var(--teal); border-color:var(--border-teal); transform:rotate(20deg); }
+
+.icon-dark  { display:block; }
+.icon-light { display:none; }
+[data-theme="light"] .icon-dark  { display:none; }
+[data-theme="light"] .icon-light { display:block; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════════════════ */
+.site-footer { background:#060a12; color:rgba(255,255,255,.65); font-size:.87rem; }
+[data-theme="light"] .site-footer { background:#1E1535; }
+
+.footer-top {
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:44px;
+  padding:68px 5% 52px; max-width:1280px; margin:0 auto;
+}
+.footer-col { flex:1; min-width:190px; }
+.brand-col .logo { margin-bottom:18px; }
+.logo-text-footer { font-family:var(--font-body); font-weight:800; font-size:.95rem; color:#fff; line-height:1.2; }
+.brand-col p { color:rgba(255,255,255,.4); font-size:.8rem; line-height:1.7; max-width:250px; margin-bottom:7px; }
+
+.links-col h4,.contact-col h4 {
+  font-family:var(--font-body); font-size:.63rem; font-weight:800;
+  letter-spacing:2px; text-transform:uppercase; color:var(--teal); margin-bottom:16px;
+}
+.social-title { margin-top:24px; }
+
+.quick-links { list-style:none; }
+.quick-links li { margin-bottom:8px; }
+.quick-links a {
+  color:rgba(255,255,255,.45); font-size:.83rem; font-weight:500;
+  transition:color .2s, padding-left .2s; display:inline-block;
+}
+.quick-links a:hover { color:#fff; padding-left:6px; }
+
+.contact-info { display:flex; align-items:center; gap:9px; color:rgba(255,255,255,.55); font-size:.82rem; margin-bottom:4px; }
+.contact-info svg { width:15px; height:15px; color:var(--teal); flex-shrink:0; }
+
+.social-icons { display:flex; gap:7px; }
+.social-icon {
+  width:36px; height:36px;
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09);
+  border-radius:var(--radius-sm);
+  display:flex; align-items:center; justify-content:center;
+  color:rgba(255,255,255,.55); font-size:.7rem; font-weight:700; letter-spacing:.5px;
+  transition:background .2s, color .2s, transform .25s, border-color .2s;
+}
+.social-icon:hover { background:var(--teal-pale); color:var(--teal); transform:translateY(-4px) rotate(-5deg); border-color:var(--border-teal); }
+
+.footer-divider { height:1px; background:rgba(255,255,255,.05); margin:0 5%; }
+.footer-bottom { display:flex; align-items:center; justify-content:space-between; padding:18px 5%; max-width:1280px; margin:0 auto; gap:16px; flex-wrap:wrap; }
+.copyright { font-size:.73rem; color:rgba(255,255,255,.25); letter-spacing:.5px; }
