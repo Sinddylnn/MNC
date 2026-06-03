@@ -37,11 +37,36 @@
 .article-actions { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:17px; border-top:1px solid var(--border); }
 
 .read-more {
-  color:var(--teal); font-weight:700; font-size:.82rem; display:inline-flex; align-items:center; gap:5px; transition:gap .2s;
+  /* 1. Resets para limpar o visual padrão do HTML */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+
+  /* 2. O seu código original (intacto) */
+  color: var(--teal); 
+  font-weight: 700; 
+  font-size: .82rem; 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 5px; 
+  transition: gap .2s;
 }
-[data-theme="light"] .read-more { color:var(--purple-dark); }
-.read-more::after { content:'→'; transition:transform .2s; }
-.read-more:hover { gap:10px; }
+
+/* O resto do seu código se mantém igual */
+[data-theme="light"] .read-more { 
+  color: var(--purple-dark); 
+}
+
+.read-more::after { 
+  content: '→'; 
+  transition: transform .2s; 
+}
+
+.read-more:hover { 
+  gap: 10px; 
+}
 
 .pdf-btn {
   background:var(--teal-pale); color:var(--teal); border:1px solid var(--border-teal);
