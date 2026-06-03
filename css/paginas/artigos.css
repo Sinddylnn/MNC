@@ -1,0 +1,58 @@
+/* ========================================================================== */
+/* --- ARTIGOS PAGE STYLES ------------------------------------------------- */
+/* ========================================================================== */
+
+/* --- ARTIGOS INTRO --- */
+.articles-intro {
+  padding:140px 5% 80px; display:flex; flex-direction:column; align-items:center;
+  min-height:calc(100vh - var(--header-h)); position:relative; overflow:hidden; background:var(--bg-page);
+}
+.articles-bg-shape-1 { position:absolute; top:-10%; left:-20%; width:800px; height:800px; background:radial-gradient(circle, var(--lilac-pale), transparent 70%); pointer-events:none; }
+.articles-bg-shape-2 { position:absolute; bottom:-10%; right:-20%; width:700px; height:700px; background:radial-gradient(circle, var(--teal-pale), transparent 70%); pointer-events:none; }
+
+.articles-list { width:100%; max-width:900px; display:flex; flex-direction:column; gap:20px; margin-top:46px; position:relative; z-index:1; }
+
+/* --- ARTIGO CARD --- */
+.article-card {
+  background:var(--bg-card); border-radius:var(--radius-lg); padding:32px 36px;
+  display:flex; flex-direction:column; border:1px solid var(--border);
+  position:relative; overflow:hidden;
+  transition:transform .35s, border-color .3s, box-shadow .35s;
+}
+.article-card::before {
+  content:''; position:absolute; left:0; top:0; width:3px; height:100%;
+  background:linear-gradient(to bottom, var(--teal), var(--lilac));
+}
+.article-card:hover { transform:translateY(-5px); border-color:var(--border-teal); box-shadow:var(--shadow-md); }
+
+.article-type {
+  font-size:.66rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--teal); background:var(--teal-pale); padding:4px 12px;
+  border-radius:var(--radius-pill); display:inline-block; margin-bottom:13px;
+  align-self:flex-start; border:1px solid var(--border-teal);
+}
+[data-theme="light"] .article-type { color:var(--purple-dark); background:var(--lilac-pale); border-color:var(--border-lilac); }
+.article-title  { font-family:var(--font-display); font-size:1.22rem; color:var(--text-primary); line-height:1.35; margin-bottom:11px; }
+.article-authors{ font-size:.82rem; color:var(--text-muted); font-weight:500; margin-bottom:24px; }
+.article-actions { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:17px; border-top:1px solid var(--border); }
+
+.read-more {
+  color:var(--teal); font-weight:700; font-size:.82rem; display:inline-flex; align-items:center; gap:5px; transition:gap .2s;
+}
+[data-theme="light"] .read-more { color:var(--purple-dark); }
+.read-more::after { content:'→'; transition:transform .2s; }
+.read-more:hover { gap:10px; }
+
+.pdf-btn {
+  background:var(--teal-pale); color:var(--teal); border:1px solid var(--border-teal);
+  border-radius:var(--radius-sm); padding:6px 15px;
+  font-family:var(--font-body); font-size:.76rem; font-weight:700; cursor:pointer;
+  transition:background .2s, color .2s, transform .2s;
+}
+[data-theme="light"] .pdf-btn { background:var(--lilac-pale); color:var(--purple-dark); border-color:var(--border-lilac); }
+.pdf-btn:hover { background:var(--teal); color:#0C1018; transform:translateY(-2px); }
+[data-theme="light"] .pdf-btn:hover { background:var(--purple-dark); color:#fff; }
+
+@media (max-width:600px) {
+  .article-card { padding:24px 20px; }
+}
