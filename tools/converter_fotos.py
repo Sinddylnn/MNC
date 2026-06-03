@@ -1,6 +1,7 @@
 import os
 import json
 import time
+from datetime import datetime
 from PIL import Image
 
 # BÚSSOLA: Descobre o caminho absoluto do projeto
@@ -21,91 +22,87 @@ def processar_timeline():
     qtd_fotos = 0
     qtd_erros = 0
 
-    print("\nIniciando o processamento da Galeria...")
+    print("\nConstruindo timeline a partir de imagens/galeria/...")
     print("-" * 40)
 
-    # Cria pastas base se não existirem
-    if not os.path.exists(PASTA_DESTINO): os.makedirs(PASTA_DESTINO)
-    if not os.path.exists(os.path.join(RAIZ_PROJETO, "data")): os.makedirs(os.path.join(RAIZ_PROJETO, "data"))
+    # Garante diretórios necessários
+    if not os.path.exists(PASTA_DESTINO):
+        print(f"❌ Pasta de galeria não encontrada: {PASTA_DESTINO}")
+        return
+    os.makedirs(os.path.join(RAIZ_PROJETO, "data"), exist_ok=True)
 
     dados_timeline = []
+    eventos_coletados = []
 
-    # Se a pasta de origem não existir, avisa e para
-    if not os.path.exists(PASTA_ORIGEM):
-        print(f"❌ Pasta não encontrada: {PASTA_ORIGEM}")
-        return
-
-    # Lista e ordena cronologicamente
-    pastas_eventos = sorted(os.listdir(PASTA_ORIGEM), reverse=True)
-
-    for nome_pasta in pastas_eventos:
-        caminho_pasta_origem = os.path.join(PASTA_ORIGEM, nome_pasta)
-        
-        if not os.path.isdir(caminho_pasta_origem):
+    # Percorre cada categoria dentro de imagens/galeria/
+    categorias = sorted(os.listdir(PASTA_DESTINO))
+    for categoria in categorias:
+        caminho_categoria = os.path.join(PASTA_DESTINO, categoria)
+        if not os.path.isdir(caminho_categoria):
             continue
 
-        qtd_eventos += 1
-        print(f"\n📁 Lendo evento: {nome_pasta}")
-        
-        caminho_pasta_destino = os.path.join(PASTA_DESTINO, nome_pasta)
-        if not os.path.exists(caminho_pasta_destino):
-            os.makedirs(caminho_pasta_destino)
+        print(f"\n📂 Categoria detectada: {categoria}")
 
-        fotos_do_evento = []
-        arquivos = [f for f in os.listdir(caminho_pasta_origem) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+        # Percorre pastas de data dentro da categoria
+        entradas_data = sorted(os.listdir(caminho_categoria), reverse=True)
+        for nome_data in entradas_data:
+            caminho_data = os.path.join(caminho_categoria, nome_data)
+            if not os.path.isdir(caminho_data):
+                continue
 
-        if not arquivos:
-            print("  ⚠️ Nenhuma foto encontrada nesta pasta.")
-        else:
-            print(f"  ℹ️ {len(arquivos)} arquivo(s) encontrado(s). Iniciando conversão...")
+            # Lista arquivos .webp nessa pasta de data
+            fotos = [f for f in sorted(os.listdir(caminho_data)) if f.lower().endswith('.webp')]
+            if not fotos:
+                print(f"  ⚠️ Nenhuma foto .webp em: {categoria}/{nome_data}")
+                continue
 
-        # Processa cada arquivo de imagem na pasta do evento
-        for nome_arquivo in arquivos:
-            caminho_origem_arquivo = os.path.join(caminho_pasta_origem, nome_arquivo)
-            nome_base, _ = os.path.splitext(nome_arquivo)
-            nome_webp = f"{nome_base}.webp"
-            caminho_destino_arquivo = os.path.join(caminho_pasta_destino, nome_webp)
-
+            # Tenta interpretar o nome da pasta como data; se falhar, marca como data inválida (None)
+            parsed_date = None
             try:
-                with Image.open(caminho_origem_arquivo) as img:
-                    # Converte para RGB para garantir compatibilidade antes de salvar como WebP
-                    if img.mode != 'RGB':
-                        img = img.convert('RGB')
+                parsed_date = datetime.strptime(nome_data, "%Y-%m-%d")
+            except Exception:
+                print(f"  ⚠️ Data inválida detectada (incluindo no JSON): {categoria}/{nome_data}")
 
-                    # Salva no formato WebP com qualidade otimizada
-                    img.save(caminho_destino_arquivo, 'WEBP', quality=80, optimize=True)
+            qtd_eventos += 1
+            qtd_fotos += len(fotos)
+            print(f"  ✅ {len(fotos)} foto(s) encontradas em {categoria}/{nome_data}")
 
-                # Caminho relativo padrão (imagens/galeria/<evento>/<arquivo.webp>) com barras Unix
-                caminho_relativo = os.path.join('imagens', 'galeria', nome_pasta, nome_webp).replace(os.sep, '/')
-                fotos_do_evento.append(caminho_relativo)
-                qtd_fotos += 1
-                print(f"  ✅ Convertido: {nome_arquivo} -> {nome_webp}")
+            eventos_coletados.append({
+                "categoria": categoria,
+                "data": nome_data,
+                "caminho_relativo": f"{categoria}/{nome_data}",
+                "fotos": fotos,
+                "_parsed_date": parsed_date
+            })
 
-            except Exception as e:
-                qtd_erros += 1
-                print(f"  ❌ Erro ao processar {nome_arquivo}: {e}")
+    # Ordena: eventos com data válida (desc por data) primeiro, depois eventos com data inválida (ordem alfabética desc)
+    eventos_validos = [e for e in eventos_coletados if e.get('_parsed_date')]
+    eventos_invalidos = [e for e in eventos_coletados if not e.get('_parsed_date')]
 
-        # Mesmo que não haja fotos, adicionamos o evento (com lista vazia)
-        evento = {
-            'data': nome_pasta,
-            'fotos': fotos_do_evento
-        }
-        dados_timeline.append(evento)
+    eventos_validos.sort(key=lambda e: e['_parsed_date'], reverse=True)
+    eventos_invalidos.sort(key=lambda e: e['data'], reverse=True)
 
-    # Grava o arquivo JSON com indentação legível
+    ordenados = eventos_validos + eventos_invalidos
+
+    # Remove campo temporário e monta dados_timeline
+    for e in ordenados:
+        e.pop('_parsed_date', None)
+        dados_timeline.append(e)
+
+    # Salva o JSON
     try:
-        with open(ARQUIVO_JSON, 'w', encoding='utf-8') as fh:
-            json.dump(dados_timeline, fh, ensure_ascii=False, indent=2)
+        with open(ARQUIVO_JSON, 'w', encoding='utf-8') as f:
+            json.dump(dados_timeline, f, indent=2, ensure_ascii=False)
         print(f"\n💾 Timeline salva em: {ARQUIVO_JSON}")
     except Exception as e:
-        print(f"❌ Erro ao gravar {ARQUIVO_JSON}: {e}")
+        print(f"\n❌ Erro ao salvar o JSON: {e}")
 
-    # Relatório final
+    # Relatório Final
     tempo_total = time.time() - tempo_inicio
     print("-" * 40)
     print(f"Processamento finalizado em {tempo_total:.2f} segundos")
     print(f"Eventos lidos: {qtd_eventos}")
-    print(f"Fotos convertidas: {qtd_fotos}")
+    print(f"Fotos encontradas: {qtd_fotos}")
     print(f"Erros: {qtd_erros}")
 
 

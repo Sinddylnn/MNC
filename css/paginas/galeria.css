@@ -43,3 +43,119 @@
 @media (max-width:420px) {
   .gallery-grid  { column-count:1; }
 }
+/* ══════════════════════════════════════════════════════════════════════
+   FILTROS E TIMELINE VERTICAL
+══════════════════════════════════════════════════════════════════════ */
+
+/* Botões de Filtro */
+.filtros-galeria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 50px;
+  width: 100%;
+  max-width: var(--content-max);
+  position: relative;
+  z-index: 1;
+}
+
+.btn-filtro {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 8px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+
+.btn-filtro:hover, 
+.btn-filtro.ativo {
+  background: var(--teal);
+  color: var(--bg-page); /* Fica escuro para dar contraste com o botão claro */
+  border-color: var(--teal);
+  font-weight: 700; 
+  box-shadow: 0 4px 15px rgba(171, 214, 205, 0.3); /* Sombra suave da sua cor teal */
+}
+
+/* Estrutura da Linha do Tempo */
+.timeline-vertical {
+  width: 100%;
+  max-width: var(--content-max);
+  position: relative;
+  z-index: 1;
+  border-left: 2px dashed rgba(171, 214, 205, 0.2); /* Linha sutil usando o tom teal */
+  padding-left: 40px;
+  margin-left: 20px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 60px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.timeline-item.escondido {
+  display: none; /* Classe que o JS vai usar para esconder os itens filtrados */
+}
+
+/* Bolinhas do Eixo */
+.timeline-marcador {
+  position: absolute;
+  left: -49px;
+  top: 5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 4px solid var(--bg-page);
+  /* Adicione as duas linhas abaixo para a cor única */
+  background-color: var(--teal); 
+  box-shadow: 0 0 10px rgba(171, 214, 205, 0.5); 
+}
+
+/* Cores por Categoria */
+.timeline-marcador.escola { background-color: #4CAF50; box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); }
+.timeline-marcador.mesa { background-color: var(--purple-deep); box-shadow: 0 0 10px rgba(138, 43, 226, 0.5); }
+.timeline-marcador.caravana { background-color: var(--teal); box-shadow: 0 0 10px rgba(171, 214, 205, 0.5); }
+.timeline-marcador.off { background-color: #E91E63; box-shadow: 0 0 10px rgba(233, 30, 99, 0.5); }
+
+/* Textos da Timeline */
+.timeline-conteudo { width: 100%; }
+
+.evento-data {
+  color: var(--teal);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.evento-titulo {
+  color: #fff;
+  margin: 5px 0 20px 0;
+  font-size: 1.5rem;
+}
+
+[data-theme="light"] .evento-titulo { color: #111; }
+
+/* Ajuste Responsivo da Timeline e do Grid dentro dela */
+.timeline-conteudo .gallery-grid {
+  /* Reduzi para 3 colunas no desktop porque a timeline rouba um pedaço da tela na esquerda */
+  column-count: 3; 
+}
+
+@media (max-width: 900px) {
+  .timeline-conteudo .gallery-grid { column-count: 2; }
+}
+
+@media (max-width: 600px) {
+  .timeline-vertical {
+    padding-left: 25px;
+    margin-left: 10px;
+  }
+  .timeline-marcador { left: -34px; }
+  .timeline-conteudo .gallery-grid { column-count: 1; }
+}
