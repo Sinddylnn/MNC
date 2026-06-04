@@ -140,12 +140,22 @@ export async function carregarGaleriaTimeline() {
     const escolasPorAno = agruparEscolasPorAno(dadosTimeline);
     const blocoEscolasHTML = gerarHTMLAcordeao(escolasPorAno);
 
-    const imagensEmbaralhadas = embaralharArray(todasAsImagens);
-    let htmlFotosAleatorias = imagensEmbaralhadas.map(item => `
-      <div class="gallery-item reveal">
-        <img src="${item.src}" alt="${item.alt}" loading="lazy" class="foto-zoom">
-      </div>`
-    ).join('');
+// ... dentro da sua função carregarGaleriaTimeline ...
+
+  const imagensEmbaralhadas = embaralharArray(todasAsImagens);
+
+    let htmlFotosAleatorias = imagensEmbaralhadas.map((item, index) => {
+      // As primeiras 12 imagens carregam imediatamente, o resto carrega com lazy
+      const carregamento = index < 12 ? 'eager' : 'lazy';
+
+      return `
+    <div class="gallery-item">
+      <img src="${item.src}" alt="${item.alt}" class="foto-zoom" loading="${carregamento}">
+    </div>
+  `;
+    }).join('');
+
+// ... resto do código ...
 
     const blocoTodosHTML = `
       <div id="grid-todos" class="reveal" style="display: block;">
