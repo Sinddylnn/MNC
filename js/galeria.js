@@ -143,7 +143,6 @@ export async function carregarGaleriaTimeline() {
 const imagensEmbaralhadas = embaralharArray(todasAsImagens); 
 
     let htmlFotosAleatorias = imagensEmbaralhadas.map((item, index) => {
-      // As primeiras 12 imagens carregam imediatamente, o resto carrega com lazy
       const carregamento = index < 12 ? 'eager' : 'lazy';
 
       return `
