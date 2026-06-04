@@ -1,9 +1,4 @@
-# Mulheres na Computação (MNC)
-
-Este repositório contém o site do projeto "Mulheres na Computação" (MNC). O site é estático, composto por páginas HTML com estilos CSS e comportamento dinâmico em JavaScript puro. Há uma automação em Python responsável pela otimização de imagens e pela geração do arquivo `data/timeline.json`, que alimenta a galeria dinâmica no frontend.
-
-Sumário
--------
+## Sumário
 
 - Visão Geral do Projeto
 - Arquitetura e Tecnologias
@@ -13,56 +8,51 @@ Sumário
 - Fluxo CI/CD (GitHub Actions)
 - Guia de manutenção
 
-Visão Geral do Projeto
-----------------------
+## Visão Geral do Projeto
 
 O site apresenta páginas institucionais, seção de artigos, equipe, galeria de memórias, formulário de inscrição e a página de Programa (cronogramas e eventos). A galeria é construída dinamicamente pelo frontend a partir do arquivo `data/timeline.json`, gerado pela automação Python.
 
-Arquitetura e Tecnologias
--------------------------
+## Arquitetura e Tecnologias
 
-- Frontend
-	- HTML5 estático para conteúdo e estrutura.
-	- CSS organizado em arquivos modulares (`css/base.css`, `css/components.css`, `css/layout.css`, `css/style.css` e `css/paginas/*`).
-	- JavaScript (arquivo principal `js/script.js`) responsável por:
-		- Carregar `header.html` e `footer.html` dinamicamente via `fetch` (corrige caminhos relativos quando necessário).
-		- Alternância de tema (dark/light) com persistência em `localStorage`.
-		- Animações e transições, incluindo uma transição de página customizada baseada em Canvas (efeito visual tipo circuito impresso).
-		- Renderização dinâmica da galeria a partir de `data/timeline.json`, incluindo geração de botões de filtro por categoria e formatação de datas em pt-BR (tratamento de fuso horário).
+- **Frontend**
+    - HTML5 estático para conteúdo e estrutura.
+    - CSS organizado em arquivos modulares (`css/base.css`, `css/components.css`, `css/layout.css`, `css/style.css` e `css/paginas/*`).
+    - JavaScript organizado em **Módulos ES6** (na pasta `js/`), com as seguintes divisões de responsabilidade:
+        - `main.js`: Arquivo principal que importa os módulos e inicializa o site.
+        - `ui.js`: Responsável por carregar `header.html` e `footer.html` dinamicamente via `fetch` e pela alternância de tema (dark/light) com persistência em `localStorage`.
+        - `utils.js`: Funções utilitárias reaproveitáveis (como embaralhamento de arrays e correção de rotas).
+        - `animacoes.js`: Gerencia animações e transições customizadas (ex: efeito visual tipo circuito impresso em Canvas).
+        - `galeria.js` e `acordeao.js`: Lidam com a renderização dinâmica da galeria a partir do `data/timeline.json`, criação de botões de filtro, formatação de datas em pt-BR e estruturação da exibição (Timeline, Grid Masonry fluido e Acordeão para a seção "Escolas").
 
-- Automação (Python)
-	- Script principal: `tools/converter_fotos.py`.
-	- Responsabilidades:
-		- Percorrer as pastas de fotos originais organizadas por categoria e data.
-		- Converter imagens para o formato `.webp` (otimizado) com Pillow.
-		- Gerar/atualizar `data/timeline.json` com a lista de eventos e fotos.
+- **Automação (Python)**
+    - Script principal: `tools/converter_fotos.py`.
+    - Responsabilidades:
+        - Percorrer as pastas de fotos originais organizadas por categoria e data.
+        - Converter imagens para o formato `.webp` (otimizado) com Pillow.
+        - Gerar/atualizar `data/timeline.json` com a lista de eventos e fotos.
 
-Estrutura de arquivos (resumo)
------------------------------
+## Estrutura de arquivos (resumo)
 
 | Caminho | Propósito |
 |---|---|
 | `paginas/` | Páginas HTML do site (`index.html`, `galeria.html`, `programa.html`, etc.) |
 | `css/` | Folhas de estilo modulares e específicas por página |
-| `js/` | Código JavaScript do frontend (`script.js`) |
+| `js/` | Código JavaScript modularizado do frontend (`main.js` e demais módulos) |
 | `imagens/fotos_originais/` | Fotos brutas organizadas por categoria e data (devem ser baixadas do Google Drive e colocadas localmente nesta pasta) |
 | `imagens/galeria/` | Imagens otimizadas geradas pelo script Python |
 | `data/timeline.json` | Linha do tempo consumida pelo frontend para montar a galeria |
 | `tools/converter_fotos.py` | Script Python responsável pela otimização e geração do JSON |
 | `.github/workflows/otimizar-imagens.yml` | Workflow que automatiza a conversão em CI (opcional) |
 
-Como configurar e rodar localmente
----------------------------------
+## Como configurar e rodar localmente
 
-1. Pré-requisitos
+1. **Pré-requisitos**
+   - Python 3.x instalado (recomenda-se 3.8+).
+   - `pip` disponível.
 
-- Python 3.x instalado (recomenda-se 3.8+).
-- `pip` disponível.
-
-2. Instalar dependências Python
-
-```bash
-pip install Pillow
+2. **Instalar dependências Python**
+   ```bash
+   pip install Pillow
 ```
 
 3. Execute o script de automação em Python:

@@ -85,28 +85,38 @@ export async function carregarGaleriaTimeline() {
 
     let todasAsImagens = [];
     let blocosTimelineHTML = '';
+    
+    // Trava de segurança para impedir imagens duplicadas na aba Todos
+    const linksAdicionados = new Set(); 
 
     dadosTimeline.forEach(evento => {
       const categoria = evento.categoria ? evento.categoria.toLowerCase() : 'sem categoria';
       const tituloCategoria = categoria.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
       let dataFormatada = evento.data;
-      let anoEvento = 'Desconhecido';
-
+      
       try {
         const dataObj = new Date(evento.data + 'T12:00:00');
         if (!Number.isNaN(dataObj.getTime())) {
           dataFormatada = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }).format(dataObj);
           dataFormatada = dataFormatada.replace(' de ', ' DE ').replace(' de ', ', ').toUpperCase();
-          anoEvento = dataObj.getFullYear().toString();
         }
       } catch (err) {}
 
       const fotosEvento = Array.isArray(evento.fotos) ? evento.fotos : [];
 
+      // 1º PASSO: Coleta e Randomização sem Repetições
+      fotosEvento.forEach(foto => {
+        const src = `../imagens/galeria/${evento.caminho_relativo}/${foto}`;
+        if (!linksAdicionados.has(src)) {
+            linksAdicionados.add(src); // Memoriza que esta foto já existe
+            todasAsImagens.push({ src, alt: `Foto do evento: ${tituloCategoria} em ${dataFormatada}` });
+        }
+      });
+
+      // 2º PASSO: Monta a Timeline Vertical (Apenas se NÃO for escola)
       if (categoria !== 'escola' && categoria !== 'escolas') {
         const fotosHTML = fotosEvento.map(foto => {
           const src = `../imagens/galeria/${evento.caminho_relativo}/${foto}`;
-          todasAsImagens.push({ src, alt: `Foto do evento: ${tituloCategoria} em ${dataFormatada}` });
           return `
             <div class="gallery-item">
               <img src="${src}" alt="Foto ${tituloCategoria}" loading="lazy" class="foto-zoom">
@@ -145,6 +155,7 @@ export async function carregarGaleriaTimeline() {
       </div>
     `;
 
+    // Injeta tudo no DOM
     containerTimeline.innerHTML = blocoTodosHTML + blocoEscolasHTML + blocosTimelineHTML;
     containerTimeline.classList.add('no-timeline');
 
@@ -152,6 +163,11 @@ export async function carregarGaleriaTimeline() {
     const eventosTimeline = containerTimeline.querySelectorAll('.timeline-item');
     const containerTodos = document.getElementById('grid-todos');
     const containerAcordeaoEscolas = document.getElementById('container-acordeao-escolas');
+
+    // Inicializa o acordeão mas força ele a começar ESCONDIDO
+    if (containerAcordeaoEscolas) {
+        containerAcordeaoEscolas.style.display = 'none';
+    }
 
     botoesFiltro.forEach(botao => {
       botao.addEventListener('click', () => {
@@ -161,14 +177,14 @@ export async function carregarGaleriaTimeline() {
         const filtroEscolhido = botao.getAttribute('data-filtro').toLowerCase();
 
         containerTodos.style.display = 'none';
-        containerAcordeaoEscolas.style.display = 'none';
+        if (containerAcordeaoEscolas) containerAcordeaoEscolas.style.display = 'none';
         eventosTimeline.forEach(evento => evento.style.display = 'none');
 
         if (filtroEscolhido === 'todos') {
           containerTodos.style.display = 'block';
           containerTimeline.classList.add('no-timeline');
         } else if (filtroEscolhido === 'escola' || filtroEscolhido === 'escolas') {
-          containerAcordeaoEscolas.style.display = 'block';
+          if (containerAcordeaoEscolas) containerAcordeaoEscolas.style.display = 'block';
           containerTimeline.classList.add('no-timeline');
         } else {
           containerTimeline.classList.remove('no-timeline');
@@ -184,6 +200,13 @@ export async function carregarGaleriaTimeline() {
     inicializarAcordeaoEscolas(containerAcordeaoEscolas);
     configurarLightbox();
     observarReveals(document);
+
+    // TRUQUE FINAL: Clica automaticamente no botão "Todos" para garantir que o layout comece limpo
+    const botaoAbaTodos = containerFiltros.querySelector('[data-filtro="todos"]');
+    if (botaoAbaTodos) {
+        botaoAbaTodos.click();
+    }
+
   } catch (erro) {
     console.error('Erro ao carregar o timeline.json:', erro);
   }

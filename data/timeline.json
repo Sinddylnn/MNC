@@ -28,16 +28,14 @@
   },
   {
     "categoria": "escolas",
-    "data": "2026-03-11",
-    "caminho_relativo": "escolas/2026-03-11",
+    "data": "2026",
+    "caminho_relativo": "escolas/2026",
     "fotos": [
-      "encontro(11-03-2026) (1).webp",
-      "encontro(11-03-2026) (2).webp",
-      "encontro(11-03-2026) (3).webp",
-      "encontro(11-03-2026) (4).webp",
-      "encontro(11-03-2026) (5).webp",
-      "encontro(11-03-2026) (6).webp",
-      "encontro(11-03-2026) (7).webp"
+      "2026 (1).webp",
+      "2026 (2).webp",
+      "2026 (3).webp",
+      "2026 (4).webp",
+      "2026 (5).webp"
     ]
   }
 ]
