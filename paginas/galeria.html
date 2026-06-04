@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Galeria | Mulheres na Computação MNC</title>
-  
+
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/paginas/galeria.css">
-  
+
   <!-- Inicialização do tema para evitar Flash of Unstyled Content (FOUC) -->
   <script>
-    (function(){
+    (function () {
       const s = localStorage.getItem('mnc-theme') || 'dark';
       document.documentElement.setAttribute('data-theme', s);
     })();
   </script>
 </head>
+
 <body>
-  
+
   <!-- Overlay da animação de transição (PCB) -->
   <div id="circuitOverlay">
     <canvas id="circuitCanvas"></canvas>
@@ -29,12 +31,12 @@
   <!-- Padrão de fundo global -->
   <div class="global-pattern"></div>
 
-  <!-- O Header será injetado dinamicamente pelo script.js -->
+  <!-- O Header será injetado dinamicamente pelo main.js -->
   <header id="main-header"></header>
 
   <main>
+<main>
     <section class="gallery-section">
-      <!-- Elementos decorativos de fundo -->
       <div class="gallery-bg-shape-1"></div>
       <div class="gallery-bg-shape-2"></div>
 
@@ -44,55 +46,19 @@
         <p>Diga Xis! Vem pra galeria do MNC!<br>Dá uma olhada no que a gente anda aprontando ;D</p>
       </div>
 
-      <div class="gallery-grid">
-        <!-- Estrutura melhorada com imagens reais de placeholder e legendas -->
-        <div class="gallery-item short reveal reveal-delay-1">
-          <img src="https://picsum.photos/seed/mnc1/400/300" alt="Evento MNC">
-          <div class="gallery-overlay"><span>Oficina de Programação</span></div>
-        </div>
-        
-        <div class="gallery-item medium reveal reveal-delay-2">
-          <img src="https://picsum.photos/seed/mnc2/400/500" alt="Reunião de equipe">
-          <div class="gallery-overlay"><span>Encontro Semanal</span></div>
-        </div>
-        
-        <div class="gallery-item long reveal reveal-delay-1">
-          <img src="https://picsum.photos/seed/mnc3/400/600" alt="Apresentação de projeto">
-          <div class="gallery-overlay"><span>Apresentação na UEPB</span></div>
-        </div>
-        
-        <div class="gallery-item medium reveal reveal-delay-3">
-          <img src="https://picsum.photos/seed/mnc4/400/500" alt="Hackathon">
-          <div class="gallery-overlay"><span>Hackathon MNC</span></div>
-        </div>
-        
-        <div class="gallery-item long reveal reveal-delay-2">
-          <img src="https://picsum.photos/seed/mnc5/400/600" alt="Palestra">
-          <div class="gallery-overlay"><span>Palestra de Abertura</span></div>
-        </div>
-        
-        <div class="gallery-item short reveal reveal-delay-1">
-          <img src="https://picsum.photos/seed/mnc6/400/300" alt="Roda de conversa">
-          <div class="gallery-overlay"><span>Roda de Conversa</span></div>
-        </div>
-        
-        <div class="gallery-item medium reveal reveal-delay-3">
-          <img src="https://picsum.photos/seed/mnc7/400/500" alt="Minicurso">
-          <div class="gallery-overlay"><span>Minicurso de Git/GitHub</span></div>
-        </div>
-        
-        <div class="gallery-item short reveal reveal-delay-2">
-          <img src="https://picsum.photos/seed/mnc8/400/300" alt="Confraternização">
-          <div class="gallery-overlay"><span>Confraternização da Equipe</span></div>
-        </div>
+      <div class="filtros-galeria reveal" id="container-filtros"></div>
+
+      <div class="timeline-vertical" id="container-timeline">
+        <p id="loading-galeria" style="color: var(--teal); text-align: center; font-family: inherit; font-size: 1.1rem; padding: 2rem 0;">Carregando memórias...</p>
       </div>
+
     </section>
 
-    <!-- O Footer será injetado dinamicamente pelo script.js -->
     <footer id="main-footer" class="site-footer"></footer>
   </main>
 
   <!-- Importação centralizada de todos os scripts da página -->
-  <script src="../js/script.js" defer></script>
+  <script type="module" src="../js/main.js"></script>
 </body>
+
 </html>

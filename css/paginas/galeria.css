@@ -26,10 +26,14 @@
 
 .gallery-grid { column-count:4; column-gap:16px; width:100%; max-width:var(--content-max); position:relative; z-index:1; }
 .gallery-item {
-  background:var(--bg-card); border-radius:var(--radius-md); margin-bottom:16px;
-  display:flex; justify-content:center; align-items:center;
-  break-inside:avoid; border:1px solid var(--border);
-  transition:transform .35s, border-color .3s, box-shadow .35s; cursor:pointer; overflow:hidden;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  break-inside: avoid; /* Fundamental para a foto não ser cortada no meio da coluna */
+  border: 1px solid var(--border);
+  transition: transform .35s, border-color .3s, box-shadow .35s;
+  cursor: zoom-in; /* Muda o cursor para a lupa, indicando que dá para clicar */
+  overflow: hidden;
 }
 .gallery-item:hover { transform:scale(1.03); border-color:var(--border-teal); box-shadow:var(--shadow-md); }
 .gallery-item span { color:var(--text-muted); font-size:.76rem; padding:20px; text-align:center; }
@@ -37,9 +41,456 @@
 .gallery-item.medium { height:300px; }
 .gallery-item.long   { height:400px; }
 
+/* Garante que a imagem ocupe a largura da coluna e defina sua própria altura fluidamente */
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block; /* Remove espaços em branco indesejados embaixo da imagem */
+}
+
+/* Esconde a linha da timeline e os recuos quando na aba 'Todos' */
+.timeline-vertical.no-timeline {
+  border-left: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   LIGHTBOX (MODAL DE ZOOM)
+══════════════════════════════════════════════════════════════════════ */
+.lightbox-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(13, 16, 32, 0.95); /* Fundo escuro com a vibe do seu tema */
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-modal img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain; /* Garante que a foto original caiba na tela inteira sem cortar */
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.lightbox-modal.active img {
+  transform: scale(1);
+}
+
+.lightbox-fechar {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  color: rgba(255,255,255,0.7);
+  font-size: 2.5rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.3s;
+}
+
+.lightbox-fechar:hover {
+  color: var(--teal);
+}
+
 @media (max-width:600px) {
   .gallery-grid { column-count:2; }
 }
 @media (max-width:420px) {
   .gallery-grid  { column-count:1; }
+}
+/* ══════════════════════════════════════════════════════════════════════
+   FILTROS E TIMELINE VERTICAL
+══════════════════════════════════════════════════════════════════════ */
+
+/* Botões de Filtro */
+.filtros-galeria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 50px;
+  width: 100%;
+  max-width: var(--content-max);
+  position: relative;
+  z-index: 1;
+}
+
+.btn-filtro {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 8px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+
+.btn-filtro:hover, 
+.btn-filtro.ativo {
+  background: var(--teal);
+  color: var(--bg-page); /* Fica escuro para dar contraste com o botão claro */
+  border-color: var(--teal);
+  font-weight: 700; 
+  box-shadow: 0 4px 15px rgba(171, 214, 205, 0.3); /* Sombra suave da sua cor teal */
+}
+
+/* Estrutura da Linha do Tempo */
+.timeline-vertical {
+  width: 100%;
+  max-width: var(--content-max);
+  position: relative;
+  z-index: 1;
+  border-left: 2px dashed rgba(171, 214, 205, 0.2); /* Linha sutil usando o tom teal */
+  padding-left: 40px;
+  margin-left: 20px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 60px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.timeline-item.escondido {
+  display: none; /* Classe que o JS vai usar para esconder os itens filtrados */
+}
+
+/* Bolinhas do Eixo */
+.timeline-marcador {
+  position: absolute;
+  left: -49px;
+  top: 5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 4px solid var(--bg-page);
+  /* Adicione as duas linhas abaixo para a cor única */
+  background-color: var(--teal); 
+  box-shadow: 0 0 10px rgba(171, 214, 205, 0.5); 
+}
+
+/* Cores por Categoria */
+.timeline-marcador.escola { background-color: #4CAF50; box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); }
+.timeline-marcador.mesa { background-color: var(--purple-deep); box-shadow: 0 0 10px rgba(138, 43, 226, 0.5); }
+.timeline-marcador.caravana { background-color: var(--teal); box-shadow: 0 0 10px rgba(171, 214, 205, 0.5); }
+.timeline-marcador.off { background-color: #E91E63; box-shadow: 0 0 10px rgba(233, 30, 99, 0.5); }
+
+/* Textos da Timeline */
+.timeline-conteudo { width: 100%; }
+
+.evento-data {
+  color: var(--teal);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.evento-titulo {
+  color: #fff;
+  margin: 5px 0 20px 0;
+  font-size: 1.5rem;
+}
+
+[data-theme="light"] .evento-titulo { color: #111; }
+
+/* Ajuste Responsivo da Timeline e do Grid dentro dela */
+.timeline-conteudo .gallery-grid {
+  /* Reduzi para 3 colunas no desktop porque a timeline rouba um pedaço da tela na esquerda */
+  column-count: 3; 
+}
+
+@media (max-width: 900px) {
+  .timeline-conteudo .gallery-grid { column-count: 2; }
+}
+
+@media (max-width: 600px) {
+  .timeline-vertical {
+    padding-left: 25px;
+    margin-left: 10px;
+  }
+  .timeline-marcador { left: -34px; }
+  .timeline-conteudo .gallery-grid { column-count: 1; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ACORDEÃO (SESSÃO ESCOLAS POR ANO) - COMPONENTE MODULAR
+   ═══════════════════════════════════════════════════════════════════════
+   
+   CLASSES E ESTRUTURA:
+   - #container-acordeao-escolas    → Container principal do acordeão
+   - .acordeao-ano-container        → Cada bloco (ano)
+   - .acordeao-ano-btn              → Botão de expandir/retrair
+   - .acordeao-ano-label            → Texto do botão (ex: "Turma de 2026")
+   - .acordeao-icone                → Ícone visual (+/×)
+   - .acordeao-ano-galeria          → Galéria de fotos do ano (oculta/mostrada)
+   
+   ESTRATÉGIA CSS:
+   - Layout fluido e responsivo
+   - Transições suaves para estado ativo/inativo
+   - Ícone rotaciona 45° para transformar "+" em "×" quando aberto
+   - Herda grid masonry (.gallery-grid) da galeria principal
+   - Usa variáveis globais de tema (--teal, --bg-page, --border, --radius-md)
+   - Sem estilos inline, tudo controlado por classes
+════════════════════════════════════════════════════════════════════════ */
+
+#container-acordeao-escolas {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/**
+ * Container de cada ano no acordeão
+ * Mantém todos os componentes (botão + galeria) agrupados
+ */
+.acordeao-ano-container {
+  margin-bottom: 16px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.acordeao-ano-container:hover {
+  border-color: var(--border-teal);
+}
+
+/**
+ * Botão do acordeão
+ * - Fundo sutil com a cor teal
+ * - Flexbox para alinhar label + ícone horizontalmente
+ * - Transições suaves no hover e estado ativo
+ */
+.acordeao-ano-btn {
+  width: 100%;
+  background: rgba(171, 214, 205, 0.08);  /* Cor teal com opacidade bem baixa */
+  color: var(--text-primary);
+  border: none;
+  padding: 18px 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+}
+
+.acordeao-ano-btn:hover:not(.ativo) {
+  background: rgba(171, 214, 205, 0.12);
+}
+
+.acordeao-ano-btn:focus {
+  outline: 2px solid var(--teal);
+  outline-offset: -2px;
+}
+
+/**
+ * Estado ativo do botão (quando a galeria está aberta)
+ * - Fundo mais pronunciado
+ * - Cor teal mais evidente
+ */
+.acordeao-ano-btn.ativo {
+  background: rgba(171, 214, 205, 0.18);
+  color: var(--text-primary);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Tema claro: ajusta cores para melhor legibilidade */
+[data-theme="light"] .acordeao-ano-btn {
+  background: rgba(74, 57, 104, 0.06);  /* Roxo bem suave */
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .acordeao-ano-btn:hover:not(.ativo) {
+  background: rgba(74, 57, 104, 0.12);
+}
+
+[data-theme="light"] .acordeao-ano-btn.ativo {
+  background: rgba(74, 57, 104, 0.18);
+}
+
+/**
+ * Label do botão (texto: "Turma de XXXX")
+ * - Flex: 1 para ocupar espaço disponível
+ * - Evita que o ícone empurre o texto
+ */
+.acordeao-ano-label {
+  flex: 1;
+}
+
+/**
+ * Ícone de expansão/retraçao
+ * - Começa como "+" (U+002B)
+ * - Rotaciona 45° quando .ativo, transformando-se em "×" visualmente
+ * - Cor teal para combinar com tema
+ */
+.acordeao-icone {
+  font-size: 1.4rem;
+  color: var(--teal);
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;  /* Previne que o ícone encolha */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.acordeao-ano-btn.ativo .acordeao-icone {
+  transform: rotate(45deg);  /* Transforma "+" em "×" */
+}
+
+/**
+ * Container da galeria (gride de fotos)
+ * - Oculto por padrão (display: none no HTML)
+ * - Mostra com animação suave quando aberto
+ * - Herda grid masonry de .gallery-grid
+ */
+.acordeao-ano-galeria {
+  background: rgba(171, 214, 205, 0.04);  /* Fundo muito sutil */
+  padding: 24px 20px 20px 20px;
+  animation: acordeaoAbrir 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  border-top: 1px solid rgba(171, 214, 205, 0.1);
+}
+
+/* Tema claro: ajusta fundo */
+[data-theme="light"] .acordeao-ano-galeria {
+  background: rgba(74, 57, 104, 0.04);
+  border-top-color: rgba(74, 57, 104, 0.1);
+}
+
+/**
+ * Animação de abertura do acordeão
+ * - Fade in suave
+ * - Pequeno translate para efeito de entrada
+ */
+@keyframes acordeaoAbrir {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/**
+ * O grid de fotos dentro do acordeão
+ * - Herda .gallery-grid do contexto principal
+ * - Mantém o masonry layout com column-count
+ * - Responsivo para diferentes tamanhos de tela
+ */
+.acordeao-ano-galeria .gallery-grid {
+  column-count: 4;
+  column-gap: 16px;
+}
+
+@media (max-width: 1200px) {
+  .acordeao-ano-galeria .gallery-grid {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .acordeao-ano-galeria .gallery-grid {
+    column-count: 2;
+  }
+  
+  .acordeao-ano-btn {
+    padding: 16px 20px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .acordeao-ano-galeria .gallery-grid {
+    column-count: 1;
+  }
+  
+  .acordeao-ano-btn {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+  }
+  
+  .acordeao-icone {
+    font-size: 1.2rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   COMPATIBILIDADE COM ESTRUTURA ANTIGA (FALLBACK)
+══════════════════════════════════════════════════════════════════════ */
+
+/* Se ainda houver classes antigas no DOM, mapeá-las para as novas */
+#container-acordeao-escolas .escola-ano-container {
+  /* Fallback para estrutura antiga */
+  margin-bottom: 16px;
+}
+
+#container-acordeao-escolas .escola-ano-btn {
+  /* Fallback - aplicar estilos do novo .acordeao-ano-btn */
+  width: 100%;
+  background: rgba(171, 214, 205, 0.08);
+  border: none;
+  padding: 18px 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#container-acordeao-escolas .escola-ano-btn:hover:not(.ativo) {
+  background: rgba(171, 214, 205, 0.12);
+}
+
+#container-acordeao-escolas .escola-ano-btn.ativo {
+  background: rgba(171, 214, 205, 0.18);
+}
+
+#container-acordeao-escolas .icone-expandir {
+  font-size: 1.4rem;
+  color: var(--teal);
+  font-weight: 700;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#container-acordeao-escolas .escola-ano-btn.ativo .icone-expandir {
+  transform: rotate(45deg);
+}
+
+#container-acordeao-escolas .escola-ano-galeria {
+  background: rgba(171, 214, 205, 0.04);
+  padding: 24px 20px 20px 20px;
+  animation: acordeaoAbrir 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  border-top: 1px solid rgba(171, 214, 205, 0.1);
 }
