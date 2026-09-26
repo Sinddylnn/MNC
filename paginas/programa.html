@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/paginas/programa.css">
   
   <!-- Script inline executado imediatamente para definir o tema (claro/escuro) 
@@ -29,10 +28,10 @@
 
 <body>
   <!-- Elementos de fundo e efeitos visuais globais -->
-  <div id="circuitOverlay">
+  <div id="circuitOverlay" aria-hidden="true">
     <canvas id="circuitCanvas"></canvas> <!-- Possível animação via JavaScript -->
   </div>
-  <div class="global-pattern"></div> <!-- Padrão visual de fundo -->
+  <div class="global-pattern" aria-hidden="true"></div> <!-- Padrão visual de fundo -->
 
   <!-- Cabeçalho principal (provavelmente populado dinamicamente via JavaScript) -->
   <header id="main-header"></header>
@@ -84,10 +83,9 @@
     <!-- SEÇÃO 2: Conteúdo e Aprendizado -->
     <section class="learning-section">
       <!-- Cabeçalho da seção -->
-    <section class="learning-section">
         <!-- Imagem menor (120px) e com margem negativa (-40px) para puxar para cima -->
       <div style="width: 200px; height: 120px; margin: -100px auto 30px auto; display: flex; justify-content: center; align-items: center;">
-        <img src="../imagens/kit mnc.png" alt="Detalhe Borboleta" style="width: 100%; height: auto;">
+        <img src="../imagens/kit mnc.png" alt="Ilustração de uma borboleta em tons de lilás com traços de circuito" style="width: 100%; height: auto;">
       </div>
       <div class="learning-header reveal">
         <span class="overline">Reconhecimento</span>
@@ -106,7 +104,7 @@
             <p>O impacto do nosso projeto ganhou as telas! Acompanhe a reportagem completa que foi ao ar na TV Paraíba, mostrando na prática como a nossa iniciativa incentiva meninas de Campina Grande a seguirem carreira na computação.</p>
             
             <div style="margin-top: 20px;">
-              <a href="https://g1.globo.com/pb/paraiba/videos-jpb1/video/projeto-incentiva-meninas-a-seguirem-carreira-na-computacao-14481892.ghtml" target="_blank" class="btn-teal">
+              <a href="https://g1.globo.com/pb/paraiba/videos-jpb1/video/projeto-incentiva-meninas-a-seguirem-carreira-na-computacao-14481892.ghtml" target="_blank" rel="noopener noreferrer" class="btn-teal">
                 Assistir Reportagem →
               </a>
             </div>
@@ -122,7 +120,7 @@
             <p>Nossa iniciativa também foi pauta no portal G1. O texto detalha a criação do projeto na UEPB, focado em acolher, combater a evasão e dar o merecido protagonismo às mulheres na área tecnológica.</p>
             
             <div style="margin-top: 20px;">
-              <a href="https://g1.globo.com/pb/paraiba/noticia/2026/03/08/professora-cria-projeto-na-uepb-para-acolher-e-dar-protagonismo-a-mulheres-na-area-da-computacao.ghtml" target="_blank" class="btn-teal">
+              <a href="https://g1.globo.com/pb/paraiba/noticia/2026/03/08/professora-cria-projeto-na-uepb-para-acolher-e-dar-protagonismo-a-mulheres-na-area-da-computacao.ghtml" target="_blank" rel="noopener noreferrer" class="btn-teal">
                 Ler Matéria Completa →
               </a>
             </div>

@@ -1,119 +1,124 @@
-## Sumário
+# Mulheres na Computação — MNC
 
-- Visão Geral do Projeto
-- Arquitetura e Tecnologias
-- Estrutura de arquivos
-- Como configurar e rodar localmente
-- Executar o script de conversão de imagens
-- Fluxo CI/CD (GitHub Actions)
-- Guia de manutenção
+Site institucional do **Mulheres na Computação (MNC)**, projeto de extensão da Universidade Estadual da Paraíba (UEPB), Campus I, em Campina Grande.
 
-## Visão Geral do Projeto
+Criado em 2020, o MNC promove acolhimento, formação, representatividade e protagonismo de meninas e mulheres na computação. O projeto é parceiro do Programa Meninas Digitais, da Sociedade Brasileira de Computação (SBC).
 
-O site apresenta páginas institucionais, seção de artigos, equipe, galeria de memórias, formulário de inscrição e a página de Programa (cronogramas e eventos). A galeria é construída dinamicamente pelo frontend a partir do arquivo `data/timeline.json`, gerado pela automação Python.
+## Conteúdo do site
 
-## Arquitetura e Tecnologias
+- apresentação e história do projeto;
+- objetivos e ações do programa;
+- equipe do MNC;
+- galeria de encontros e atividades em escolas;
+- publicações acadêmicas para download;
+- formulário de inscrição para novas participantes;
+- temas claro e escuro.
 
-- **Frontend**
-    - HTML5 estático para conteúdo e estrutura.
-    - CSS organizado em arquivos modulares (`css/base.css`, `css/components.css`, `css/layout.css`, `css/style.css` e `css/paginas/*`).
-    - JavaScript organizado em **Módulos ES6** (na pasta `js/`), com as seguintes divisões de responsabilidade:
-        - `main.js`: Arquivo principal que importa os módulos e inicializa o site.
-        - `ui.js`: Responsável por carregar `header.html` e `footer.html` dinamicamente via `fetch` e pela alternância de tema (dark/light) com persistência em `localStorage`.
-        - `utils.js`: Funções utilitárias reaproveitáveis (como embaralhamento de arrays e correção de rotas).
-        - `animacoes.js`: Gerencia animações e transições customizadas (ex: efeito visual tipo circuito impresso em Canvas).
-        - `galeria.js` e `acordeao.js`: Lidam com a renderização dinâmica da galeria a partir do `data/timeline.json`, criação de botões de filtro, formatação de datas em pt-BR e estruturação da exibição (Timeline, Grid Masonry fluido e Acordeão para a seção "Escolas").
+## Tecnologias
 
-- **Automação (Python)**
-    - Script principal: `tools/converter_fotos.py`.
-    - Responsabilidades:
-        - Percorrer as pastas de fotos originais organizadas por categoria e data.
-        - Converter imagens para o formato `.webp` (otimizado) com Pillow.
-        - Gerar/atualizar `data/timeline.json` com a lista de eventos e fotos.
+- HTML5;
+- CSS3 modular;
+- JavaScript em módulos ES6;
+- Canvas API para animações de transição;
+- Python 3 e Pillow para otimização de imagens;
+- GitHub Actions para validar, processar imagens e publicar o site.
 
-## Estrutura de arquivos (resumo)
+O frontend não usa framework, gerenciador de pacotes ou etapa de compilação.
 
-| Caminho | Propósito |
-|---|---|
-| `paginas/` | Páginas HTML do site (`index.html`, `galeria.html`, `programa.html`, etc.) |
-| `css/` | Folhas de estilo modulares e específicas por página |
-| `js/` | Código JavaScript modularizado do frontend (`main.js` e demais módulos) |
-| `imagens/fotos_originais/` | Fotos brutas organizadas por categoria e data (devem ser baixadas do Google Drive e colocadas localmente nesta pasta) |
-| `imagens/galeria/` | Imagens otimizadas geradas pelo script Python |
-| `data/timeline.json` | Linha do tempo consumida pelo frontend para montar a galeria |
-| `tools/converter_fotos.py` | Script Python responsável pela otimização e geração do JSON |
-| `.github/workflows/otimizar-imagens.yml` | Workflow que automatiza a conversão em CI (opcional) |
+## Executar localmente
 
-## Como configurar e rodar localmente
+O projeto deve ser servido por HTTP porque usa módulos JavaScript e `fetch` para carregar componentes e dados.
 
-1. **Pré-requisitos**
-   - Python 3.x instalado (recomenda-se 3.8+).
-   - `pip` disponível.
+Na raiz do repositório, execute:
 
-2. **Instalar dependências Python**
-   ```bash
-   pip install Pillow
-```
-
-3. Execute o script de automação em Python:
 ```bash
-python tools/converter_fotos.py
+python -m http.server 8000
 ```
 
+Depois acesse [http://localhost:8000](http://localhost:8000).
 
-Executar o script de conversão de imagens
-----------------------------------------
+Não é necessário instalar dependências para visualizar o site.
 
-1. Estrutura de origem esperada (exemplo):
+## Estrutura do projeto
 
+```text
+MNC/
+├── css/                         # Estilos globais e por página
+├── data/timeline.json           # Dados consumidos pela galeria
+├── imagens/galeria/             # Imagens WebP completas
+├── imagens/miniaturas/          # WebPs menores usados nas grades
+├── js/                          # Módulos JavaScript
+├── paginas/                     # Páginas internas do site
+├── pdfs/                        # Artigos disponíveis para download
+├── tools/converter_fotos.py     # Conversor e gerador da timeline
+├── footer.html                  # Rodapé compartilhado
+├── header.html                  # Cabeçalho compartilhado
+└── index.html                   # Página inicial
 ```
+
+`header.html` e `footer.html` são carregados dinamicamente por `js/ui.js`. O ponto de entrada JavaScript é `js/main.js`.
+
+## Atualizar a galeria
+
+As fotos originais devem ser organizadas por categoria e data:
+
+```text
 imagens/fotos_originais/<categoria>/<YYYY-MM-DD>/*.jpg
 ```
 
-2. Rodar o conversor localmente (a partir da raiz do repositório):
+Para categorias agrupadas por ano, também é aceito:
+
+```text
+imagens/fotos_originais/escolas/<YYYY>/*.png
+```
+
+Instale o Pillow e execute o conversor:
 
 ```bash
+python -m pip install Pillow
 python tools/converter_fotos.py
 ```
 
-O script irá:
+O script corrige a orientação EXIF, converte arquivos PNG, JPG e JPEG para WebP, gera versões menores em `imagens/miniaturas/` e atualiza `data/timeline.json` com os caminhos e as dimensões das fotos. Uma imagem é reconvertida quando o arquivo original for mais recente que a versão gerada.
 
-- Validar e percorrer as pastas dentro de `imagens/galeria/` (ou converter a partir de `imagens/fotos_originais/` dependendo do fluxo configurado).
-- Gerar versões otimizadas em `imagens/galeria/<categoria>/<data>/*.webp`.
-- Atualizar o arquivo `data/timeline.json` com os eventos e as imagens encontradas.
+Arquivos antigos são preservados por padrão. Para remover da galeria e das miniaturas os WebPs que não possuem mais um original correspondente, execute conscientemente:
 
-Fluxo CI/CD (GitHub Actions)
-----------------------------
+```bash
+python tools/converter_fotos.py --limpar-orfaos
+```
 
-O repositório inclui um workflow (`.github/workflows/otimizar-imagens.yml`) que pode ser configurado para:
+O workflow `.github/workflows/otimizar-imagens.yml` permite executar esse processo pelo GitHub Actions.
 
-- Disparar em `push` para caminhos de fotos originais.
-- Configurar um ambiente Python, instalar dependências e executar o conversor automaticamente.
-- Comitar de volta os artefatos gerados (imagens `.webp` e `data/timeline.json`).
+## Validar e publicar
 
-Verifique o conteúdo do workflow para garantir que ele invoque o mesmo script que você usa localmente (`tools/converter_fotos.py`) ou um wrapper consistente.
+Antes de enviar alterações, execute a validação local:
 
-Boas práticas de manutenção
----------------------------
+```bash
+python tools/validar_site.py
+```
 
-- Não edite manualmente `data/timeline.json` a menos que seja estritamente necessário; prefira ajustar a estrutura de pastas e reexecutar a automação.
-- Nomeie pastas de data no formato `YYYY-MM-DD` sempre que possível.
-- Evite commitar imagens pesadas não otimizadas; prefira as versões `.webp` geradas pela automação.
-- Antes de abrir um PR que altera imagens, rode `python tools/converter_fotos.py` localmente e confirme que `data/timeline.json` e `imagens/galeria/` foram atualizados corretamente.
+O validador confere a estrutura das páginas HTML, caminhos de arquivos locais, segurança dos links externos, referências de CSS, importações JavaScript e consistência das fotos e miniaturas da timeline. A sintaxe JavaScript também é verificada pelo workflow `.github/workflows/validar-site.yml` em branches de trabalho e pull requests para `main`.
 
-Licença
--------
+O workflow `.github/workflows/publicar-site.yml` valida novamente o projeto e publica somente os arquivos públicos no GitHub Pages após um push na branch `main`. Ele também pode ser iniciado manualmente em **Actions → Publicar site → Run workflow**.
 
-Consulte o arquivo `LICENSE` no repositório para informações sobre a licença do projeto.
+Na primeira publicação, selecione **GitHub Actions** em **Settings → Pages → Build and deployment → Source**. Depois dessa configuração única, novas versões da `main` serão publicadas automaticamente.
 
----
+## Configurar o formulário
 
-Arquivo de referência
----------------------
+O fluxo de envio e as mensagens de retorno estão implementados. Para habilitar o envio, informe no atributo `data-endpoint` de `paginas/inscricao.html` o endpoint HTTPS fornecido pelo serviço de formulários escolhido.
 
-O código-chave está em:
+## Documentação
 
-- `js/script.js` — lógica de carregamento dinâmico, filtros e renderização da galeria.
-- `tools/converter_fotos.py` — conversão de imagens e geração de `data/timeline.json`.
-- `.github/workflows/otimizar-imagens.yml` — workflow de CI para conversão automática.
+- [Informações do projeto](INFORMACOES_PROJETO.md): arquitetura, páginas, fluxos e manutenção;
+- [Melhorias sugeridas](MELHORIAS_SUGERIDAS.md): pontos pendentes e evolução recomendada;
+- [Diretrizes para agentes](AGENTS.md): convenções que devem ser seguidas pelo Codex e outros agentes de código.
 
+## Contato
+
+- E-mail: [mnc.uepb@gmail.com](mailto:mnc.uepb@gmail.com)
+- Instagram: [@mnc.uepb](https://www.instagram.com/mnc.uepb/)
+- LinkedIn: [Mulheres na Computação — UEPB](https://br.linkedin.com/company/mulheres-na-computa%C3%A7%C3%A3o-uepb)
+
+## Licença
+
+Este projeto está disponível sob a [licença MIT](LICENSE).

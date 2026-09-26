@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/paginas/inscricao.css">
 
   <!-- Inicialização do tema -->
@@ -24,12 +23,12 @@
 <body>
 
   <!-- Overlay da animação de transição (PCB) -->
-  <div id="circuitOverlay">
+  <div id="circuitOverlay" aria-hidden="true">
     <canvas id="circuitCanvas"></canvas>
   </div>
 
   <!-- Padrão de fundo global -->
-  <div class="global-pattern"></div>
+  <div class="global-pattern" aria-hidden="true"></div>
 
   <header id="main-header"></header>
 
@@ -43,7 +42,7 @@
         <p>Venha para nosso projeto de extensão e faça parte de uma comunidade que valoriza protagonismo, tecnologia e
           apoio entre mulheres.</p>
         <div class="arrow-down">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"
             stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
             <polyline points="6 14 12 20 18 14" opacity="0.45"></polyline>
@@ -59,7 +58,8 @@
           <p class="form-desc">Preencha suas informações abaixo e aguarde nosso contato com os próximos passos para
             participação.</p>
 
-          <form action="https://formspree.io/f/SEU_CODIGO_AQUI" method="POST" class="participate-form">
+          <!-- Preencha data-endpoint com o endpoint HTTPS fornecido pelo serviço de formulários. -->
+          <form method="POST" class="participate-form" data-endpoint="">
             <input type="hidden" name="_subject" value="Nova inscrição - Site MNC!">
 
             <div class="input-group">
@@ -93,6 +93,7 @@
             </div>
 
             <button type="submit" class="btn-teal btn-submit">Enviar inscrição</button>
+            <p class="form-status" role="status" aria-live="polite"></p>
           </form>
         </div>
       </div>

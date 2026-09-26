@@ -23,6 +23,33 @@ export function embaralharArray(array) {
 }
 
 /**
+ * Resolve a imagem completa, a miniatura e as dimensões registradas na timeline.
+ * Mantém compatibilidade com arquivos JSON antigos, que possuem apenas o nome.
+ * @param {Object} evento
+ * @param {string|Object} foto
+ * @returns {{arquivo: string, srcCompleta: string, srcMiniatura: string, largura: number|null, altura: number|null}}
+ */
+export function obterDadosFotoGaleria(evento, foto) {
+  const arquivo = typeof foto === 'string' ? foto : foto?.arquivo;
+  const metadados = typeof foto === 'object' && foto !== null
+    ? foto
+    : evento.metadados?.[arquivo] || {};
+  const caminhoRelativo = `${evento.caminho_relativo}/${arquivo}`;
+  const largura = Number(metadados.largura) || null;
+  const altura = Number(metadados.altura) || null;
+
+  return {
+    arquivo,
+    srcCompleta: `../imagens/galeria/${caminhoRelativo}`,
+    srcMiniatura: metadados.miniatura
+      ? `../imagens/miniaturas/${metadados.miniatura}`
+      : `../imagens/galeria/${caminhoRelativo}`,
+    largura,
+    altura
+  };
+}
+
+/**
  * Ajusta caminhos de imagens e links quando carregados de páginas filhas.
  * @param {HTMLElement} container - Elemento que contém imagens e links
  */

@@ -1,4 +1,4 @@
-import { embaralharArray } from './utils.js';
+import { embaralharArray, obterDadosFotoGaleria } from './utils.js';
 import { agruparEscolasPorAno, gerarHTMLAcordeao, inicializarAcordeaoEscolas } from './acordeao.js';
 import { observarReveals } from './ui.js';
 
@@ -12,9 +12,9 @@ import { observarReveals } from './ui.js';
 function configurarLightbox() {
   if (!document.getElementById('lightbox')) {
     const lightboxHTML = `
-      <div id="lightbox" class="lightbox-modal">
-        <button class="lightbox-fechar">&times;</button>
-        <img src="" alt="Imagem Ampliada" id="lightbox-img">
+      <div id="lightbox" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Visualização ampliada da foto" aria-hidden="true" inert>
+        <button class="lightbox-fechar" type="button" aria-label="Fechar imagem ampliada">&times;</button>
+        <img src="" alt="" id="lightbox-img">
       </div>
     `;
     document.body.insertAdjacentHTML('beforeend', lightboxHTML);
@@ -24,19 +24,45 @@ function configurarLightbox() {
   const lightboxImg = document.getElementById('lightbox-img');
   const btnFechar = lightbox.querySelector('.lightbox-fechar');
   const fotos = document.querySelectorAll('.foto-zoom');
+  let fotoAtiva = null;
+  let overflowAnterior = '';
 
-  fotos.forEach(foto => {
-    foto.addEventListener('click', () => {
-      lightboxImg.src = foto.src;
-      lightbox.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-  });
+  const abrirModal = foto => {
+    fotoAtiva = foto;
+    overflowAnterior = document.body.style.overflow;
+    lightboxImg.src = foto.dataset.fullSrc || foto.currentSrc || foto.src;
+    lightboxImg.alt = foto.alt;
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    lightbox.inert = false;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => btnFechar.focus());
+  };
 
   const fecharModal = () => {
+    if (!lightbox.classList.contains('active')) return;
+
     lightbox.classList.remove('active');
-    document.body.style.overflow = 'auto';
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightbox.inert = true;
+    document.body.style.overflow = overflowAnterior;
+
+    if (fotoAtiva?.isConnected) fotoAtiva.focus();
+    fotoAtiva = null;
   };
+
+  fotos.forEach(foto => {
+    foto.tabIndex = 0;
+    foto.setAttribute('role', 'button');
+    foto.setAttribute('aria-label', `Ampliar: ${foto.alt || 'foto da galeria'}`);
+    foto.addEventListener('click', () => abrirModal(foto));
+    foto.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        abrirModal(foto);
+      }
+    });
+  });
 
   btnFechar.addEventListener('click', fecharModal);
   lightbox.addEventListener('click', e => {
@@ -44,7 +70,13 @@ function configurarLightbox() {
   });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && lightbox.classList.contains('active')) fecharModal();
+    if (!lightbox.classList.contains('active')) return;
+
+    if (e.key === 'Escape') fecharModal();
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      btnFechar.focus();
+    }
   });
 }
 
@@ -75,11 +107,11 @@ export async function carregarGaleriaTimeline() {
     }
 
     const categoriasUnicas = [...new Set(dadosTimeline.map(evento => evento.categoria).filter(Boolean))];
-    let filtrosHTML = `<button class="btn-filtro active" data-filtro="todos">Todos</button>`;
+    let filtrosHTML = `<button class="btn-filtro active" data-filtro="todos" aria-pressed="true">Todos</button>`;
 
     categoriasUnicas.forEach(categoria => {
       const nomeFormatado = categoria.split('-').map(palavra => palavra.charAt(0).toUpperCase() + palavra.slice(1)).join(' ');
-      filtrosHTML += `<button class="btn-filtro" data-filtro="${categoria}">${nomeFormatado}</button>`;
+      filtrosHTML += `<button class="btn-filtro" data-filtro="${categoria}" aria-pressed="false">${nomeFormatado}</button>`;
     });
     containerFiltros.innerHTML = filtrosHTML;
 
@@ -106,20 +138,26 @@ export async function carregarGaleriaTimeline() {
 
       // 1º PASSO: Coleta e Randomização sem Repetições
       fotosEvento.forEach(foto => {
-        const src = `../imagens/galeria/${evento.caminho_relativo}/${foto}`;
-        if (!linksAdicionados.has(src)) {
-            linksAdicionados.add(src); // Memoriza que esta foto já existe
-            todasAsImagens.push({ src, alt: `Foto do evento: ${tituloCategoria} em ${dataFormatada}` });
+        const dadosFoto = obterDadosFotoGaleria(evento, foto);
+        if (!linksAdicionados.has(dadosFoto.srcCompleta)) {
+            linksAdicionados.add(dadosFoto.srcCompleta); // Memoriza que esta foto já existe
+            todasAsImagens.push({
+              ...dadosFoto,
+              alt: `Foto do evento: ${tituloCategoria} em ${dataFormatada}`
+            });
         }
       });
 
       // 2º PASSO: Monta a Timeline Vertical (Apenas se NÃO for escola)
       if (categoria !== 'escola' && categoria !== 'escolas') {
         const fotosHTML = fotosEvento.map(foto => {
-          const src = `../imagens/galeria/${evento.caminho_relativo}/${foto}`;
+          const dadosFoto = obterDadosFotoGaleria(evento, foto);
+          const dimensoes = dadosFoto.largura && dadosFoto.altura
+            ? ` width="${dadosFoto.largura}" height="${dadosFoto.altura}"`
+            : '';
           return `
             <div class="gallery-item">
-              <img src="${src}" alt="Foto ${tituloCategoria}" loading="lazy" class="foto-zoom">
+              <img src="${dadosFoto.srcMiniatura}" data-full-src="${dadosFoto.srcCompleta}" alt="Foto do evento ${tituloCategoria} em ${dataFormatada}" loading="lazy" decoding="async"${dimensoes} class="foto-zoom">
             </div>`;
         }).join('');
 
@@ -144,10 +182,13 @@ const imagensEmbaralhadas = embaralharArray(todasAsImagens);
 
     let htmlFotosAleatorias = imagensEmbaralhadas.map((item, index) => {
       const carregamento = index < 12 ? 'eager' : 'lazy';
+      const dimensoes = item.largura && item.altura
+        ? ` width="${item.largura}" height="${item.altura}"`
+        : '';
 
       return `
     <div class="gallery-item">
-      <img src="${item.src}" alt="${item.alt}" class="foto-zoom" loading="${carregamento}">
+      <img src="${item.srcMiniatura}" data-full-src="${item.srcCompleta}" alt="${item.alt}" class="foto-zoom" loading="${carregamento}" decoding="async"${dimensoes}>
     </div>
     `;
     }).join('');
@@ -176,8 +217,12 @@ const imagensEmbaralhadas = embaralharArray(todasAsImagens);
 
     botoesFiltro.forEach(botao => {
       botao.addEventListener('click', () => {
-        botoesFiltro.forEach(b => b.classList.remove('active'));
+        botoesFiltro.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
         botao.classList.add('active');
+        botao.setAttribute('aria-pressed', 'true');
 
         const filtroEscolhido = botao.getAttribute('data-filtro').toLowerCase();
 
