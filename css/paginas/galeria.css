@@ -70,12 +70,14 @@
   justify-content: center;
   align-items: center;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s;
 }
 
 .lightbox-modal.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
@@ -107,6 +109,11 @@
 
 .lightbox-fechar:hover {
   color: var(--teal);
+}
+
+.foto-zoom:focus-visible {
+  border-radius:var(--radius-md);
+  outline-offset:4px;
 }
 
 @media (max-width:600px) {
@@ -144,7 +151,8 @@
   font-size: 1.05rem;
 }
 
-.btn-filtro:hover, 
+.btn-filtro:hover,
+.btn-filtro.active,
 .btn-filtro.ativo {
   background: var(--teal);
   color: var(--bg-page); /* Fica escuro para dar contraste com o botão claro */

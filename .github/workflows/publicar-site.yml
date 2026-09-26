@@ -1,0 +1,52 @@
+name: Publicar site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  validar:
+    uses: ./.github/workflows/validar-site.yml
+
+  publicar:
+    needs: validar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publicacao.outputs.page_url }}
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v7
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Montar arquivos públicos
+        shell: bash
+        run: |
+          mkdir -p _site/paginas
+          cp index.html header.html footer.html .nojekyll _site/
+          cp paginas/*.html _site/paginas/
+          cp -R css data imagens js pdfs _site/
+
+      - name: Preparar artefato do site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: '_site'
+
+      - name: Publicar no GitHub Pages
+        id: publicacao
+        uses: actions/deploy-pages@v5

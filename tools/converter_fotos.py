@@ -1,154 +1,209 @@
-import os
+"""Converte as fotos originais, gera miniaturas e atualiza a timeline."""
+
+from __future__ import annotations
+
+import argparse
 import json
-import time
+import re
 from datetime import datetime
-from PIL import Image
+from pathlib import Path
 
-# BÚSSOLA: Descobre o caminho absoluto do projeto
-DIRETORIO_SCRIPT = os.path.dirname(os.path.abspath(__file__))
-RAIZ_PROJETO = os.path.dirname(DIRETORIO_SCRIPT)
+from PIL import Image, ImageOps
 
-# Caminhos exatos
-PASTA_ORIGEM = os.path.join(RAIZ_PROJETO, "imagens", "fotos_originais")
-PASTA_DESTINO = os.path.join(RAIZ_PROJETO, "imagens", "galeria")
-ARQUIVO_JSON = os.path.join(RAIZ_PROJETO, "data", "timeline.json")
 
-def converter_fotos():
-    """Lê as fotos originais, converte para WebP e espelha a mesma estrutura de pastas na galeria."""
-    print("\nIniciando conversão de imagens para .webp...")
-    print("-" * 40)
+RAIZ_PROJETO = Path(__file__).resolve().parent.parent
+PASTA_ORIGEM = RAIZ_PROJETO / "imagens" / "fotos_originais"
+PASTA_GALERIA = RAIZ_PROJETO / "imagens" / "galeria"
+PASTA_MINIATURAS = RAIZ_PROJETO / "imagens" / "miniaturas"
+ARQUIVO_JSON = RAIZ_PROJETO / "data" / "timeline.json"
+EXTENSOES_ACEITAS = {".jpg", ".jpeg", ".png"}
+TAMANHO_MAXIMO_MINIATURA = (640, 640)
 
-    if not os.path.exists(PASTA_ORIGEM):
+
+def argumentos() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Converte fotos para WebP e atualiza data/timeline.json."
+    )
+    parser.add_argument(
+        "--limpar-orfaos",
+        action="store_true",
+        help="remove WebPs sem arquivo original correspondente",
+    )
+    return parser.parse_args()
+
+
+def categoria_valida(nome: str) -> bool:
+    return bool(nome) and all(caractere.isalnum() or caractere in "-_" for caractere in nome)
+
+
+def data_valida(valor: str) -> bool:
+    if re.fullmatch(r"\d{4}", valor):
+        return 1900 <= int(valor) <= 2100
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", valor):
+        return False
+    try:
+        datetime.strptime(valor, "%Y-%m-%d")
+    except ValueError:
+        return False
+    return True
+
+
+def precisa_atualizar(origem: Path, destino: Path) -> bool:
+    return not destino.exists() or origem.stat().st_mtime > destino.stat().st_mtime
+
+
+def abrir_corrigida(caminho: Path) -> Image.Image:
+    with Image.open(caminho) as imagem:
+        corrigida = ImageOps.exif_transpose(imagem)
+        return corrigida.convert("RGBA" if "A" in corrigida.getbands() else "RGB")
+
+
+def salvar_webp(imagem: Image.Image, destino: Path, *, qualidade: int) -> None:
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    imagem.save(destino, "WEBP", quality=qualidade, method=6)
+
+
+def processar_imagem(origem: Path, galeria: Path, miniatura: Path) -> tuple[int, int, bool, bool]:
+    atualizar_galeria = precisa_atualizar(origem, galeria)
+    atualizar_miniatura = precisa_atualizar(origem, miniatura)
+
+    if atualizar_galeria or atualizar_miniatura:
+        imagem = abrir_corrigida(origem)
+        largura, altura = imagem.size
+
+        if atualizar_galeria:
+            salvar_webp(imagem, galeria, qualidade=80)
+
+        if atualizar_miniatura:
+            thumb = imagem.copy()
+            thumb.thumbnail(TAMANHO_MAXIMO_MINIATURA, Image.Resampling.LANCZOS)
+            salvar_webp(thumb, miniatura, qualidade=72)
+    else:
+        with Image.open(galeria) as imagem_existente:
+            largura, altura = imagem_existente.size
+
+    return largura, altura, atualizar_galeria, atualizar_miniatura
+
+
+def remover_diretorios_vazios(raiz: Path) -> None:
+    for pasta in sorted((item for item in raiz.rglob("*") if item.is_dir()), reverse=True):
+        try:
+            pasta.rmdir()
+        except OSError:
+            pass
+
+
+def limpar_orfaos(esperados: set[Path]) -> int:
+    removidos = 0
+    for raiz in (PASTA_GALERIA, PASTA_MINIATURAS):
+        esperados_na_raiz = {raiz / caminho for caminho in esperados}
+        for arquivo in raiz.rglob("*.webp"):
+            if arquivo not in esperados_na_raiz:
+                arquivo.unlink()
+                removidos += 1
+        remover_diretorios_vazios(raiz)
+    return removidos
+
+
+def converter_fotos(*, limpar: bool = False) -> int:
+    print("Iniciando processamento das imagens...")
+    if not PASTA_ORIGEM.is_dir():
         print(f"Pasta de origem não encontrada: {PASTA_ORIGEM}")
-        return
+        return 1
 
-    # Garante que a pasta destino exista
-    os.makedirs(PASTA_DESTINO, exist_ok=True)
+    PASTA_GALERIA.mkdir(parents=True, exist_ok=True)
+    PASTA_MINIATURAS.mkdir(parents=True, exist_ok=True)
 
-    categorias = sorted(os.listdir(PASTA_ORIGEM))
-    for categoria in categorias:
-        caminho_categoria_origem = os.path.join(PASTA_ORIGEM, categoria)
-        
-        if not os.path.isdir(caminho_categoria_origem):
+    eventos: list[dict] = []
+    destinos_esperados: set[Path] = set()
+    convertidas = 0
+    miniaturas_geradas = 0
+    ignoradas = 0
+
+    for pasta_categoria in sorted(PASTA_ORIGEM.iterdir()):
+        if not pasta_categoria.is_dir():
+            continue
+        categoria = pasta_categoria.name
+        if not categoria_valida(categoria):
+            print(f"Aviso: categoria inválida ignorada: {categoria}")
+            ignoradas += 1
             continue
 
-        # Cria a categoria no destino
-        caminho_categoria_destino = os.path.join(PASTA_DESTINO, categoria)
-        os.makedirs(caminho_categoria_destino, exist_ok=True)
-
-        pastas_data = sorted(os.listdir(caminho_categoria_origem))
-        for nome_pasta in pastas_data: 
-            caminho_data_origem = os.path.join(caminho_categoria_origem, nome_pasta)
-            
-            if not os.path.isdir(caminho_data_origem):
+        for pasta_data in sorted(pasta_categoria.iterdir()):
+            if not pasta_data.is_dir():
+                continue
+            data = pasta_data.name
+            if not data_valida(data):
+                print(f"Aviso: data inválida ignorada: {categoria}/{data}")
+                ignoradas += 1
                 continue
 
-            # Cria a pasta de data/ano EXATAMENTE com o mesmo nome no destino
-            caminho_data_destino = os.path.join(caminho_categoria_destino, nome_pasta)
-            os.makedirs(caminho_data_destino, exist_ok=True)
+            fotos = []
+            metadados = {}
+            nomes_usados: set[str] = set()
+            originais = sorted(
+                arquivo for arquivo in pasta_data.iterdir()
+                if arquivo.is_file() and arquivo.suffix.lower() in EXTENSOES_ACEITAS
+            )
 
-            arquivos = os.listdir(caminho_data_origem)
-            for arquivo in arquivos:
-                # Pula arquivos que não são imagens
-                if not arquivo.lower().endswith(('.png', '.jpg', '.jpeg')):
+            for origem in originais:
+                nome_webp = f"{origem.stem}.webp"
+                if nome_webp.casefold() in nomes_usados:
+                    print(f"Aviso: nome duplicado ignorado: {origem.relative_to(PASTA_ORIGEM)}")
+                    ignoradas += 1
                     continue
-                
-                nome_base = os.path.splitext(arquivo)[0]
-                caminho_foto_origem = os.path.join(caminho_data_origem, arquivo)
-                caminho_foto_destino = os.path.join(caminho_data_destino, f"{nome_base}.webp")
+                nomes_usados.add(nome_webp.casefold())
 
-                # Só converte se a foto webp ainda não existir no destino
-                if not os.path.exists(caminho_foto_destino):
-                    try:
-                        img = Image.open(caminho_foto_origem)
-                        img.save(caminho_foto_destino, "webp", quality=80)
-                        print(f"  📷 Convertido: {categoria}/{nome_pasta}/{nome_base}.webp")
-                    except Exception as e:
-                        print(f"  ❌ Erro ao converter {arquivo}: {e}")
+                caminho_relativo = Path(categoria) / data / nome_webp
+                galeria = PASTA_GALERIA / caminho_relativo
+                miniatura = PASTA_MINIATURAS / caminho_relativo
 
-def processar_timeline():
-    """Gera o JSON lendo as pastas geradas pelo converter_fotos."""
-    tempo_inicio = time.time()
-    qtd_eventos, qtd_fotos, qtd_erros = 0, 0, 0
-
-    print("\nConstruindo timeline a partir de imagens/galeria/...")
-    print("-" * 40)
-
-    if not os.path.exists(PASTA_DESTINO):
-        print(f"Pasta de galeria não encontrada: {PASTA_DESTINO}")
-        return
-        
-    os.makedirs(os.path.join(RAIZ_PROJETO, "data"), exist_ok=True)
-
-    dados_timeline = []
-    eventos_coletados = []
-
-    categorias = sorted(os.listdir(PASTA_DESTINO))
-    for categoria in categorias:
-        caminho_categoria = os.path.join(PASTA_DESTINO, categoria)
-        if not os.path.isdir(caminho_categoria): continue
-
-        print(f"\nCategoria detectada: {categoria}")
-        entradas_data = sorted(os.listdir(caminho_categoria), reverse=True)
-        
-        for nome_data in entradas_data:
-            caminho_data = os.path.join(caminho_categoria, nome_data)
-            if not os.path.isdir(caminho_data): continue
-
-            fotos = [f for f in sorted(os.listdir(caminho_data)) if f.lower().endswith('.webp')]
-            if not fotos:
-                continue
-
-            parsed_date = None
-            try:
-                # 1ª Tentativa: Data Completa (YYYY-MM-DD)
-                parsed_date = datetime.strptime(nome_data, "%Y-%m-%d")
-            except ValueError:
                 try:
-                    # 2ª Tentativa: Apenas Ano (YYYY)
-                    parsed_date = datetime.strptime(nome_data, "%Y")
-                except ValueError:
-                    print(f"  ⚠️ Data inválida detectada: {categoria}/{nome_data}")
-                    qtd_erros += 1
+                    largura, altura, atualizou_galeria, atualizou_thumb = processar_imagem(
+                        origem, galeria, miniatura
+                    )
+                except (OSError, ValueError) as erro:
+                    print(f"Aviso: não foi possível processar {origem.name}: {erro}")
+                    ignoradas += 1
+                    continue
 
-            qtd_eventos += 1
-            qtd_fotos += len(fotos)
-            print(f"  ✅ {len(fotos)} foto(s) encontradas em {categoria}/{nome_data}")
+                destinos_esperados.add(caminho_relativo)
+                convertidas += int(atualizou_galeria)
+                miniaturas_geradas += int(atualizou_thumb)
+                fotos.append(nome_webp)
+                metadados[nome_webp] = {
+                    "largura": largura,
+                    "altura": altura,
+                    "miniatura": caminho_relativo.as_posix(),
+                }
 
-            eventos_coletados.append({
-                "categoria": categoria,
-                "data": nome_data,
-                "caminho_relativo": f"{categoria}/{nome_data}",
-                "fotos": fotos,
-                "_parsed_date": parsed_date
-            })
+            if fotos:
+                eventos.append({
+                    "categoria": categoria,
+                    "data": data,
+                    "caminho_relativo": f"{categoria}/{data}",
+                    "fotos": fotos,
+                    "metadados": metadados,
+                })
 
-    # Ordenação
-    eventos_validos = [e for e in eventos_coletados if e.get('_parsed_date')]
-    eventos_invalidos = [e for e in eventos_coletados if not e.get('_parsed_date')]
+    eventos.sort(key=lambda evento: evento["data"], reverse=True)
+    ARQUIVO_JSON.parent.mkdir(parents=True, exist_ok=True)
+    ARQUIVO_JSON.write_text(
+        json.dumps(eventos, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
-    eventos_validos.sort(key=lambda e: e['_parsed_date'], reverse=True)
-    eventos_invalidos.sort(key=lambda e: e['data'], reverse=True)
+    removidos = limpar_orfaos(destinos_esperados) if limpar else 0
+    print(
+        f"Concluído: {convertidas} imagens convertidas, "
+        f"{miniaturas_geradas} miniaturas geradas, {ignoradas} itens ignorados."
+    )
+    if limpar:
+        print(f"Limpeza concluída: {removidos} arquivos órfãos removidos.")
+    else:
+        print("Arquivos órfãos preservados. Use --limpar-orfaos para removê-los.")
+    return 0
 
-    ordenados = eventos_validos + eventos_invalidos
 
-    # Limpa campo temporário e salva
-    for e in ordenados:
-        e.pop('_parsed_date', None)
-        dados_timeline.append(e)
-
-    try:
-        with open(ARQUIVO_JSON, 'w', encoding='utf-8') as f:
-            json.dump(dados_timeline, f, indent=2, ensure_ascii=False)
-        print(f"\n💾 Timeline salva em: {ARQUIVO_JSON}")
-    except Exception as e:
-        print(f"\n❌ Erro ao salvar o JSON: {e}")
-
-    tempo_total = time.time() - tempo_inicio
-    print("-" * 40)
-    print(f"Processamento finalizado em {tempo_total:.2f} segundos")
-
-# Este bloco no final é o que faz as duas coisas acontecerem em sequência!
-if __name__ == '__main__':
-    converter_fotos()     
-    processar_timeline()
+if __name__ == "__main__":
+    raise SystemExit(converter_fotos(limpar=argumentos().limpar_orfaos))

@@ -33,10 +33,15 @@
   border-width:0 11px 11px 0; border-style:solid;
   border-color:transparent var(--border-teal) transparent transparent;
 }
-.chat-avatar { width:42px; height:42px; border-radius:50%; object-fit:cover; border:2px solid var(--border-teal); }
+.chat-avatar { width:42px; height:42px; flex:0 0 42px; font-size:1rem; border-color:var(--border-teal); }
 .chat-text p { font-size:.82rem; color:var(--text-primary); line-height:1.5; margin:0; }
 .chat-text strong { color:var(--teal); }
 [data-theme="light"] .chat-text strong { color:var(--purple-dark); }
+.team-contact {
+  display:inline-flex; margin-top:16px; color:var(--teal); font-size:.82rem;
+  font-weight:700; text-decoration:underline; text-underline-offset:4px;
+}
+[data-theme="light"] .team-contact { color:var(--purple-dark); }
 
 /* --- TEAM GRID --- */
 .team-grid-scroll {
@@ -51,25 +56,17 @@
   transition:transform .35s, border-color .3s, box-shadow .35s;
 }
 .team-member:hover { transform:translateY(-6px); border-color:var(--border-teal); box-shadow:var(--shadow-md); }
-.team-member img {
-  width:84px; height:84px; border-radius:50%; object-fit:cover;
+.member-avatar {
+  width:84px; height:84px; border-radius:50%;
   margin-bottom:13px; border:2px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg, var(--teal-pale), var(--lilac-pale));
+  color:var(--teal); font-family:var(--font-display); font-size:2rem;
   transition:border-color .3s, transform .35s;
 }
-.team-member:hover img { border-color:var(--teal); transform:scale(1.06); }
+.team-member:hover .member-avatar { border-color:var(--teal); transform:scale(1.06); }
 .team-member h3 { font-family:var(--font-body); font-size:.92rem; font-weight:700; color:var(--text-primary); margin-bottom:3px; }
-.team-member p  { font-size:.75rem; color:var(--text-muted); font-weight:500; margin-bottom:15px; }
-
-.mail-icon {
-  width:32px; height:32px; background:var(--teal-pale); border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  color:var(--teal); border:1px solid var(--border-teal);
-  transition:background .2s, color .2s, transform .25s;
-}
-[data-theme="light"] .mail-icon { background:var(--lilac-pale); color:var(--purple-dark); border-color:var(--border-lilac); }
-.mail-icon svg { width:14px; height:14px; }
-.mail-icon:hover { background:var(--teal); color:#0C1018; transform:rotate(10deg) scale(1.1); }
-[data-theme="light"] .mail-icon:hover { background:var(--purple-dark); color:#fff; }
+.team-member p  { font-size:.75rem; color:var(--text-muted); font-weight:500; margin:0; }
 
 /* --- RESPONSIVO --- */
 @media (max-width:1100px) {

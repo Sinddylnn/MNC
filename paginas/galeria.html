@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/paginas/galeria.css">
 
   <!-- Inicialização do tema para evitar Flash of Unstyled Content (FOUC) -->
@@ -25,18 +24,17 @@
 <body>
 
   <!-- Overlay da animação de transição (PCB) -->
-  <div id="circuitOverlay">
+  <div id="circuitOverlay" aria-hidden="true">
     <canvas id="circuitCanvas"></canvas>
   </div>
 
   <!-- Padrão de fundo global -->
-  <div class="global-pattern"></div>
+  <div class="global-pattern" aria-hidden="true"></div>
 
   <!-- O Header será injetado dinamicamente pelo main.js -->
   <header id="main-header"></header>
 
   <main>
-<main>
     <section class="gallery-section">
       <div class="gallery-bg-shape-1"></div>
       <div class="gallery-bg-shape-2"></div>
@@ -47,7 +45,7 @@
         <p>Diga Xis! Vem pra galeria do MNC!<br>Dá uma olhada no que a gente anda aprontando ;D</p>
       </div>
 
-      <div class="filtros-galeria reveal" id="container-filtros"></div>
+      <div class="filtros-galeria reveal" id="container-filtros" role="group" aria-label="Filtrar fotos por categoria"></div>
 
       <div class="timeline-vertical" id="container-timeline">
         <p id="loading-galeria" style="color: var(--teal); text-align: center; font-family: inherit; font-size: 1.1rem; padding: 2rem 0;">Carregando memórias...</p>

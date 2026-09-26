@@ -7,17 +7,16 @@
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/paginas/equipe.css">
   <!-- Inicialização do tema para evitar Flash of Unstyled Content (FOUC) -->
   <script>(function(){const s=localStorage.getItem('mnc-theme')||'dark';document.documentElement.setAttribute('data-theme',s);})();</script>
 </head>
 <body>
-  <div id="circuitOverlay">
+  <div id="circuitOverlay" aria-hidden="true">
     <canvas id="circuitCanvas"></canvas>
   </div>
 
-  <div class="global-pattern"></div>
+  <div class="global-pattern" aria-hidden="true"></div>
 
   <!-- O Header será injetado dinamicamente pelo main.js -->
   <header id="main-header"></header>
@@ -31,59 +30,46 @@
         <div class="team-info-fixed reveal">
           <span class="overline">Pessoas</span>
           <h2>Equipe do<br><span>Mulheres na Computação</span></h2>
-          <p>Vem conhecer a galera que faz isso acontecer!</p>
+          <p>Vem conhecer a equipe que faz o projeto acontecer!</p>
           <div class="scroll-indicator">
-            Role para ver todos
-            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"/></svg>
+            Role para ver todas
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="coord-chat-bubble">
-            <img src="https://i.pravatar.cc/150?u=luciana" alt="Luciana" class="chat-avatar">
+            <div class="member-avatar chat-avatar" aria-hidden="true">L</div>
             <div class="chat-text">
               <p>Olá! Sou a <strong>Luciana</strong>, coordenadora do projeto. Vai fundo!</p>
             </div>
           </div>
+          <a class="team-contact" href="mailto:mnc.uepb@gmail.com">Fale com a equipe</a>
         </div>
 
         <div class="team-grid-scroll">
-          <div class="team-member reveal reveal-delay-1">
-            <img src="https://i.pravatar.cc/150?u=luciana" alt="Luciana">
-            <h3>Luciana</h3><p>Coordenadora</p>
-            <a href="mailto:#" class="mail-icon" aria-label="E-mail">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </a>
-          </div>
-          
-          <div class="team-member reveal reveal-delay-2">
-            <img src="https://i.pravatar.cc/150?u=sinddy" alt="Sinddy">
-            <h3>Sinddy</h3><p>xxxxxx</p>
-            <a href="mailto:#" class="mail-icon" aria-label="E-mail">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </a>
-          </div>
-      
-          <div class="team-member reveal reveal-delay-1">
-            <img src="https://i.pravatar.cc/150?u=jasmine" alt="Jasmine">
-            <h3>Jasmine</h3><p>xxxxxx</p>
-            <a href="mailto:#" class="mail-icon" aria-label="E-mail">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </a>
-          </div>
+          <article class="team-member reveal reveal-delay-1">
+            <div class="member-avatar" aria-hidden="true">L</div>
+            <h3>Luciana</h3>
+            <p>Coordenadora</p>
+          </article>
 
-          <div class="team-member reveal reveal-delay-2">
-            <img src="https://i.pravatar.cc/150?u=nally" alt="Nally">
-            <h3>Sonally</h3><p>xxxxxxxxxx</p>
-            <a href="mailto:#" class="mail-icon" aria-label="E-mail">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </a>
-          </div>
-          
-          <div class="team-member reveal reveal-delay-3">
-            <img src="https://i.pravatar.cc/150?u=jupz" alt="Jupz">
-            <h3>Julia</h3><p>xxxxxxxxxxx/a</p>
-            <a href="mailto:#" class="mail-icon" aria-label="E-mail">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </a>
-          </div>
+          <article class="team-member reveal reveal-delay-2">
+            <div class="member-avatar" aria-hidden="true">S</div>
+            <h3>Sinddy</h3>
+          </article>
+
+          <article class="team-member reveal reveal-delay-1">
+            <div class="member-avatar" aria-hidden="true">J</div>
+            <h3>Jasmine</h3>
+          </article>
+
+          <article class="team-member reveal reveal-delay-2">
+            <div class="member-avatar" aria-hidden="true">S</div>
+            <h3>Sonally</h3>
+          </article>
+
+          <article class="team-member reveal reveal-delay-3">
+            <div class="member-avatar" aria-hidden="true">J</div>
+            <h3>Julia</h3>
+          </article>
         </div>
       </div>
     </section>

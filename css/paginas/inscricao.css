@@ -81,3 +81,19 @@
   width: 100%;
   margin-top: 10px;
 }
+.btn-submit:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+.form-status {
+  min-height: 1.5em;
+  margin: 0;
+  text-align: center;
+  font-size: .86rem;
+  line-height: 1.5;
+}
+.form-status.enviando { color: var(--text-secondary); }
+.form-status.sucesso { color: var(--teal); }
+.form-status.erro { color: #f0a8a8; }
+[data-theme="light"] .form-status.sucesso { color: var(--purple-dark); }
+[data-theme="light"] .form-status.erro { color: #9d3030; }

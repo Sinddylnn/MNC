@@ -1,6 +1,7 @@
 import { inicializarUI } from './ui.js';
 import { inicializarAnimacoes } from './animacoes.js';
 import { carregarGaleriaTimeline } from './galeria.js';
+import { inicializarFormularioInscricao } from './inscricao.js';
 import { toggleSummary } from './utils.js';
 
 /* ========================================================================
@@ -16,4 +17,5 @@ document.addEventListener('DOMContentLoaded', () => {
   inicializarUI();
   inicializarAnimacoes();
   carregarGaleriaTimeline();
+  inicializarFormularioInscricao();
 });

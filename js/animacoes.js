@@ -12,6 +12,14 @@ export function inicializarAnimacoes() {
 
   if (!_ov || !_cv) return;
 
+  _ov.setAttribute('aria-hidden', 'true');
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    _ov.classList.remove('active');
+    _ov.style.opacity = '';
+    return;
+  }
+
   const _cx = _cv.getContext('2d');
   const _T = '#ABD6CD';
   const _L = '#C088B8';
