@@ -49,19 +49,9 @@
 [data-theme="light"] .hero-dark-mono {
   color:var(--purple-dark);
 }
-.hero-dark-title em,
-.about-text h2 em,
-.section-header h2 em,
-.opportunities-header h2 em,
-.form-card h2 em,
-.gallery-banner h2 span,
-.team-info-fixed h2 span { font-style:italic; color:var(--teal); }
+.hero-dark-title em { font-style:italic; color:var(--teal); }
 
-[data-theme="light"] .hero-dark-title em,
-[data-theme="light"] .about-text h2 em,
-[data-theme="light"] .section-header h2 em,
-[data-theme="light"] .opportunities-header h2 em,
-[data-theme="light"] .form-card h2 em { color:var(--purple-dark); }
+[data-theme="light"] .hero-dark-title em { color:var(--purple-dark); }
 
 .hero-dark-desc {
   font-size:.97rem; color:var(--text-secondary);
@@ -91,6 +81,9 @@
 }
 
 .butterfly-hero { width:320px; height:320px; overflow:visible; }
+
+.render-borboleta { width:320px; height:320px; margin:0 auto; }
+.impact-copy { text-align:justify; margin-bottom:20px; }
 
 .b-halo,
 .b-halo2 { animation:halo-pulse 4s ease-in-out infinite; }
@@ -137,7 +130,7 @@
 
 /* --- SOBRE --- */
 .about-section {
-  padding:var(--section-gap) 5%;
+  padding:var(--section-gap) var(--page-gutter);
   background:var(--bg-surface); position:relative; overflow:hidden;
 }
 .about-container {
@@ -215,7 +208,7 @@
 .partner-logo:hover { border-color:var(--border-teal); color:var(--teal); }
 
 /* --- IMPACTO --- */
-.impact-section { padding:var(--section-gap) 5%; background:var(--bg-page); }
+.impact-section { padding:var(--section-gap) var(--page-gutter); background:var(--bg-page); }
 
 .section-header { text-align:center; max-width:700px; margin:0 auto 52px; }
 .section-header h2 { font-size:clamp(1.9rem,3.8vw,2.9rem); color:var(--text-primary); margin-bottom:14px; }
@@ -295,7 +288,7 @@
 
 /* --- OPORTUNIDADES --- */
 .opportunities-section {
-  padding:var(--section-gap) 5%;
+  padding:var(--section-gap) var(--page-gutter);
   background:var(--bg-surface); position:relative;
 }
 .opportunities-header { text-align:center; max-width:700px; margin:0 auto 52px; }
@@ -343,7 +336,7 @@
 
 /* --- REQUISITOS --- */
 .requirements-section {
-  padding:var(--section-gap) 5%;
+  padding:var(--section-gap) var(--page-gutter);
   background:linear-gradient(135deg, #0d1020 0%, var(--purple-deep) 100%);
   position:relative; overflow:hidden;
 }
@@ -408,7 +401,7 @@
 @media (max-width:900px) {
   .hero-dark-container, .about-container, .req-container { flex-direction:column; text-align:center; gap:38px; }
   .about-container, .req-container { gap:42px; }
-  .hero-live-badge, .cert-icon-wrap { margin:0 auto 22px; }
+  .hero-live-badge { margin:0 auto 22px; }
   .hero-dark-desc { margin:0 auto 30px; }
   .hero-dark-actions, .hero-dark-stats { justify-content:center; }
   .hero-dark-right { flex:auto; }

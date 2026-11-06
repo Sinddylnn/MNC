@@ -1,39 +1,34 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Leia publicações e relatos de experiência do Mulheres na Computação.">
   <title>Artigos | Mulheres na Computação MNC</title>
+  <link rel="icon" type="image/png" href="../imagens/logos/favicon.png">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/paginas/artigos.css">
-  <script>
-    (function(){
-      const s = localStorage.getItem('mnc-theme') || 'dark';
-      document.documentElement.setAttribute('data-theme', s);
-    })();
-  </script>
+  <script src="../js/core/theme-preload.js"></script>
+  <script type="module" src="../js/main.js"></script>
 </head>
-<body>
+<body data-page="articles">
   <div id="circuitOverlay" aria-hidden="true">
     <canvas id="circuitCanvas"></canvas>
   </div>
-
   <div class="global-pattern" aria-hidden="true"></div>
-
-  <!-- O Header será injetado aqui pelo main.js -->
-  <header id="main-header"></header>
-
-  <main>
-    <section class="articles-intro">
+  <header id="main-header" data-include="header.html"></header>
+  <main id="conteudo" tabindex="-1">
+<section class="articles-intro">
       <div class="articles-bg-shape-1"></div>
       <div class="articles-bg-shape-2"></div>
 
       <div class="page-hero-inner">
         <span class="overline">Publicações</span>
-        <h2>Pesquisa, Educação e Inclusão</h2>
-<p style="text-align: center;">Aqui reunimos nossos artigos e relatos de experiência. Nossas publicações refletem o impacto das nossas ações, abordando desde metodologias para o ensino de programação até o desenvolvimento de estratégias para incentivar a presença feminina na tecnologia.</p>        <div class="arrow-down">
+        <h1>Pesquisa, Educação e Inclusão</h1>
+        <p class="articles-intro-copy">Aqui reunimos nossos artigos e relatos de experiência. Nossas publicações refletem o impacto das nossas ações, abordando desde metodologias para o ensino de programação até o desenvolvimento de estratégias para incentivar a presença feminina na tecnologia.</p>
+        <div class="arrow-down">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
             <polyline points="6 14 12 20 18 14" opacity="0.45"></polyline>
@@ -48,7 +43,7 @@
   <h3 class="article-title">Incluir para Empoderar: Relato de uma Iniciativa para a Inclusão de Meninas e Mulheres na Tecnologia</h3>
   <p class="article-authors">Anna Caroline Barreto, Luciana Gomes</p>
 
-  <div class="article-summary" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+  <div class="article-summary" hidden>
     <p>Este relato apresenta os resultados de cinco anos de um projeto de extensão voltado à inclusão de meninas e mulheres na Computação.</p>
     <br>
     <p>A iniciativa combinou o uso do Pensamento Computacional aliado a softwares para ensinar diversas disciplinas em escolas públicas, além de promover ações dentro da universidade, como encontros, palestras e workshops, para ampliar o acesso e o engajamento feminino na área.</p>
@@ -56,17 +51,17 @@
     <p>Uma pesquisa de opinião revelou o impacto positivo do projeto no desenvolvimento profissional, na autoeficácia e na percepção das participantes sobre o papel das mulheres na tecnologia. Os resultados evidenciam que o projeto fortalece o senso de pertencimento, incentiva a permanência acadêmica e desperta o interesse de jovens pela Computação, destacando a importância de iniciativas inclusivas na área de STEM.</p>
   </div>
 
-  <div class="article-actions" style="margin-top: 20px;">
-    <button class="read-more" onclick="toggleSummary(this)">Ler mais</button>
-    
-    <a href="../pdfs/wit-2025-caroline.pdf" download="wit-2025-caroline.pdf" class="pdf-btn">↓ PDF</a>
+  <div class="article-actions">
+    <button class="read-more" type="button" data-action="toggle-summary" aria-expanded="false">Ler mais</button>
+
+    <a href="../pdfs/wit-2025-caroline.pdf" download="wit-2025-caroline.pdf" class="btn btn--soft btn--small">↓ PDF</a>
   </div>
 </article>
 <article class="article-card reveal reveal-delay-1">
   <span class="article-type">Artigo Completo</span>
   <h3 class="article-title">Think, Grab, and Play: Learning Mathematics in Elementary School with Manipulatives and GCompris, Supported by Computational Thinking</h3>
-<p class="article-authors">Sonally Sales, Luciana Gomes, Júlia Pamplona, Viviane Leal</p>  
-  <div class="article-summary" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+<p class="article-authors">Sonally Sales, Luciana Gomes, Júlia Pamplona, Viviane Leal</p>
+  <div class="article-summary" hidden>
     <p>Este artigo apresenta os resultados de uma pesquisa-ação com o objetivo de avaliar um método para estimular o aprendizado de matemática em turmas do 1º ano do Ensino Fundamental, apoiado pelos pilares do Pensamento Computacional.</p>
     <br>
     <p>O estudo introduz a abordagem pedagógica <strong>"Think, Grab, and Play"</strong> (Pensar, Pegar e Jogar), que propõe aulas divididas em três etapas complementares: a reflexão teórica para resolução de problemas (Think), o uso de materiais manipuláveis concretos, como o Material Dourado e o ábaco (Grab), e a consolidação do aprendizado através do software de jogos educacionais GCompris (Play).</p>
@@ -75,21 +70,14 @@
   </div>
 
 <div class="article-actions">
-    <button class="read-more" onclick="toggleSummary(this)">Ler mais</button>
-    <a href="../pdfs/tise-2025-en.pdf" download="tise-2025-en.pdf" class="pdf-btn">↓ PDF</a>
+    <button class="read-more" type="button" data-action="toggle-summary" aria-expanded="false">Ler mais</button>
+    <a href="../pdfs/tise-2025-en.pdf" download="tise-2025-en.pdf" class="btn btn--soft btn--small">↓ PDF</a>
   </div>
 </article>
 
       </div>
     </section>
   </main>
-
-  <!-- O Footer será injetado aqui pelo main.js -->
-  <footer id="main-footer"></footer>
-
-  <!-- Chamada do arquivo JS externo (que já faz todo o trabalho) -->
-  <script type="module" src="../js/main.js"></script>
+  <footer id="main-footer" class="site-footer" data-include="footer.html"></footer>
 </body>
 </html>
-
-//teste comentario, mostrando para aluno

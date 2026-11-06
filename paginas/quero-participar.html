@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Saiba como participar do Mulheres na Computação.">
+  <title>Como participar | Mulheres na Computação MNC</title>
+  <link rel="icon" type="image/png" href="../imagens/logos/favicon.png">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/paginas/quero-participar.css">
+  <script src="../js/core/theme-preload.js"></script>
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-page="participation">
+  <div id="circuitOverlay" aria-hidden="true">
+    <canvas id="circuitCanvas"></canvas>
+  </div>
+  <div class="global-pattern" aria-hidden="true"></div>
+  <header id="main-header" data-include="header.html"></header>
+  <main id="conteudo" tabindex="-1">
+<section class="page-hero">
+      <div class="page-hero-glow-l"></div>
+      <div class="page-hero-glow-r"></div>
+      <div class="page-hero-inner">
+        <span class="overline">Faça parte</span>
+        <h1>Como participar do <em>Mulheres na Computação</em></h1>
+        <p>Saiba quando começar, como acompanhar as reuniões e por que fazer parte dessa comunidade.</p>
+        <div class="arrow-down">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"
+            stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+            <polyline points="6 14 12 20 18 14" opacity="0.45"></polyline>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="participation-section">
+      <div class="section-illustration" aria-hidden="true">
+        <img src="../imagens/logos/logo_sem_fundo.png" alt="">
+      </div>
+      <div class="participation-inner">
+        <div class="participation-grid">
+          <article class="participation-card reveal">
+            <span class="participation-number">01</span>
+            <h3>Por que participar?</h3>
+            <p>Para aprender, compartilhar experiências e contribuir com iniciativas que fortalecem a presença e o
+              protagonismo de meninas e mulheres na computação.</p>
+          </article>
+          <article class="participation-card reveal reveal-delay-1">
+            <span class="participation-number">02</span>
+            <h3>Para quem está chegando</h3>
+            <p>O começo do período letivo é o momento de conhecer o projeto, aproximar-se das integrantes e entender
+              como funcionam as atividades do MNC.</p>
+          </article>
+          <article class="participation-card reveal reveal-delay-2">
+            <span class="participation-number">03</span>
+            <h3>Quando começar?</h3>
+            <p>As novatas podem entrar no início de cada período letivo. As datas e informações das reuniões são
+              divulgadas pelos canais oficiais do projeto.</p>
+          </article>
+          <article class="participation-card reveal reveal-delay-3">
+            <span class="participation-number">04</span>
+            <h3>Como participar?</h3>
+            <p>Não é necessário preencher um formulário ou passar por seleção. A participação começa pela presença
+              nas reuniões e pelo envolvimento com as atividades do projeto.</p>
+          </article>
+        </div>
+
+        <article class="expectations-card reveal">
+          <div>
+            <span class="overline">Antes de entrar</span>
+            <h2>Participar também é assumir um <em>compromisso</em></h2>
+          </div>
+          <p>As integrantes colaboram com atividades do projeto, respeitam os acordos definidos pela equipe e ajudam a
+            construir um ambiente acolhedor, responsável e colaborativo. Os compromissos específicos são apresentados
+            pela equipe ao longo das reuniões.</p>
+        </article>
+
+        <section class="contact-card reveal" id="contato" aria-labelledby="contato-titulo">
+          <span class="overline">Vamos conversar</span>
+          <h2 id="contato-titulo">Fale com a equipe</h2>
+          <p id="contato-ajuda">Envie sua dúvida, sugestão ou mensagem para o MNC. Você não precisa informar seu e-mail.
+            Preencha seu nome, telefone/WhatsApp e mensagem para que a equipe possa responder.</p>
+          <form id="contact-form" action="https://formsubmit.co/mnc.uepb@gmail.com" method="POST" aria-describedby="contato-ajuda contato-privacidade">
+            <input type="hidden" name="_subject" value="Mensagem pelo site MNC">
+            <input type="hidden" name="_template" value="table">
+            <div class="contact-fields">
+              <div class="form-field">
+                <label for="contact-name">Nome</label>
+                <input class="form-control" id="contact-name" name="nome" type="text" autocomplete="name" maxlength="100" required>
+              </div>
+              <div class="form-field">
+                <label for="contact-phone">Telefone/WhatsApp</label>
+                <input class="form-control" id="contact-phone" name="telefone" type="tel" autocomplete="tel" maxlength="40" placeholder="DDD + número" aria-describedby="contato-retorno" required>
+              </div>
+            </div>
+            <p class="form-note" id="contato-retorno">Informe o telefone/WhatsApp com DDD para receber uma resposta.</p>
+            <div class="form-field">
+              <label for="contact-message">Mensagem</label>
+              <textarea class="form-control" id="contact-message" name="mensagem" rows="6" required maxlength="5000"></textarea>
+            </div>
+            <div class="contact-trap" aria-hidden="true">
+              <label for="contact-website">Deixe este campo vazio</label>
+              <input id="contact-website" name="_honey" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <p class="form-note" id="contato-privacidade">Ao enviar, sua mensagem e os dados que preencher serão processados pelo FormSubmit
+              e encaminhados para mnc.uepb@gmail.com. Evite incluir informações sensíveis.</p>
+            <button type="submit" class="btn btn--primary">Enviar mensagem</button>
+            <p id="contact-status" class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>
+          </form>
+        </section>
+
+        <section class="follow-call reveal" aria-labelledby="acompanhar-reunioes">
+          <span class="overline">Fique por dentro</span>
+          <h2 id="acompanhar-reunioes">Onde acompanhar as reuniões?</h2>
+          <p>No início do período letivo, acompanhe os canais oficiais do MNC para saber as datas, horários e demais
+            orientações. Em caso de dúvida, fale diretamente com o projeto.</p>
+          <div class="participation-actions">
+            <a href="https://www.instagram.com/mnc.uepb/" target="_blank" rel="noopener noreferrer" class="btn btn--primary">Acompanhar no Instagram</a>
+
+          </div>
+        </section>
+        
+      </div>
+    </section>
+  </main>
+  <footer id="main-footer" class="site-footer" data-include="footer.html"></footer>
+</body>
+</html>

@@ -1,124 +1,73 @@
 # Mulheres na Computação — MNC
 
-Site institucional do **Mulheres na Computação (MNC)**, projeto de extensão da Universidade Estadual da Paraíba (UEPB), Campus I, em Campina Grande.
+Site institucional do projeto de extensão **Mulheres na Computação (MNC)** da Universidade Estadual da Paraíba (UEPB), Campus I. O projeto promove acolhimento, formação e protagonismo de meninas e mulheres na computação e é parceiro do Programa Meninas Digitais da Sociedade Brasileira de Computação.
 
-Criado em 2020, o MNC promove acolhimento, formação, representatividade e protagonismo de meninas e mulheres na computação. O projeto é parceiro do Programa Meninas Digitais, da Sociedade Brasileira de Computação (SBC).
+## Rodar o site
 
-## Conteúdo do site
-
-- apresentação e história do projeto;
-- objetivos e ações do programa;
-- equipe do MNC;
-- galeria de encontros e atividades em escolas;
-- publicações acadêmicas para download;
-- formulário de inscrição para novas participantes;
-- temas claro e escuro.
-
-## Tecnologias
-
-- HTML5;
-- CSS3 modular;
-- JavaScript em módulos ES6;
-- Canvas API para animações de transição;
-- Python 3 e Pillow para otimização de imagens;
-- GitHub Actions para validar, processar imagens e publicar o site.
-
-O frontend não usa framework, gerenciador de pacotes ou etapa de compilação.
-
-## Executar localmente
-
-O projeto deve ser servido por HTTP porque usa módulos JavaScript e `fetch` para carregar componentes e dados.
-
-Na raiz do repositório, execute:
+O site usa HTML, CSS e JavaScript nativos. Não há framework, build nem pacotes npm para instalar. Abra a pasta no VS Code com **Live Server** ou, se tiver Node.js, execute:
 
 ```bash
-python -m http.server 8000
+node tools/serve_site.js
 ```
 
-Depois acesse [http://localhost:8000](http://localhost:8000).
+Acesse <http://127.0.0.1:8000>. Para encerrar o servidor, use `Ctrl+C`. Sirva o projeto por HTTP: abrir `index.html` diretamente com `file://` impede o carregamento confiável dos módulos, do cabeçalho, do rodapé e da galeria.
 
-Não é necessário instalar dependências para visualizar o site.
+**Você não precisa instalar Python para criar páginas, editar estilos ou visualizar o site.**
 
-## Estrutura do projeto
+## Páginas e arquivos
 
-```text
-MNC/
-├── css/                         # Estilos globais e por página
-├── data/timeline.json           # Dados consumidos pela galeria
-├── imagens/galeria/             # Imagens WebP completas
-├── imagens/miniaturas/          # WebPs menores usados nas grades
-├── js/                          # Módulos JavaScript
-├── paginas/                     # Páginas internas do site
-├── pdfs/                        # Artigos disponíveis para download
-├── tools/converter_fotos.py     # Conversor e gerador da timeline
-├── footer.html                  # Rodapé compartilhado
-├── header.html                  # Cabeçalho compartilhado
-└── index.html                   # Página inicial
-```
+- `index.html`: página inicial.
+- `paginas/`: Programa, Equipe, Galeria, Artigos, Parcerias e Quero participar.
+- `header.html` e `footer.html`: menu e rodapé compartilhados por todas as páginas.
+- `css/base.css`, `css/components.css` e `css/layout.css`: temas, componentes e layout comuns.
+- `css/paginas/`: estilos específicos de cada página.
+- `js/main.js`, `js/core/`, `js/features/` e `js/pages/`: inicialização e comportamentos.
+- `data/timeline.json`, `imagens/galeria/` e `imagens/miniaturas/`: dados e fotos da galeria.
+- `imagens/logos/`: símbolo do MNC, borboleta e ícone das abas do navegador.
+- `pdfs/`: publicações para download.
 
-`header.html` e `footer.html` são carregados dinamicamente por `js/ui.js`. O ponto de entrada JavaScript é `js/main.js`.
+Para alterar o menu ou o rodapé, edite apenas `header.html` ou `footer.html`. Para adicionar uma página, crie seu HTML em `paginas/`, use os pontos de montagem `data-include` como nas outras páginas e registre o arquivo em `tools/build_site.py`. Consulte [os padrões do frontend](docs/FRONTEND.md) para botões, formulários, temas e acessibilidade.
 
-## Atualizar a galeria
+## Testar
 
-As fotos originais devem ser organizadas por categoria e data:
-
-```text
-imagens/fotos_originais/<categoria>/<YYYY-MM-DD>/*.jpg
-```
-
-Para categorias agrupadas por ano, também é aceito:
-
-```text
-imagens/fotos_originais/escolas/<YYYY>/*.png
-```
-
-Instale o Pillow e execute o conversor:
+Com Node.js instalado:
 
 ```bash
-python -m pip install Pillow
-python tools/converter_fotos.py
+node --test
 ```
 
-O script corrige a orientação EXIF, converte arquivos PNG, JPG e JPEG para WebP, gera versões menores em `imagens/miniaturas/` e atualiza `data/timeline.json` com os caminhos e as dimensões das fotos. Uma imagem é reconvertida quando o arquivo original for mais recente que a versão gerada.
+Os testes de arquivos e JavaScript rodam sem servidor. Para incluir os testes HTTP, mantenha `node tools/serve_site.js` aberto em um terminal e, em outro terminal PowerShell, execute:
 
-Arquivos antigos são preservados por padrão. Para remover da galeria e das miniaturas os WebPs que não possuem mais um original correspondente, execute conscientemente:
-
-```bash
-python tools/converter_fotos.py --limpar-orfaos
+```powershell
+$env:SITE_URL = 'http://127.0.0.1:8000'
+node --test
+Remove-Item Env:SITE_URL
 ```
 
-O workflow `.github/workflows/otimizar-imagens.yml` permite executar esse processo pelo GitHub Actions.
+Antes de publicar, confira também o tema claro e escuro, o menu, o formulário e a galeria em desktop e celular. Os testes automatizados não confirmam o envio real de e-mails.
 
-## Validar e publicar
+## Atualizar fotos
 
-Antes de enviar alterações, execute a validação local:
+Organize os originais em `imagens/fotos_originais/<categoria>/<AAAA-MM-DD>/`. Para fotos de escolas agrupadas por ano, use `imagens/fotos_originais/escolas/<AAAA>/`.
 
-```bash
-python tools/validar_site.py
-```
+Ao enviar novos originais ao repositório, o workflow [Otimizar Imagens para WebP](.github/workflows/otimizar-imagens.yml) usa Python e Pillow no GitHub Actions para gerar as imagens WebP, as miniaturas e `data/timeline.json`. Os originais não entram no site publicado. Também é possível executar `tools/converter_fotos.py` localmente, mas isso é opcional e exige Python com Pillow.
 
-O validador confere a estrutura das páginas HTML, caminhos de arquivos locais, segurança dos links externos, referências de CSS, importações JavaScript e consistência das fotos e miniaturas da timeline. A sintaxe JavaScript também é verificada pelo workflow `.github/workflows/validar-site.yml` em branches de trabalho e pull requests para `main`.
+## Publicação
 
-O workflow `.github/workflows/publicar-site.yml` valida novamente o projeto e publica somente os arquivos públicos no GitHub Pages após um push na branch `main`. Ele também pode ser iniciado manualmente em **Actions → Publicar site → Run workflow**.
+Um push na branch `main` aciona a [publicação no GitHub Pages](.github/workflows/publicar-site.yml). O GitHub Actions valida o projeto, monta `_site` com os arquivos públicos e publica o resultado. Esses workflows ainda usam Python internamente; ele não é necessário para o desenvolvimento local do frontend.
 
-Na primeira publicação, selecione **GitHub Actions** em **Settings → Pages → Build and deployment → Source**. Depois dessa configuração única, novas versões da `main` serão publicadas automaticamente.
+Na primeira publicação, configure **GitHub Actions** como origem em **Settings → Pages → Build and deployment**.
 
-## Configurar o formulário
+## Formulário de contato
 
-O fluxo de envio e as mensagens de retorno estão implementados. Para habilitar o envio, informe no atributo `data-endpoint` de `paginas/inscricao.html` o endpoint HTTPS fornecido pelo serviço de formulários escolhido.
+A página [Quero participar](paginas/quero-participar.html) tem um formulário de contato com nome, telefone/WhatsApp e mensagem obrigatórios. Ele usa o FormSubmit para encaminhar mensagens a `mnc.uepb@gmail.com`. Após o primeiro envio pelo site publicado, a equipe precisa confirmar o e-mail de ativação do serviço. Veja as [instruções do FormSubmit](https://formsubmit.co/help). Para confirmar a entrega, faça um envio real e confira a caixa de entrada.
 
-## Documentação
+## Documentação e contato
 
-- [Informações do projeto](INFORMACOES_PROJETO.md): arquitetura, páginas, fluxos e manutenção;
-- [Melhorias sugeridas](MELHORIAS_SUGERIDAS.md): pontos pendentes e evolução recomendada;
-- [Diretrizes para agentes](AGENTS.md): convenções que devem ser seguidas pelo Codex e outros agentes de código.
-
-## Contato
+As [diretrizes do projeto](docs/AGENTS.md) e os [padrões do frontend](docs/FRONTEND.md) orientam novas alterações.
 
 - E-mail: [mnc.uepb@gmail.com](mailto:mnc.uepb@gmail.com)
 - Instagram: [@mnc.uepb](https://www.instagram.com/mnc.uepb/)
 - LinkedIn: [Mulheres na Computação — UEPB](https://br.linkedin.com/company/mulheres-na-computa%C3%A7%C3%A3o-uepb)
 
-## Licença
-
-Este projeto está disponível sob a [licença MIT](LICENSE).
+O projeto está disponível sob a [licença MIT](LICENSE).

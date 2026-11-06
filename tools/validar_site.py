@@ -11,9 +11,13 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 
-RAIZ = Path(__file__).resolve().parent.parent
+RAIZ = (
+    Path(sys.argv[1]).resolve()
+    if len(sys.argv) > 1
+    else Path(__file__).resolve().parent.parent
+)
 ARQUIVOS_HTML = [RAIZ / "index.html", *sorted((RAIZ / "paginas").glob("*.html"))]
-FRAGMENTOS_HTML = [RAIZ / "header.html", RAIZ / "footer.html"]
+FRAGMENTOS_HTML: list[Path] = [RAIZ / "header.html", RAIZ / "footer.html"]
 REFERENCIAS_HTML = {
     "a": "href",
     "img": "src",
@@ -28,7 +32,7 @@ ELEMENTOS_VAZIOS = {
     "meta", "param", "source", "track", "wbr",
 }
 IMPORT_JS_RE = re.compile(
-    r"(?:\bfrom\s*|\bimport\s*)[\"'](?P<caminho>\.{1,2}/[^\"']+)[\"']"
+    r"(?:\bfrom\s*|\bimport\s*(?:\(\s*)?)[\"'](?P<caminho>\.{1,2}/[^\"']+)[\"']"
 )
 URL_CSS_RE = re.compile(r"url\(\s*[\"']?(?P<caminho>[^\"')]+)", re.IGNORECASE)
 
@@ -105,6 +109,8 @@ class ColetorHTML(HTMLParser):
                 )
 
         atributo = REFERENCIAS_HTML.get(tag)
+        if attrs.get("data-include"):
+            validar_referencia(attrs["data-include"], self.arquivo, linha, self.erros, base=RAIZ)
         if atributo and attrs.get(atributo):
             validar_referencia(
                 attrs[atributo] or "",
@@ -210,7 +216,7 @@ def validar_css(erros: list[str]) -> int:
 
 def validar_importacoes_js(erros: list[str]) -> int:
     importacoes = 0
-    for arquivo in sorted((RAIZ / "js").glob("*.js")):
+    for arquivo in sorted((RAIZ / "js").rglob("*.js")):
         conteudo = arquivo.read_text(encoding="utf-8")
         for correspondencia in IMPORT_JS_RE.finditer(conteudo):
             importacoes += 1
@@ -327,6 +333,9 @@ def validar_timeline(erros: list[str]) -> tuple[int, int]:
 
 def main() -> int:
     erros: list[str] = []
+    if not RAIZ.is_dir():
+        print(f"Pasta do site não encontrada: {RAIZ}", file=sys.stderr)
+        return 1
     paginas, referencias_html = validar_html(erros)
     referencias_css = validar_css(erros)
     importacoes_js = validar_importacoes_js(erros)

@@ -1,0 +1,9 @@
+{
+  "name": "mnc-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "start": "node tools/serve_site.js"
+  }
+}

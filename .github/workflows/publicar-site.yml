@@ -35,12 +35,10 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Montar arquivos públicos
-        shell: bash
-        run: |
-          mkdir -p _site/paginas
-          cp index.html header.html footer.html .nojekyll _site/
-          cp paginas/*.html _site/paginas/
-          cp -R css data imagens js pdfs _site/
+        run: python tools/build_site.py
+
+      - name: Validar artefato publicado
+        run: python tools/validar_site.py _site
 
       - name: Preparar artefato do site
         uses: actions/upload-pages-artifact@v4

@@ -1,56 +1,37 @@
 <!DOCTYPE html>
-<!-- Define o idioma da página como Português do Brasil -->
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <!-- Configurações de codificação de caracteres e responsividade -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta name="description" content="Conheça os objetivos e as ações do Mulheres na Computação.">
   <title>Programa | Mulheres na Computação MNC</title>
-  
-  <!-- Importação da folha de estilos (CSS) externa -->
+  <link rel="icon" type="image/png" href="../imagens/logos/favicon.png">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/paginas/programa.css">
-  
-  <!-- Script inline executado imediatamente para definir o tema (claro/escuro) 
-       evitando o "flash" de tela branca antes do carregamento completo -->
-  <script>
-    (function(){
-      // Busca o tema salvo no navegador ou define 'dark' como padrão
-      const s = localStorage.getItem('mnc-theme') || 'dark';
-      // Aplica o tema na raiz do documento (tag HTML)
-      document.documentElement.setAttribute('data-theme', s);
-    })();
-  </script>
+  <script src="../js/core/theme-preload.js"></script>
+  <script type="module" src="../js/main.js"></script>
 </head>
-
-<body>
-  <!-- Elementos de fundo e efeitos visuais globais -->
+<body data-page="program">
   <div id="circuitOverlay" aria-hidden="true">
-    <canvas id="circuitCanvas"></canvas> <!-- Possível animação via JavaScript -->
+    <canvas id="circuitCanvas"></canvas>
   </div>
-  <div class="global-pattern" aria-hidden="true"></div> <!-- Padrão visual de fundo -->
-
-  <!-- Cabeçalho principal (provavelmente populado dinamicamente via JavaScript) -->
-  <header id="main-header"></header>
-
-  <!-- Conteúdo principal da página -->
-  <main>
-    
-    <!-- SEÇÃO 1: Hero (Destaque Principal) -->
+  <div class="global-pattern" aria-hidden="true"></div>
+  <header id="main-header" data-include="header.html"></header>
+  <main id="conteudo" tabindex="-1">
+<!-- SEÇÃO 1: Hero (Destaque Principal) -->
     <section class="page-hero">
       <!-- Elementos decorativos de brilho (glow) -->
       <div class="page-hero-glow-l"></div>
       <div class="page-hero-glow-r"></div>
-      
+
       <!-- Textos de introdução da página -->
       <div class="page-hero-inner">
         <span class="overline">Tecnologia &amp; Inovação</span>
-        <h2>Protagonismo e Acolhimento <br><em>Feminino</em> em tecnologia</h2>
+        <h1>Protagonismo e Acolhimento <br><em>Feminino</em> em tecnologia</h1>
         <p>O Mulheres na Computação (MNC) nasce com a missão de mitigar a evasão feminina nas ciências exatas e construir um ecossistema seguro, unindo a academia e a sociedade para incentivar que mais meninas conquistem seu espaço na tecnologia.</p>
-        
+
         <!-- Ícone de seta apontando para baixo (indica rolagem) -->
         <div class="arrow-down">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -59,9 +40,9 @@
           </svg>
         </div>
       </div>
-      
+
       <!-- Grade de cartões informativos com classes para animação de revelação (reveal) -->
-      <div class="info-cards-grid" style="margin-top:0;position:relative;z-index:1">
+      <div class="info-cards-grid">
         <!-- Cartão 1 -->
         <div class="info-card reveal reveal-delay-1">
           <h3>Combate à Evasão</h3>
@@ -84,8 +65,8 @@
     <section class="learning-section">
       <!-- Cabeçalho da seção -->
         <!-- Imagem menor (120px) e com margem negativa (-40px) para puxar para cima -->
-      <div style="width: 200px; height: 120px; margin: -100px auto 30px auto; display: flex; justify-content: center; align-items: center;">
-        <img src="../imagens/kit mnc.png" alt="Ilustração de uma borboleta em tons de lilás com traços de circuito" style="width: 100%; height: auto;">
+      <div class="section-illustration">
+        <img src="../imagens/logos/logo_sem_fundo.png" alt="Ilustração de uma borboleta em tons de lilás com traços de circuito">
       </div>
       <div class="learning-header reveal">
         <span class="overline">Reconhecimento</span>
@@ -94,17 +75,17 @@
       </div>
 
       <div class="subjects-list">
-        
+
         <div class="subject-card reveal reveal-delay-1">
-          <div class="subject-icon" style="width: 50px; height: 50px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 10px;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 100%; height: 100%;"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+          <div class="subject-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
           </div>
           <div class="subject-content">
             <h3>Cobertura Especial na TV (JPB1)</h3>
             <p>O impacto do nosso projeto ganhou as telas! Acompanhe a reportagem completa que foi ao ar na TV Paraíba, mostrando na prática como a nossa iniciativa incentiva meninas de Campina Grande a seguirem carreira na computação.</p>
-            
-            <div style="margin-top: 20px;">
-              <a href="https://g1.globo.com/pb/paraiba/videos-jpb1/video/projeto-incentiva-meninas-a-seguirem-carreira-na-computacao-14481892.ghtml" target="_blank" rel="noopener noreferrer" class="btn-teal">
+
+            <div class="subject-action">
+              <a href="https://g1.globo.com/pb/paraiba/videos-jpb1/video/projeto-incentiva-meninas-a-seguirem-carreira-na-computacao-14481892.ghtml" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
                 Assistir Reportagem →
               </a>
             </div>
@@ -112,31 +93,24 @@
         </div>
 
         <div class="subject-card reveal reveal-delay-2">
-          <div class="subject-icon" style="width: 50px; height: 50px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 10px;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 100%; height: 100%;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16l3-3h11"/><path d="M14 8H8"/><path d="M12 12H8"/></svg>
+          <div class="subject-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16l3-3h11"/><path d="M14 8H8"/><path d="M12 12H8"/></svg>
           </div>
           <div class="subject-content">
             <h3>Matéria Exclusiva no G1</h3>
             <p>Nossa iniciativa também foi pauta no portal G1. O texto detalha a criação do projeto na UEPB, focado em acolher, combater a evasão e dar o merecido protagonismo às mulheres na área tecnológica.</p>
-            
-            <div style="margin-top: 20px;">
-              <a href="https://g1.globo.com/pb/paraiba/noticia/2026/03/08/professora-cria-projeto-na-uepb-para-acolher-e-dar-protagonismo-a-mulheres-na-area-da-computacao.ghtml" target="_blank" rel="noopener noreferrer" class="btn-teal">
+
+            <div class="subject-action">
+              <a href="https://g1.globo.com/pb/paraiba/noticia/2026/03/08/professora-cria-projeto-na-uepb-para-acolher-e-dar-protagonismo-a-mulheres-na-area-da-computacao.ghtml" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
                 Ler Matéria Completa →
               </a>
             </div>
           </div>
         </div>
-        
+
       </div>
     </section>
-
   </main>
-
-  <!-- Rodapé principal (também provavelmente populado via JavaScript) -->
-  <footer class="site-footer" id="main-footer"></footer>
-
-  <!-- Importação do arquivo de scripts principal -->
-  <script type="module" src="../js/main.js"></script>
-
+  <footer id="main-footer" class="site-footer" data-include="footer.html"></footer>
 </body>
 </html>

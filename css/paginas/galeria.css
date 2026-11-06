@@ -2,7 +2,7 @@
    GALERIA
 ══════════════════════════════════════════════════════════════════════ */
 .gallery-section {
-  padding:140px 5% 80px; min-height:calc(100vh - var(--header-h));
+  padding:140px var(--page-gutter) 80px; min-height:calc(100vh - var(--header-h));
   position:relative; overflow:hidden;
   display:flex; flex-direction:column; align-items:center; background:var(--bg-page);
 }
@@ -20,9 +20,13 @@
   content:''; position:absolute; bottom:-60px; right:-60px; width:280px; height:280px;
   background:radial-gradient(circle, rgba(171,214,205,.18), transparent 70%); border-radius:50%;
 }
-.gallery-banner h2 { font-size:clamp(1.9rem,4vw,2.8rem); color:#fff; margin-bottom:10px; position:relative; z-index:1; }
-.gallery-banner h2 span { color:var(--teal); font-style:italic; }
+.gallery-banner h1 { font-size:clamp(1.9rem,4vw,2.8rem); color:#fff; margin-bottom:10px; position:relative; z-index:1; }
+.gallery-banner h1 span { color:var(--teal); font-style:italic; }
 .gallery-banner p  { color:rgba(255,255,255,.68); font-size:.95rem; line-height:1.6; position:relative; z-index:1; }
+.gallery-overline { background:rgba(255,255,255,.1); color:#fff; border-color:rgba(255,255,255,.2); }
+.gallery-message { color:var(--teal); text-align:center; font-size:1.1rem; padding:2rem 0; }
+.gallery-message--error { color:#f0a8a8; }
+[data-theme="light"] .gallery-message--error { color:#9d3030; }
 
 .gallery-grid { column-count:4; column-gap:16px; width:100%; max-width:var(--content-max); position:relative; z-index:1; }
 .gallery-item {
@@ -36,10 +40,6 @@
   overflow: hidden;
 }
 .gallery-item:hover { transform:scale(1.03); border-color:var(--border-teal); box-shadow:var(--shadow-md); }
-.gallery-item span { color:var(--text-muted); font-size:.76rem; padding:20px; text-align:center; }
-.gallery-item.short  { height:200px; }
-.gallery-item.medium { height:300px; }
-.gallery-item.long   { height:400px; }
 
 /* Garante que a imagem ocupe a largura da coluna e defina sua própria altura fluidamente */
 .gallery-item img {
@@ -80,6 +80,8 @@
   visibility: visible;
   pointer-events: auto;
 }
+
+body.has-modal-open { overflow:hidden; }
 
 .lightbox-modal img {
   max-width: 90vw;
@@ -152,8 +154,7 @@
 }
 
 .btn-filtro:hover,
-.btn-filtro.active,
-.btn-filtro.ativo {
+.btn-filtro.active {
   background: var(--teal);
   color: var(--bg-page); /* Fica escuro para dar contraste com o botão claro */
   border-color: var(--teal);
@@ -178,9 +179,6 @@
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.timeline-item.escondido {
-  display: none; /* Classe que o JS vai usar para esconder os itens filtrados */
-}
 
 /* Bolinhas do Eixo */
 .timeline-marcador {
@@ -195,12 +193,6 @@
   background-color: var(--teal); 
   box-shadow: 0 0 10px rgba(171, 214, 205, 0.5); 
 }
-
-/* Cores por Categoria */
-.timeline-marcador.escola { background-color: #4CAF50; box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); }
-.timeline-marcador.mesa { background-color: var(--purple-deep); box-shadow: 0 0 10px rgba(138, 43, 226, 0.5); }
-.timeline-marcador.caravana { background-color: var(--teal); box-shadow: 0 0 10px rgba(171, 214, 205, 0.5); }
-.timeline-marcador.off { background-color: #E91E63; box-shadow: 0 0 10px rgba(233, 30, 99, 0.5); }
 
 /* Textos da Timeline */
 .timeline-conteudo { width: 100%; }
@@ -312,11 +304,6 @@
 
 .acordeao-ano-btn:hover:not(.ativo) {
   background: rgba(171, 214, 205, 0.12);
-}
-
-.acordeao-ano-btn:focus {
-  outline: 2px solid var(--teal);
-  outline-offset: -2px;
 }
 
 /**
@@ -448,57 +435,4 @@
   .acordeao-icone {
     font-size: 1.2rem;
   }
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   COMPATIBILIDADE COM ESTRUTURA ANTIGA (FALLBACK)
-══════════════════════════════════════════════════════════════════════ */
-
-/* Se ainda houver classes antigas no DOM, mapeá-las para as novas */
-#container-acordeao-escolas .escola-ano-container {
-  /* Fallback para estrutura antiga */
-  margin-bottom: 16px;
-}
-
-#container-acordeao-escolas .escola-ano-btn {
-  /* Fallback - aplicar estilos do novo .acordeao-ano-btn */
-  width: 100%;
-  background: rgba(171, 214, 205, 0.08);
-  border: none;
-  padding: 18px 25px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-#container-acordeao-escolas .escola-ano-btn:hover:not(.ativo) {
-  background: rgba(171, 214, 205, 0.12);
-}
-
-#container-acordeao-escolas .escola-ano-btn.ativo {
-  background: rgba(171, 214, 205, 0.18);
-}
-
-#container-acordeao-escolas .icone-expandir {
-  font-size: 1.4rem;
-  color: var(--teal);
-  font-weight: 700;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#container-acordeao-escolas .escola-ano-btn.ativo .icone-expandir {
-  transform: rotate(45deg);
-}
-
-#container-acordeao-escolas .escola-ano-galeria {
-  background: rgba(171, 214, 205, 0.04);
-  padding: 24px 20px 20px 20px;
-  animation: acordeaoAbrir 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  border-top: 1px solid rgba(171, 214, 205, 0.1);
 }
