@@ -2,11 +2,22 @@
    ANIMAÇÕES PCB - ES6 MODULE
    ======================================================================== */
 
+/** Destino interno navegável, independentemente de o href ser relativo ou absoluto. */
+export function navigationTarget(link, currentHref) {
+  const href = link.getAttribute('href');
+  if (!href || link.hasAttribute('download') || (link.target && link.target !== '_self')) return null;
+  const current = new URL(currentHref);
+  const target = new URL(href, current);
+  if (!['http:', 'https:'].includes(target.protocol) || target.origin !== current.origin) return null;
+  if (target.pathname === current.pathname && target.search === current.search) return null;
+  return target.href;
+}
+
 /**
  * Inicializa a transição de página em Canvas estilo circuito impresso.
  * Esta função configura interceptores de link e evento pageshow.
  */
-export function inicializarAnimacoes() {
+export function initPageTransition() {
   const _ov = document.getElementById('circuitOverlay');
   const _cv = document.getElementById('circuitCanvas');
 
@@ -186,11 +197,12 @@ export function inicializarAnimacoes() {
   }
 
   document.addEventListener('click', e => {
+    if (e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
     const a = e.target.closest('a[href]');
     if (!a) return;
 
-    const href = a.getAttribute('href');
-    if (!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('http')) return;
+    const href = navigationTarget(a, window.location.href);
+    if (!href) return;
 
     e.preventDefault();
     goTo(href);

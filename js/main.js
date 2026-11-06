@@ -1,21 +1,3 @@
-import { inicializarUI } from './ui.js';
-import { inicializarAnimacoes } from './animacoes.js';
-import { carregarGaleriaTimeline } from './galeria.js';
-import { inicializarFormularioInscricao } from './inscricao.js';
-import { toggleSummary } from './utils.js';
+import { bootstrap } from './core/bootstrap.js';
 
-/* ========================================================================
-   MAIN ENTRYPOINT - ES6 MODULE
-   ======================================================================== */
-
-window.toggleSummary = toggleSummary;
-
-/**
- * Inicializa a aplicação assim que o DOM estiver pronto.
- */
-document.addEventListener('DOMContentLoaded', () => {
-  inicializarUI();
-  inicializarAnimacoes();
-  carregarGaleriaTimeline();
-  inicializarFormularioInscricao();
-});
+document.addEventListener('DOMContentLoaded', bootstrap);

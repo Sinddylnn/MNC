@@ -3,7 +3,7 @@
 ══════════════════════════════════════════════════════════════════════ */
 .info-cards-grid {
   display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
-  max-width:1100px; margin:0 auto; position:relative; z-index:1;
+  max-width:1100px; margin:40px auto 0; position:relative; z-index:1;
 }
 .info-card {
   background:var(--bg-card); border-radius:var(--radius-lg);
@@ -22,7 +22,7 @@
 .info-card p { font-size:.87rem; color:var(--text-secondary); line-height:1.65; }
 
 .learning-section {
-  padding:80px 5% var(--section-gap); background:var(--bg-surface);
+  padding:80px var(--page-gutter) var(--section-gap); background:var(--bg-surface);
   display:flex; flex-direction:column; align-items:center; position:relative;
 }
 .learning-header { text-align:center; max-width:600px; margin-bottom:46px; }
@@ -42,6 +42,8 @@
   color:var(--teal); flex-shrink:0; border:1px solid var(--border-teal);
   transition:background .25s, transform .25s;
 }
+.subject-icon svg { width:100%; height:100%; }
+.subject-action { margin-top:20px; }
 [data-theme="light"] .subject-icon { background:var(--lilac-pale); color:var(--purple-dark); border-color:var(--border-lilac); }
 .subject-card:hover .subject-icon { background:var(--teal); color:#0C1018; transform:rotate(-8deg); }
 [data-theme="light"] .subject-card:hover .subject-icon { background:var(--purple-dark); color:#fff; }

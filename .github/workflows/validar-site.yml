@@ -26,12 +26,36 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Validar estrutura e arquivos
+      - name: Validar páginas na raiz
         run: python tools/validar_site.py
+
+      - name: Empacotar arquivos públicos sem transformar HTML
+        run: python tools/build_site.py
+
+      - name: Validar artefato publicado
+        run: python tools/validar_site.py _site
 
       - name: Validar sintaxe JavaScript
         shell: bash
         run: |
-          for arquivo in js/*.js; do
+          find js -name '*.js' -print0 | while IFS= read -r -d '' arquivo; do
             node --check "$arquivo"
           done
+
+      - name: Executar testes unitários
+        run: |
+          node --test
+          python -m unittest discover -s tests -p 'test_*.py'
+
+      - name: Executar smoke tests HTTP
+        shell: bash
+        run: |
+          python -m http.server 8000 --bind 127.0.0.1 > /tmp/mnc-http.log 2>&1 &
+          servidor=$!
+          trap 'kill "$servidor" 2>/dev/null || true' EXIT
+          if ! curl --fail --silent --show-error --retry 20 --retry-connrefused --retry-delay 1 --max-time 2 --retry-max-time 30 http://127.0.0.1:8000/index.html > /dev/null; then
+            echo 'O servidor de smoke tests não ficou pronto dentro do limite de espera.' >&2
+            cat /tmp/mnc-http.log >&2
+            exit 1
+          fi
+          SITE_URL=http://127.0.0.1:8000 node --test tests/http-smoke.test.js
