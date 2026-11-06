@@ -1,5 +1,5 @@
 export function init() {
-  const list = document.querySelector('.articles-list');
+  const list = document.querySelector('.publications-list');
   if (!list) return;
 
   list.addEventListener('click', event => {

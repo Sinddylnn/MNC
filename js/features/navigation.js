@@ -3,7 +3,7 @@ const pageNavigation = {
   program: 'nav-programa',
   team: 'nav-equipe',
   gallery: 'nav-galeria',
-  articles: 'nav-artigos',
+  publications: 'nav-publicacoes',
   partnerships: 'nav-parcerias',
   participation: 'nav-quero-participar'
 };

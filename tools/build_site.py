@@ -14,7 +14,7 @@ PAGES = (
     Path("paginas/programa.html"),
     Path("paginas/equipe.html"),
     Path("paginas/galeria.html"),
-    Path("paginas/artigos.html"),
+    Path("paginas/publicacoes.html"),
     Path("paginas/parcerias.html"),
     Path("paginas/quero-participar.html"),
 )
