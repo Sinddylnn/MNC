@@ -6,7 +6,7 @@ import { loadIncludes } from './includes.js';
 
 const pageInitializers = {
   participation: () => import('../pages/participation.js'),
-  articles: () => import('../pages/articles.js'),
+  publications: () => import('../pages/publications.js'),
   gallery: () => import('../pages/gallery/index.js')
 };
 

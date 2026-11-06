@@ -7,7 +7,7 @@ const pages = [
   '/paginas/programa.html',
   '/paginas/equipe.html',
   '/paginas/galeria.html',
-  '/paginas/artigos.html',
+  '/paginas/publicacoes.html',
   '/paginas/parcerias.html',
   '/paginas/quero-participar.html'
 ];

@@ -160,4 +160,12 @@ textarea.form-control { resize:vertical; min-height:150px; }
   position:relative; z-index:1;
 }
 .page-hero-inner h1 { font-size:clamp(2.1rem,4.5vw,3.5rem); color:var(--text-primary); margin-bottom:16px; }
+
+/* Alinhamento dos textos descritivos dos cards em todas as paginas. */
+:is(.highlight-card, .opp-card, .info-card, .subject-card,
+    .participation-card, .expectations-card, .contact-card,
+    .partnership-card, .article-card) p:not(.article-authors):not(.partnership-affiliation) {
+  text-align: justify;
+  hyphens: auto;
+}
 .page-hero-inner p { font-size:1.03rem; color:var(--text-secondary); line-height:1.75; max-width:600px; margin-bottom:30px; }

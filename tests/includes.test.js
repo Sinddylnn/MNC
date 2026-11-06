@@ -17,7 +17,7 @@ test('fragmentos resolvem links e imagens pela raiz e preservam destinos externo
 });
 
 test('todas as páginas usam os mesmos fragmentos, sem duplicar menu e rodapé', async () => {
-  for (const file of ['index.html', 'paginas/programa.html', 'paginas/equipe.html', 'paginas/galeria.html', 'paginas/artigos.html', 'paginas/parcerias.html', 'paginas/quero-participar.html']) {
+  for (const file of ['index.html', 'paginas/programa.html', 'paginas/equipe.html', 'paginas/galeria.html', 'paginas/publicacoes.html', 'paginas/parcerias.html', 'paginas/quero-participar.html']) {
     const html = await readFile(new URL('../' + file, import.meta.url), 'utf8');
     assert.match(html, /<header id="main-header" data-include="header.html"><\/header>/);
     assert.match(html, /<footer id="main-footer" class="site-footer" data-include="footer.html"><\/footer>/);

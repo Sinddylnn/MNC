@@ -17,7 +17,7 @@ Acesse <http://127.0.0.1:8000>. Para encerrar o servidor, use `Ctrl+C`. Sirva o 
 ## Páginas e arquivos
 
 - `index.html`: página inicial.
-- `paginas/`: Programa, Equipe, Galeria, Artigos, Parcerias e Quero participar.
+- `paginas/`: Programa, Equipe, Galeria, Publicações, Parcerias e Quero participar.
 - `header.html` e `footer.html`: menu e rodapé compartilhados por todas as páginas.
 - `css/base.css`, `css/components.css` e `css/layout.css`: temas, componentes e layout comuns.
 - `css/paginas/`: estilos específicos de cada página.

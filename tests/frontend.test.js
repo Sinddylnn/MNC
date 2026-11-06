@@ -31,7 +31,7 @@ test('tema inicial é válido mesmo quando armazenamento está bloqueado', async
 });
 
 test('todas as páginas têm título principal, destino de teclado e tema compartilhado', async () => {
-  const pages = ['index.html', 'paginas/programa.html', 'paginas/equipe.html', 'paginas/galeria.html', 'paginas/artigos.html', 'paginas/parcerias.html', 'paginas/quero-participar.html'];
+  const pages = ['index.html', 'paginas/programa.html', 'paginas/equipe.html', 'paginas/galeria.html', 'paginas/publicacoes.html', 'paginas/parcerias.html', 'paginas/quero-participar.html'];
   for (const file of pages) {
     const html = await readFile(new URL('../' + file, import.meta.url), 'utf8');
     assert.equal((html.match(/<h1(?:\s|>)/g) || []).length, 1, file);
