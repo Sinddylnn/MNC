@@ -53,6 +53,9 @@
 
 .partnership-card {
   --partnership-side-color: var(--lilac);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   padding: clamp(24px, 3vw, 36px);
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -67,26 +70,49 @@
   --partnership-side-color: var(--teal);
 }
 
-.partnership-card:is(:hover, :focus-visible) {
+.partnership-card:is(:hover, :focus-within) {
   transform: translateY(-3px);
   border-color: var(--border-teal);
   border-left-color: var(--partnership-side-color);
   box-shadow: var(--shadow-md);
 }
 
-a.partnership-card {
-  display: block;
-  color: inherit;
-  text-decoration: none;
+.partnership-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 24px;
 }
 
-a.partnership-card:focus-visible {
-  outline: 2px solid var(--teal);
+.partnership-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--partnership-side-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: .85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .25s;
+}
+
+.partnership-links a:hover { background: var(--bg-surface); }
+
+.partnership-links a:focus-visible {
+  outline: 2px solid var(--partnership-side-color);
   outline-offset: 4px;
 }
 
-.partnerships-grid a.partnership-card:nth-child(even):focus-visible {
-  outline-color: var(--lilac);
+.partnership-links svg { width: 20px; height: 20px; flex-shrink: 0; }
+.partnership-links .partnership-link-arrow { width: 16px; height: 16px; }
+
+.partnership-card > .overline {
+  align-self: flex-start;
 }
 
 .partnership-card h3 {
@@ -129,8 +155,19 @@ a.partnership-card:focus-visible {
   background: #e9eef4;
 }
 
-.partnership-card:is(:hover, :focus-visible) .partnership-logo { border-color: var(--teal); transform: scale(1.06); }
-.partnerships-grid .partnership-card:nth-child(even):is(:hover, :focus-visible) .partnership-logo { border-color: var(--lilac); }
+.partnership-logo--initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.partnership-card:is(:hover, :focus-within) .partnership-logo {
+  border-color: var(--partnership-side-color);
+  transform: scale(1.06);
+}
 
 .partnership-call {
   margin-top: 36px;

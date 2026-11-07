@@ -45,17 +45,32 @@
 
 /* --- TEAM GRID --- */
 .team-grid-scroll {
-  flex:1; display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  flex:1; min-width:0; display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:20px;
+  grid-auto-rows:auto; align-items:stretch;
   border-left:1px solid var(--border); padding-left:52px;
 }
 .team-member {
   background:var(--bg-card); border-radius:var(--radius-lg);
-  padding:26px 18px; text-align:center;
+  min-width:0; padding:26px 18px; text-align:center; overflow-wrap:anywhere;
   display:flex; flex-direction:column; align-items:center;
   border:1px solid var(--border);
   transition:transform .35s, border-color .3s, box-shadow .35s;
 }
 .team-member:hover { transform:translateY(-6px); border-color:var(--border-teal); box-shadow:var(--shadow-md); }
+.team-member[data-team-fixed] {
+  position:relative;
+  background:linear-gradient(135deg, var(--teal-pale), var(--lilac-pale));
+}
+.member-pin {
+  position:absolute; top:12px; right:12px;
+  display:flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:50%;
+  color:var(--teal); background:var(--teal-pale);
+  border:1px solid var(--border-teal);
+}
+.member-pin svg { width:17px; height:17px; }
+[data-theme="light"] .member-pin { color:var(--purple-dark); }
 .member-avatar {
   width:112px; height:112px; border-radius:50%;
   overflow:hidden; flex-shrink:0;
@@ -73,7 +88,7 @@
 .team-member .member-bio { width:100%; margin-top:8px; text-align:justify; hyphens:auto; line-height:1.65; }
 
 .member-social-card {
-  margin-top:18px; display:flex; justify-content:center; gap:10px;
+  margin-top:auto; padding-top:18px; display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
 }
 .member-social-card a {
   display:flex; align-items:center; justify-content:center;
@@ -89,18 +104,15 @@
 [data-theme="light"] .member-social-card a { background:var(--lilac-pale); border-color:var(--border-lilac); color:var(--purple-dark); }
 
 /* --- RESPONSIVO --- */
-@media (max-width:1100px) {
-  .team-grid-scroll { grid-template-columns:repeat(2,1fr); }
-}
-
 @media (max-width:900px) {
-  .team-container { flex-direction:column; }
-  .team-info-fixed { position:static; flex:auto; text-align:center; }
+  .team-container { flex-direction:column; gap:32px; }
+  .team-info-fixed { position:static; flex:auto; width:100%; text-align:center; }
   .scroll-indicator { justify-content:center; }
   .coord-chat-bubble { margin:0 auto; max-width:330px; text-align:left; }
   .team-grid-scroll { border-left:none; padding-left:0; }
 }
 
 @media (max-width:600px) {
-  .team-grid-scroll { grid-template-columns:1fr; }
+  .team-grid-scroll { grid-template-columns:1fr; grid-auto-rows:auto; }
+  .team-member { padding:24px 20px; }
 }
