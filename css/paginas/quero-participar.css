@@ -41,11 +41,28 @@
 .participation-card {
   position: relative;
   overflow: hidden;
-  padding: 30px;
+  padding: 34px 26px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  text-align: left;
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+
+.participation-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--teal), var(--lilac));
+}
+
+.participation-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--border-teal);
+  box-shadow: var(--shadow-md);
 }
 
 .participation-number {
@@ -58,9 +75,18 @@
 }
 
 .participation-card h3 {
-  margin-bottom: 10px;
-  color: var(--text-primary);
-  font-size: 1.25rem;
+  margin-bottom: 12px;
+  color: var(--teal);
+  font-family: var(--font-body);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.participation-card p {
+  font-size: .87rem;
+  line-height: 1.65;
 }
 
 .expectations-card {
@@ -137,6 +163,7 @@
 .contact-trap { display: none; }
 
 [data-theme="light"] .participation-number,
+[data-theme="light"] .participation-card h3,
 [data-theme="light"] .expectations-card h2 em {
   color: var(--purple-dark);
 }
@@ -157,7 +184,4 @@
     padding: 28px 24px;
   }
 
-  .participation-card {
-    padding: 25px 22px;
-  }
 }
